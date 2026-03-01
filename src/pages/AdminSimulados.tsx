@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Plus, Camera, Image as ImageIcon, MinusCircle, Eye, Star } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ArrowLeft, Plus, Camera, Image as ImageIcon, MinusCircle, Eye, Star, AlertCircle, Trash2, X } from 'lucide-react';
 import { View } from '../types';
 import { supabase } from '../lib/supabase';
 
@@ -23,6 +24,9 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
   const [imageUrl, setImageUrl] = useState('');
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState<string | null>(null);
+  const [isDeletingGlobal, setIsDeletingGlobal] = useState(false);
 
   useEffect(() => {
     if (simuladoId) {
@@ -70,6 +74,40 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
       setCategories(categories.filter(c => c !== cat));
     } else {
       setCategories([...categories, cat]);
+    }
+  };
+
+  const handleDeleteCategoryClick = (cat: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCategoryToDelete(cat);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!categoryToDelete) return;
+
+    setIsDeletingGlobal(true);
+    try {
+      // Use the RPC function we created to remove from ALL simulations
+      const { error } = await supabase.rpc('remove_category_from_all_simulados', {
+        cat_text: categoryToDelete
+      });
+
+      if (error) throw error;
+
+      // Also remove from the current simulation being edited if selected
+      setCategories(categories.filter(c => c !== categoryToDelete));
+
+      // Notify parent to refresh the global available categories list
+      if (onPublishSuccess) onPublishSuccess();
+
+      setIsDeleteDialogOpen(false);
+      setCategoryToDelete(null);
+    } catch (error: any) {
+      console.error('Error deleting category:', error);
+      alert('Erro ao excluir categoria globalmente: ' + error.message);
+    } finally {
+      setIsDeletingGlobal(false);
     }
   };
 
@@ -252,16 +290,24 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
               <div className="flex flex-wrap gap-2 mb-2">
                 {/* Existing Categories as Selectable Chips */}
                 {Array.from(new Set([...availableCategories, ...categories])).sort().map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => toggleCategory(cat)}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border-2 ${categories.includes(cat)
-                      ? 'bg-[#2563eb] text-white border-[#2563eb] shadow-md scale-105'
-                      : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-100 dark:border-slate-800 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-500 active:scale-95'
-                      }`}
-                  >
-                    {cat}
-                  </button>
+                  <div key={cat} className="relative group/cat">
+                    <button
+                      onClick={() => toggleCategory(cat)}
+                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border-2 ${categories.includes(cat)
+                        ? 'bg-[#2563eb] text-white border-[#2563eb] shadow-md scale-105'
+                        : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-100 dark:border-slate-800 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-500 active:scale-95'
+                        }`}
+                    >
+                      {cat}
+                    </button>
+                    <button
+                      onClick={(e) => handleDeleteCategoryClick(cat, e)}
+                      className="absolute -top-1.5 -right-1.5 bg-white dark:bg-slate-900 text-red-500 rounded-full p-0.5 border border-red-100 dark:border-red-900 shadow-sm hover:scale-110 active:scale-95 transition-all opacity-0 group-hover/cat:opacity-100"
+                    >
+                      <MinusCircle size={14} fill="currentColor" className="text-white dark:text-slate-900" />
+                      <MinusCircle size={14} className="absolute inset-0 text-red-500" />
+                    </button>
+                  </div>
                 ))}
               </div>
 
@@ -355,6 +401,61 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
             </button>
           </div>
         </main>
+
+        {/* Delete Category Confirmation Modal */}
+        <AnimatePresence>
+          {isDeleteDialogOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center px-6 p-4 perspective-1000">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsDeleteDialogOpen(false)}
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                className="relative bg-white dark:bg-slate-900 w-full max-w-sm rounded-[2rem] overflow-hidden shadow-2xl border border-white/20"
+              >
+                <div className="bg-red-50 dark:bg-red-950/30 p-8 flex flex-col items-center text-center">
+                  <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-red-500/30 animate-pulse">
+                    <Trash2 size={32} className="text-white" />
+                  </div>
+                  <h3 className="text-xl font-black text-red-950 dark:text-red-100 leading-tight">Excluir Categoria?</h3>
+                  <p className="mt-2 text-sm text-red-800/70 dark:text-red-300 font-medium">
+                    A categoria <span className="font-black text-red-600">"{categoryToDelete}"</span> será removida de TODOS os simulados cadastrados.
+                  </p>
+                </div>
+
+                <div className="p-6 bg-white dark:bg-slate-900 flex flex-col gap-3">
+                  <button
+                    onClick={handleConfirmDelete}
+                    disabled={isDeletingGlobal}
+                    className="w-full h-14 bg-red-500 text-white rounded-2xl font-black text-lg shadow-lg shadow-red-500/20 active:scale-95 transition-all flex items-center justify-center gap-2"
+                  >
+                    {isDeletingGlobal ? (
+                      <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                      <>
+                        <Trash2 size={20} />
+                        Confirmar Exclusão
+                      </>
+                    )}
+                  </button>
+                  <button
+                    onClick={() => setIsDeleteDialogOpen(false)}
+                    disabled={isDeletingGlobal}
+                    className="w-full h-14 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-2xl font-bold active:scale-95 transition-all"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
