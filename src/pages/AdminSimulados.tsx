@@ -194,7 +194,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
         <header className="bg-[#FFD700] p-6 pt-12 pb-10 rounded-b-[2.5rem] shadow-sm">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => setView('admin-dashboard')}
+              onClick={() => setView('admin-list-simulados')}
               className="bg-white/40 p-2 rounded-full backdrop-blur-sm transition-colors text-slate-900 shadow-sm"
             >
               <ArrowLeft size={24} />
@@ -246,6 +246,15 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
               </div>
             )}
           </section>
+
+          {/* Image Size Observations */}
+          <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 flex items-start gap-3">
+            <AlertCircle size={18} className="text-blue-500 shrink-0 mt-0.5" />
+            <div className="text-[11px] leading-relaxed text-slate-600 dark:text-slate-400 font-medium">
+              <p><strong className="text-slate-700 dark:text-slate-200">Obs:</strong> Tamanho ideal para as capas: <span className="text-blue-600 font-bold">800x450px</span>.</p>
+              <p>Para o banner de destaque: <span className="text-orange-600 font-bold">1200x600px</span>.</p>
+            </div>
+          </div>
 
           {/* Form Fields */}
           <section className="space-y-5">
@@ -302,10 +311,9 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
                     </button>
                     <button
                       onClick={(e) => handleDeleteCategoryClick(cat, e)}
-                      className="absolute -top-1.5 -right-1.5 bg-white dark:bg-slate-900 text-red-500 rounded-full p-0.5 border border-red-100 dark:border-red-900 shadow-sm hover:scale-110 active:scale-95 transition-all opacity-0 group-hover/cat:opacity-100"
+                      className="absolute -top-1.5 -right-1.5 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center transition-all opacity-0 group-hover/cat:opacity-100 shadow-lg shadow-red-600/40 active:scale-90"
                     >
-                      <MinusCircle size={14} fill="currentColor" className="text-white dark:text-slate-900" />
-                      <MinusCircle size={14} className="absolute inset-0 text-red-500" />
+                      <MinusCircle size={14} fill="currentColor" />
                     </button>
                   </div>
                 ))}
