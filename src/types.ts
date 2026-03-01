@@ -3,16 +3,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export type View = 
-  | 'login' 
-  | 'home' 
-  | 'my-exams' 
-  | 'exam-execution' 
-  | 'admin-dashboard' 
-  | 'profile' 
-  | 'materials' 
-  | 'answer-key' 
-  | 'user-registration' 
+export type View =
+  | 'login'
+  | 'home'
+  | 'my-exams'
+  | 'exam-execution'
+  | 'admin-dashboard'
+  | 'profile'
+  | 'materials'
+  | 'answer-key'
+  | 'user-registration'
+  | 'admin-simulados'
   | 'purchase-history';
 
 export interface Simulado {
