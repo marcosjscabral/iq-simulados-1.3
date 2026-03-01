@@ -117,87 +117,101 @@ const LoginScreen = ({ onLogin }: { onLogin: () => void }) => (
   </div>
 );
 
-const HomeScreen = ({ onOpenMenu, setView }: { onOpenMenu: () => void, setView: (v: View) => void }) => (
-  <div className="bg-background-light dark:bg-[#1a1a0d] min-h-screen">
-    <header className="sticky top-0 z-50 bg-[#f2f20d] px-4 pt-12 pb-4 flex items-center justify-between shadow-md">
-      <div className="flex items-center gap-3">
-        <button onClick={onOpenMenu} className="p-1 rounded-full hover:bg-black/5 transition-colors">
-          <Menu className="text-[#1a1a0d]" size={24} />
-        </button>
-        <h1 className="text-[#1a1a0d] text-xl font-bold tracking-tight">IQ Simulados</h1>
-      </div>
-      <div className="flex items-center gap-3">
-        <Search className="text-[#1a1a0d]" size={24} />
-        <button onClick={() => setView('profile')} className="size-8 rounded-full bg-[#1a1a0d]/10 flex items-center justify-center">
-          <User className="text-[#1a1a0d]" size={20} />
-        </button>
-      </div>
-    </header>
+const HomeScreen = ({
+  onOpenMenu,
+  setView,
+  simulados
+}: {
+  onOpenMenu: () => void,
+  setView: (v: View) => void,
+  simulados: Simulado[]
+}) => {
+  const featured = simulados.find(s => s.is_featured && s.is_active) || FEATURED_SIMULADO;
+  const available = simulados.filter(s => s.is_active && !s.is_featured);
+  const displayList = available.length > 0 ? available : AVAILABLE_SIMULADOS;
 
-    <div className="bg-[#f2f20d]/10 dark:bg-[#2a2a14]/50 py-4">
-      <div className="flex gap-3 px-4 overflow-x-auto no-scrollbar">
-        {CATEGORIES.map((cat, i) => (
-          <button
-            key={cat}
-            className={`flex h-10 shrink-0 items-center justify-center rounded-full px-5 text-sm font-semibold shadow-sm transition-colors ${i === 0 ? 'bg-[#f2f20d] text-[#1a1a0d]' : 'bg-white/20 dark:bg-[#2a2a14] text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700'
-              }`}
-          >
-            {cat}
+  return (
+    <div className="bg-background-light dark:bg-[#1a1a0d] min-h-screen">
+      <header className="sticky top-0 z-50 bg-[#f2f20d] px-4 pt-12 pb-4 flex items-center justify-between shadow-md">
+        <div className="flex items-center gap-3">
+          <button onClick={onOpenMenu} className="p-1 rounded-full hover:bg-black/5 transition-colors">
+            <Menu className="text-[#1a1a0d]" size={24} />
           </button>
-        ))}
-      </div>
-    </div>
-
-    <main className="px-4 py-6 space-y-6">
-      <section>
-        <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-          <span className="text-[#f97316]">🔥</span> Destaques da Semana
-        </h2>
-        <div className="relative overflow-hidden rounded-xl bg-[#f97316] p-1">
-          <div className="bg-white dark:bg-[#2a2a14] rounded-lg overflow-hidden flex flex-col">
-            <div className="h-40 w-full bg-slate-200 dark:bg-slate-800 relative">
-              <img src={FEATURED_SIMULADO.image} alt={FEATURED_SIMULADO.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-              <div className="absolute top-3 left-3 bg-[#f97316] text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
-                Mais Procurado
-              </div>
-            </div>
-            <div className="p-4">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="font-bold text-lg leading-tight">{FEATURED_SIMULADO.title}</h3>
-                <span className="text-[#2563eb] font-bold">R$ {FEATURED_SIMULADO.price.toFixed(2)}</span>
-              </div>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">{FEATURED_SIMULADO.description}</p>
-              <button className="w-full bg-[#2563eb] hover:bg-blue-700 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-colors">
-                <ShoppingBag size={18} /> Comprar Agora
-              </button>
-            </div>
-          </div>
+          <h1 className="text-[#1a1a0d] text-xl font-bold tracking-tight">IQ Simulados</h1>
         </div>
-      </section>
+        <div className="flex items-center gap-3">
+          <Search className="text-[#1a1a0d]" size={24} />
+          <button onClick={() => setView('profile')} className="size-8 rounded-full bg-[#1a1a0d]/10 flex items-center justify-center">
+            <User className="text-[#1a1a0d]" size={20} />
+          </button>
+        </div>
+      </header>
 
-      <section className="space-y-4">
-        <h2 className="text-lg font-bold mb-4">Simulados Disponíveis</h2>
-        {AVAILABLE_SIMULADOS.map(sim => (
-          <div key={sim.id} className="bg-white dark:bg-[#2a2a14] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex gap-4">
-            <div className="size-20 shrink-0 rounded-lg bg-slate-200 dark:bg-slate-800 overflow-hidden">
-              <img src={sim.image} alt={sim.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-            </div>
-            <div className="flex-1 flex flex-col justify-between">
-              <div>
-                <h3 className="font-bold text-sm leading-tight line-clamp-2">{sim.title}</h3>
-                <p className="text-xs text-slate-500 mt-1">{sim.questionsCount} Questões Objetivas</p>
+      <div className="bg-[#f2f20d]/10 dark:bg-[#2a2a14]/50 py-4">
+        <div className="flex gap-3 px-4 overflow-x-auto no-scrollbar">
+          {CATEGORIES.map((cat, i) => (
+            <button
+              key={cat}
+              className={`flex h-10 shrink-0 items-center justify-center rounded-full px-5 text-sm font-semibold shadow-sm transition-colors ${i === 0 ? 'bg-[#f2f20d] text-[#1a1a0d]' : 'bg-white/20 dark:bg-[#2a2a14] text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700'
+                }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <main className="px-4 py-6 space-y-6">
+        <section>
+          <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+            <span className="text-[#f97316]">🔥</span> Destaques da Semana
+          </h2>
+          <div className="relative overflow-hidden rounded-xl bg-[#f97316] p-1">
+            <div className="bg-white dark:bg-[#2a2a14] rounded-lg overflow-hidden flex flex-col">
+              <div className="h-40 w-full bg-slate-200 dark:bg-slate-800 relative">
+                <img src={featured.image_url} alt={featured.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                <div className="absolute top-3 left-3 bg-[#f97316] text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
+                  Mais Procurado
+                </div>
               </div>
-              <div className="flex items-center justify-between mt-2">
-                <span className="font-bold text-[#2563eb] text-sm">R$ {sim.price.toFixed(2)}</span>
-                <button className="bg-[#2563eb] text-white px-3 py-1.5 rounded-lg text-xs font-bold">Comprar</button>
+              <div className="p-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="font-bold text-lg leading-tight">{featured.title}</h3>
+                  <span className="text-[#2563eb] font-bold">R$ {featured.price.toFixed(2)}</span>
+                </div>
+                <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">{featured.description}</p>
+                <button className="w-full bg-[#2563eb] hover:bg-blue-700 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-colors">
+                  <ShoppingBag size={18} /> Comprar Agora
+                </button>
               </div>
             </div>
           </div>
-        ))}
-      </section>
-    </main>
-  </div>
-);
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="text-lg font-bold mb-4">Simulados Disponíveis</h2>
+          {displayList.map(sim => (
+            <div key={sim.id} className="bg-white dark:bg-[#2a2a14] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex gap-4">
+              <div className="size-20 shrink-0 rounded-lg bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                <img src={sim.image_url} alt={sim.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+              </div>
+              <div className="flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="font-bold text-sm leading-tight line-clamp-2">{sim.title}</h3>
+                  <p className="text-xs text-slate-500 mt-1">{sim.questions_count} Questões Objetivas</p>
+                </div>
+                <div className="flex items-center justify-between mt-2">
+                  <span className="font-bold text-[#2563eb] text-sm">R$ {sim.price.toFixed(2)}</span>
+                  <button className="bg-[#2563eb] text-white px-3 py-1.5 rounded-lg text-xs font-bold">Comprar</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </section>
+      </main>
+    </div>
+  );
+};
 
 const MyExamsScreen = ({ onOpenMenu, setView }: { onOpenMenu: () => void, setView: (v: View) => void }) => (
   <div className="bg-background-light dark:bg-[#1a1a08] min-h-screen">
@@ -236,7 +250,7 @@ const MyExamsScreen = ({ onOpenMenu, setView }: { onOpenMenu: () => void, setVie
         <div key={sim.id} className={`flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#2a2a0e] shadow-sm border border-slate-200 dark:border-slate-800 ${sim.status === 'finished' ? 'opacity-80' : ''}`}>
           {sim.status !== 'finished' && (
             <div className="relative w-full aspect-[21/9] bg-slate-200 dark:bg-slate-800">
-              <img src={sim.image} alt={sim.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+              <img src={sim.image_url} alt={sim.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
               <div className={`absolute top-2 left-2 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm ${sim.status === 'in-progress' ? 'bg-[#f97316]' : 'bg-[#f2f20d] text-[#1a1a08]'}`}>
                 {sim.status === 'in-progress' ? 'EM ALTA' : 'NOVO'}
               </div>
@@ -245,7 +259,7 @@ const MyExamsScreen = ({ onOpenMenu, setView }: { onOpenMenu: () => void, setVie
           <div className="p-4 flex flex-col gap-3">
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-[#f2f20d] text-[10px] font-bold uppercase tracking-wider mb-1">{sim.category}</p>
+                <p className="text-[#f2f20d] text-[10px] font-bold uppercase tracking-wider mb-1">{sim.categories[0]}</p>
                 <h3 className="text-lg font-bold leading-tight">{sim.title}</h3>
               </div>
               {sim.status === 'finished' && (
@@ -276,12 +290,12 @@ const MyExamsScreen = ({ onOpenMenu, setView }: { onOpenMenu: () => void, setVie
               <>
                 <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs">
                   <FileText size={14} />
-                  <span>{sim.questionsCount} questões • Edital 2024</span>
+                  <span>{sim.questions_count} questões • Edital 2024</span>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-xs font-medium">
                     <span className="text-slate-500 dark:text-slate-400">Progresso</span>
-                    <span>{sim.progress}% ({Math.round(sim.progress * sim.questionsCount / 100)}/{sim.questionsCount})</span>
+                    <span>{sim.progress}% ({Math.round(sim.progress * sim.questions_count / 100)}/{sim.questions_count})</span>
                   </div>
                   <div className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                     <div className="h-full bg-[#f2f20d]" style={{ width: `${sim.progress}%` }}></div>
@@ -536,7 +550,10 @@ const AdminDashboardScreen = ({ onOpenMenu, setView }: { onOpenMenu: () => void,
       </div>
 
       <div className="px-6 pb-6">
-        <button className="w-full bg-[#f2f20d] hover:bg-[#f2f20d]/90 text-[#1a1a08] font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-xl shadow-[#f2f20d]/10 transition-all">
+        <button
+          onClick={() => setView('admin-simulados')}
+          className="w-full bg-[#f2f20d] hover:bg-[#f2f20d]/90 text-[#1a1a08] font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-xl shadow-[#f2f20d]/10 transition-all"
+        >
           <Plus size={20} /> Adicionar Novo Conteúdo
         </button>
       </div>
@@ -850,6 +867,21 @@ export default function App() {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [simulados, setSimulados] = useState<Simulado[]>([]);
+
+  const fetchSimulados = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('simulados')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setSimulados(data || []);
+    } catch (error) {
+      console.error('Error fetching simulados:', error);
+    }
+  };
 
   React.useEffect(() => {
     // Check active sessions and sets the user
@@ -862,6 +894,8 @@ export default function App() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
+
+    fetchSimulados();
 
     return () => subscription.unsubscribe();
   }, []);
@@ -905,7 +939,7 @@ export default function App() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <HomeScreen onOpenMenu={() => setSidebarOpen(true)} setView={setView} />
+            <HomeScreen onOpenMenu={() => setSidebarOpen(true)} setView={setView} simulados={simulados} />
           </motion.div>
         )}
 
@@ -1004,7 +1038,7 @@ export default function App() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
           >
-            <AdminSimulados setView={setView} />
+            <AdminSimulados setView={setView} onPublishSuccess={fetchSimulados} />
           </motion.div>
         )}
       </AnimatePresence>

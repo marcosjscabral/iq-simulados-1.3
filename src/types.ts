@@ -19,12 +19,14 @@ export type View =
 export interface Simulado {
   id: string;
   title: string;
-  category: string;
+  categories: string[];
   price: number;
-  questionsCount: number;
+  questions_count: number;
   description: string;
-  image: string;
-  isFeatured?: boolean;
+  image_url: string;
+  is_active: boolean;
+  is_featured: boolean;
+  created_at?: string;
 }
 
 export interface UserSimulado extends Simulado {
