@@ -972,7 +972,12 @@ export default function App() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
           >
-            <AdminSimulados setView={setView} onPublishSuccess={fetchSimulados} simuladoId={selectedSimuladoId} />
+            <AdminSimulados
+              setView={setView}
+              onPublishSuccess={fetchSimulados}
+              simuladoId={selectedSimuladoId}
+              availableCategories={Array.from(new Set(simulados.flatMap(s => s.categories || []))).filter(c => c !== 'Todos')}
+            />
           </motion.div>
         )}
 

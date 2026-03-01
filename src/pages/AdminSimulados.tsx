@@ -7,9 +7,10 @@ interface AdminSimuladosProps {
   setView: (v: View) => void;
   onPublishSuccess?: () => void;
   simuladoId?: string;
+  availableCategories?: string[];
 }
 
-const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSuccess, simuladoId }) => {
+const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSuccess, simuladoId, availableCategories = [] }) => {
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [questionsCount, setQuestionsCount] = useState('');
@@ -58,9 +59,17 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
   }, [simuladoId]);
 
   const addCategory = () => {
-    if (newCategory.trim()) {
-      setCategories([...categories, newCategory]);
+    if (newCategory.trim() && !categories.includes(newCategory.trim())) {
+      setCategories([...categories, newCategory.trim()]);
       setNewCategory('');
+    }
+  };
+
+  const toggleCategory = (cat: string) => {
+    if (categories.includes(cat)) {
+      setCategories(categories.filter(c => c !== cat));
+    } else {
+      setCategories([...categories, cat]);
     }
   };
 
@@ -239,28 +248,37 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
             {/* Gerenciar Categorias */}
             <div className="flex flex-col gap-4 bg-slate-50/50 dark:bg-slate-800/30 p-5 rounded-3xl border border-slate-100 dark:border-slate-800">
               <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">Gerenciar Categorias</label>
-              <div className="flex gap-2">
+
+              <div className="flex flex-wrap gap-2 mb-2">
+                {/* Existing Categories as Selectable Chips */}
+                {Array.from(new Set([...availableCategories, ...categories])).sort().map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => toggleCategory(cat)}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border-2 ${categories.includes(cat)
+                      ? 'bg-[#2563eb] text-white border-[#2563eb] shadow-md scale-105'
+                      : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-100 dark:border-slate-800 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-500 active:scale-95'
+                      }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
                 <input
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
-                  className="flex-1 h-12 bg-white dark:bg-slate-900 border-2 border-slate-100 rounded-xl px-4 text-sm outline-none font-medium"
-                  placeholder="Nova Categoria"
+                  className="flex-1 h-12 bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-xl px-4 text-sm outline-none font-medium focus:border-blue-500 transition-colors"
+                  placeholder="Criar Nova Categoria"
+                  onKeyPress={(e) => e.key === 'Enter' && addCategory()}
                 />
-                <button onClick={addCategory} className="bg-blue-600 text-white w-12 h-12 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/30 hover:scale-105 active:scale-95 transition-all">
+                <button
+                  onClick={addCategory}
+                  className="bg-blue-600 text-white w-12 h-12 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/30 hover:scale-105 active:scale-95 transition-all shrink-0"
+                >
                   <Plus size={24} />
                 </button>
-              </div>
-
-              <div className="space-y-2 mt-2">
-                {categories.map((cat, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm">
-                    <span className="text-sm font-bold text-slate-700 dark:text-slate-200">{cat}</span>
-                    <button onClick={() => removeCategory(index)} className="relative flex items-center justify-center group">
-                      <div className="absolute w-4 h-[2px] bg-white z-10"></div>
-                      <div className="w-5 h-5 bg-orange-500 rounded-full group-hover:bg-orange-600 transition-colors"></div>
-                    </button>
-                  </div>
-                ))}
               </div>
             </div>
 

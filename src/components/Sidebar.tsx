@@ -27,7 +27,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     onLogout
 }) => {
     const navItems = [
-        { id: 'home', label: 'Início', icon: Home },
+        { id: 'home', label: 'Vitrine', icon: Home },
         { id: 'my-exams', label: 'Meus Simulados', icon: FileText },
         { id: 'materials', label: 'Materiais', icon: FolderOpen },
         { id: 'profile', label: 'Meu Perfil', icon: User },
