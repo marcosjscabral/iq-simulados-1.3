@@ -46,6 +46,7 @@ import { supabase } from './lib/supabase';
 import { Auth } from './components/Auth';
 import { User as SupabaseUser } from '@supabase/supabase-js';
 import { Sidebar } from './components/Sidebar';
+import AdminSimulados from './pages/AdminSimulados';
 
 // --- Screens ---
 
@@ -543,7 +544,7 @@ const AdminDashboardScreen = ({ onOpenMenu, setView }: { onOpenMenu: () => void,
       <div className="px-6 space-y-2">
         <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 px-1">Gerenciamento</h2>
         {[
-          { icon: FileText, label: 'Gerenciar Simulados', sub: 'Provas, questões e cronômetros', color: '#f97316' },
+          { icon: FileText, label: 'Gerenciar Simulados', sub: 'Provas, questões e cronômetros', color: '#f97316', onClick: () => setView('admin-simulados') },
           { icon: Users, label: 'Usuários e Acessos', sub: 'Assinaturas e permissões', color: '#0ea5e9', onClick: () => setView('user-registration') },
           { icon: Rocket, label: 'Recomendações AI', sub: 'Destaques personalizados por aluno', color: '#f97316' }
         ].map((item) => (
@@ -993,6 +994,17 @@ export default function App() {
             exit={{ opacity: 0, y: -20 }}
           >
             <UserRegistrationScreen setView={setView} />
+          </motion.div>
+        )}
+
+        {view === 'admin-simulados' && (
+          <motion.div
+            key="admin-simulados"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+          >
+            <AdminSimulados setView={setView} />
           </motion.div>
         )}
       </AnimatePresence>
