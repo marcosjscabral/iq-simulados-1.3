@@ -35,13 +35,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { View, Simulado, UserSimulado, Question } from './types';
-import {
-  CATEGORIES,
-  FEATURED_SIMULADO,
-  AVAILABLE_SIMULADOS,
-  USER_SIMULADOS,
-  MOCK_QUESTION
-} from './constants';
+// import { CATEGORIES } from './constants';
 import { supabase } from './lib/supabase';
 import { Auth } from './components/Auth';
 import { User as SupabaseUser } from '@supabase/supabase-js';
@@ -127,9 +121,16 @@ const HomeScreen = ({
   setView: (v: View) => void,
   simulados: Simulado[]
 }) => {
-  const featured = simulados.find(s => s.is_featured && s.is_active) || FEATURED_SIMULADO;
+  const [selectedCategory, setSelectedCategory] = useState('Todos');
+
+  const categories = ['Todos', ...Array.from(new Set(simulados.filter(s => s.is_active).flatMap(s => s.categories)))];
+
+  const featured = simulados.find(s => s.is_featured && s.is_active);
   const available = simulados.filter(s => s.is_active && !s.is_featured);
-  const displayList = available.length > 0 ? available : AVAILABLE_SIMULADOS;
+
+  const displayList = selectedCategory === 'Todos'
+    ? available
+    : available.filter(s => s.categories.includes(selectedCategory));
 
   return (
     <div className="bg-background-light dark:bg-[#1a1a0d] min-h-screen">
@@ -150,10 +151,13 @@ const HomeScreen = ({
 
       <div className="bg-[#f2f20d]/10 dark:bg-[#2a2a14]/50 py-4">
         <div className="flex gap-3 px-4 overflow-x-auto no-scrollbar">
-          {CATEGORIES.map((cat, i) => (
+          {categories.map((cat) => (
             <button
               key={cat}
-              className={`flex h-10 shrink-0 items-center justify-center rounded-full px-5 text-sm font-semibold shadow-sm transition-colors ${i === 0 ? 'bg-[#f2f20d] text-[#1a1a0d]' : 'bg-white/20 dark:bg-[#2a2a14] text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700'
+              onClick={() => setSelectedCategory(cat)}
+              className={`flex h-10 shrink-0 items-center justify-center rounded-full px-5 text-sm font-semibold shadow-sm transition-all ${selectedCategory === cat
+                ? 'bg-[#f2f20d] text-[#1a1a0d] scale-105 shadow-[#f2f20d]/20'
+                : 'bg-white/20 dark:bg-[#2a2a14] text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700'
                 }`}
             >
               {cat}
@@ -163,51 +167,63 @@ const HomeScreen = ({
       </div>
 
       <main className="px-4 py-6 space-y-6">
-        <section>
-          <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-            <span className="text-[#f97316]">🔥</span> Destaques da Semana
-          </h2>
-          <div className="relative overflow-hidden rounded-xl bg-[#f97316] p-1">
-            <div className="bg-white dark:bg-[#2a2a14] rounded-lg overflow-hidden flex flex-col">
-              <div className="h-40 w-full bg-slate-200 dark:bg-slate-800 relative">
-                <img src={featured.image_url} alt={featured.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                <div className="absolute top-3 left-3 bg-[#f97316] text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
-                  Mais Procurado
+        {featured && (
+          <section>
+            <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+              <span className="text-[#f97316]">🔥</span> Destaques da Semana
+            </h2>
+            <div className="relative overflow-hidden rounded-xl bg-[#f97316] p-1">
+              <div className="bg-white dark:bg-[#2a2a14] rounded-lg overflow-hidden flex flex-col">
+                <div className="h-40 w-full bg-slate-200 dark:bg-slate-800 relative">
+                  <img src={featured.image_url} alt={featured.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  <div className="absolute top-3 left-3 bg-[#f97316] text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
+                    Mais Procurado
+                  </div>
                 </div>
-              </div>
-              <div className="p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-bold text-lg leading-tight">{featured.title}</h3>
-                  <span className="text-[#2563eb] font-bold">R$ {featured.price.toFixed(2)}</span>
+                <div className="p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-bold text-lg leading-tight">{featured.title}</h3>
+                    <span className="text-[#2563eb] font-bold">R$ {featured.price.toFixed(2)}</span>
+                  </div>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">{featured.description}</p>
+                  <button className="w-full bg-[#2563eb] hover:bg-blue-700 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-colors">
+                    <ShoppingBag size={18} /> Comprar Agora
+                  </button>
                 </div>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">{featured.description}</p>
-                <button className="w-full bg-[#2563eb] hover:bg-blue-700 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-colors">
-                  <ShoppingBag size={18} /> Comprar Agora
-                </button>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         <section className="space-y-4">
           <h2 className="text-lg font-bold mb-4">Simulados Disponíveis</h2>
-          {displayList.map(sim => (
-            <div key={sim.id} className="bg-white dark:bg-[#2a2a14] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex gap-4">
-              <div className="size-20 shrink-0 rounded-lg bg-slate-200 dark:bg-slate-800 overflow-hidden">
-                <img src={sim.image_url} alt={sim.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-              </div>
-              <div className="flex-1 flex flex-col justify-between">
-                <div>
-                  <h3 className="font-bold text-sm leading-tight line-clamp-2">{sim.title}</h3>
-                  <p className="text-xs text-slate-500 mt-1">{sim.questions_count} Questões Objetivas</p>
+          {displayList.length > 0 ? (
+            displayList.map(sim => (
+              <div key={sim.id} className="bg-white dark:bg-[#2a2a14] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex gap-4">
+                <div className="size-20 shrink-0 rounded-lg bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                  <img src={sim.image_url} alt={sim.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 </div>
-                <div className="flex items-center justify-between mt-2">
-                  <span className="font-bold text-[#2563eb] text-sm">R$ {sim.price.toFixed(2)}</span>
-                  <button className="bg-[#2563eb] text-white px-3 py-1.5 rounded-lg text-xs font-bold">Comprar</button>
+                <div className="flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 className="font-bold text-sm leading-tight line-clamp-2">{sim.title}</h3>
+                    <p className="text-xs text-slate-500 mt-1">{sim.questions_count} Questões Objetivas</p>
+                  </div>
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="font-bold text-[#2563eb] text-sm">R$ {sim.price.toFixed(2)}</span>
+                    <button className="bg-[#2563eb] text-white px-3 py-1.5 rounded-lg text-xs font-bold">Comprar</button>
+                  </div>
                 </div>
               </div>
+            ))
+          ) : (
+            <div className="bg-white dark:bg-[#2a2a14] p-8 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-800 text-center">
+              <p className="text-slate-500 font-medium">
+                {selectedCategory === 'Todos'
+                  ? 'Não há conteúdo disponível no momento.'
+                  : `Não há simulados disponíveis para a categoria "${selectedCategory}".`}
+              </p>
             </div>
-          ))}
+          )}
         </section>
       </main>
     </div>
@@ -247,79 +263,9 @@ const MyExamsScreen = ({ onOpenMenu, setView }: { onOpenMenu: () => void, setVie
     </header>
 
     <main className="p-4 space-y-4">
-      {USER_SIMULADOS.map((sim) => (
-        <div key={sim.id} className={`flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#2a2a0e] shadow-sm border border-slate-200 dark:border-slate-800 ${sim.status === 'finished' ? 'opacity-80' : ''}`}>
-          {sim.status !== 'finished' && (
-            <div className="relative w-full aspect-[21/9] bg-slate-200 dark:bg-slate-800">
-              <img src={sim.image_url} alt={sim.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-              <div className={`absolute top-2 left-2 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm ${sim.status === 'in-progress' ? 'bg-[#f97316]' : 'bg-[#f2f20d] text-[#1a1a08]'}`}>
-                {sim.status === 'in-progress' ? 'EM ALTA' : 'NOVO'}
-              </div>
-            </div>
-          )}
-          <div className="p-4 flex flex-col gap-3">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-[#f2f20d] text-[10px] font-bold uppercase tracking-wider mb-1">{sim.categories[0]}</p>
-                <h3 className="text-lg font-bold leading-tight">{sim.title}</h3>
-              </div>
-              {sim.status === 'finished' && (
-                <div className="bg-green-500/10 text-green-500 p-1 rounded-full">
-                  <CheckCircle2 size={18} fill="currentColor" />
-                </div>
-              )}
-            </div>
-
-            {sim.status === 'finished' ? (
-              <div className="flex items-center gap-4 py-2 border-y border-slate-100 dark:border-slate-800">
-                <div className="flex flex-col">
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Acertos</span>
-                  <span className="font-bold text-green-500">{sim.score}%</span>
-                </div>
-                <div className="w-px h-6 bg-slate-100 dark:bg-slate-800"></div>
-                <div className="flex flex-col">
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Tempo</span>
-                  <span className="font-bold">{sim.timeTaken}</span>
-                </div>
-                <div className="w-px h-6 bg-slate-100 dark:bg-slate-800"></div>
-                <div className="flex flex-col">
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Rank</span>
-                  <span className="font-bold text-[#f97316]">{sim.rank}</span>
-                </div>
-              </div>
-            ) : (
-              <>
-                <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs">
-                  <FileText size={14} />
-                  <span>{sim.questions_count} questões • Edital 2024</span>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-xs font-medium">
-                    <span className="text-slate-500 dark:text-slate-400">Progresso</span>
-                    <span>{sim.progress}% ({Math.round(sim.progress * sim.questions_count / 100)}/{sim.questions_count})</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                    <div className="h-full bg-[#f2f20d]" style={{ width: `${sim.progress}%` }}></div>
-                  </div>
-                </div>
-              </>
-            )}
-
-            <div className="flex gap-2 mt-2">
-              <button
-                onClick={() => setView('exam-execution')}
-                className="flex-1 bg-[#0284c7] hover:bg-[#0284c7]/90 text-white h-11 rounded-lg font-bold text-sm transition-colors flex items-center justify-center gap-2"
-              >
-                {sim.status === 'in-progress' ? <Play size={18} /> : (sim.status === 'finished' ? <BarChart3 size={18} /> : <Rocket size={18} />)}
-                {sim.status === 'in-progress' ? 'Continuar' : (sim.status === 'finished' ? 'Ver Desempenho' : 'Iniciar Simulado')}
-              </button>
-              <button className="w-11 h-11 border border-slate-200 dark:border-slate-700 rounded-lg flex items-center justify-center text-slate-400">
-                <MoreVertical size={20} />
-              </button>
-            </div>
-          </div>
-        </div>
-      ))}
+      <div className="bg-white dark:bg-[#2a2a14] p-8 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-800 text-center">
+        <p className="text-slate-500 font-medium">Você ainda não possui simulados vinculados à sua conta.</p>
+      </div>
     </main>
   </div>
 );
@@ -355,46 +301,14 @@ const ExamExecutionScreen = ({ setView }: { setView: (v: View) => void }) => {
       </header>
 
       <main className="flex-1 overflow-y-auto pb-32">
-        <div className="p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="bg-[#3b82f6]/10 text-[#3b82f6] text-xs font-bold px-3 py-1 rounded-full border border-[#3b82f6]/20">QUESTÃO 45</span>
-            <span className="text-slate-500 dark:text-slate-400 text-xs font-medium">{MOCK_QUESTION.subject}</span>
+        <div className="p-6 text-center py-20">
+          <div className="w-20 h-20 bg-slate-100 dark:bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-400">
+            <FileText size={40} />
           </div>
-          <h3 className="text-lg font-semibold leading-relaxed mb-6 dark:text-slate-100 whitespace-pre-line">
-            {MOCK_QUESTION.text}
-          </h3>
-          <div className="space-y-4">
-            {MOCK_QUESTION.options.map((opt) => (
-              <label
-                key={opt.id}
-                className={`relative flex items-center p-4 rounded-xl border-2 transition-all cursor-pointer ${selectedOption === opt.id
-                  ? 'border-[#f2f20d] bg-[#f2f20d]/5'
-                  : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-white/5'
-                  }`}
-              >
-                <input
-                  type="radio"
-                  name="question"
-                  className="hidden"
-                  onChange={() => setSelectedOption(opt.id)}
-                  checked={selectedOption === opt.id}
-                />
-                <div className={`w-6 h-6 rounded-full border-2 mr-4 flex items-center justify-center transition-all ${selectedOption === opt.id ? 'border-[#f2f20d]' : 'border-slate-300 dark:border-slate-700'
-                  }`}>
-                  {selectedOption === opt.id && <div className="w-3 h-3 rounded-full bg-[#f2f20d]"></div>}
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase mb-0.5">Alternativa {opt.label}</span>
-                  <p className="text-sm font-medium leading-normal">{opt.text}</p>
-                </div>
-              </label>
-            ))}
-          </div>
-          <div className="mt-8 flex justify-center">
-            <button className="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-[#f2f20d] transition-colors">
-              <Edit size={18} /> Adicionar anotação
-            </button>
-          </div>
+          <h3 className="text-xl font-bold mb-2">Simulado em Preparação</h3>
+          <p className="text-slate-500 max-w-xs mx-auto">
+            As questões deste simulado estão sendo carregadas. Em breve você poderá respondê-las aqui.
+          </p>
         </div>
       </main>
 
