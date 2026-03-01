@@ -174,11 +174,19 @@ const HomeScreen = ({
             </h2>
             <div className="relative overflow-hidden rounded-xl bg-[#f97316] p-1">
               <div className="bg-white dark:bg-[#2a2a14] rounded-lg overflow-hidden flex flex-col">
-                <div className="h-40 w-full bg-slate-200 dark:bg-slate-800 relative">
-                  <img src={featured.image_url} alt={featured.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                  <div className="absolute top-3 left-3 bg-[#f97316] text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
-                    Mais Procurado
-                  </div>
+                <div className="h-40 w-full bg-slate-200 dark:bg-slate-800 relative flex items-center justify-center">
+                  {featured.image_url ? (
+                    <img src={featured.image_url} alt={featured.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center p-4 text-center">
+                      <span className="text-xl font-black text-slate-400 dark:text-slate-600 uppercase tracking-tighter">IQ Simulados</span>
+                    </div>
+                  )}
+                  {featured.featured_label && (
+                    <div className="absolute top-3 left-3 bg-[#f97316] text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider">
+                      {featured.featured_label}
+                    </div>
+                  )}
                 </div>
                 <div className="p-4">
                   <div className="flex justify-between items-start mb-2">
@@ -200,8 +208,12 @@ const HomeScreen = ({
           {displayList.length > 0 ? (
             displayList.map(sim => (
               <div key={sim.id} className="bg-white dark:bg-[#2a2a14] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex gap-4">
-                <div className="size-20 shrink-0 rounded-lg bg-slate-200 dark:bg-slate-800 overflow-hidden">
-                  <img src={sim.image_url} alt={sim.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                <div className="size-20 shrink-0 rounded-lg bg-slate-100 dark:bg-slate-800/50 overflow-hidden flex items-center justify-center border border-slate-100 dark:border-slate-700">
+                  {sim.image_url ? (
+                    <img src={sim.image_url} alt={sim.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  ) : (
+                    <span className="text-[10px] font-black text-slate-400 dark:text-slate-600 uppercase text-center px-1 leading-tight">IQ Simulados</span>
+                  )}
                 </div>
                 <div className="flex-1 flex flex-col justify-between">
                   <div>

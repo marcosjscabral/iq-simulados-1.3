@@ -27,6 +27,7 @@ export interface Simulado {
   image_url: string;
   is_active: boolean;
   is_featured: boolean;
+  featured_label?: string;
   created_at?: string;
 }
 
