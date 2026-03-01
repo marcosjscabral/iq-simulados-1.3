@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Plus, Camera, Image as ImageIcon, MinusCircle, Eye, Star } from 'lucide-react';
 import { View } from '../types';
 import { supabase } from '../lib/supabase';
@@ -6,9 +6,10 @@ import { supabase } from '../lib/supabase';
 interface AdminSimuladosProps {
   setView: (v: View) => void;
   onPublishSuccess?: () => void;
+  simuladoId?: string;
 }
 
-const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSuccess }) => {
+const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSuccess, simuladoId }) => {
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [questionsCount, setQuestionsCount] = useState('');
@@ -18,6 +19,38 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
   const [isActive, setIsActive] = useState(false);
   const [isFeatured, setIsFeatured] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (simuladoId) {
+      const fetchSimulado = async () => {
+        setLoading(true);
+        try {
+          const { data, error } = await supabase
+            .from('simulados')
+            .select('*')
+            .eq('id', simuladoId)
+            .single();
+
+          if (error) throw error;
+          if (data) {
+            setTitle(data.title);
+            setPrice(data.price.toString().replace('.', ','));
+            setQuestionsCount(data.questions_count.toString());
+            setDescription(data.description || '');
+            setCategories(data.categories || []);
+            setIsActive(data.is_active);
+            setIsFeatured(data.is_featured);
+          }
+        } catch (error) {
+          console.error('Error fetching simulado:', error);
+          alert('Erro ao carregar os dados do simulado.');
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchSimulado();
+    }
+  }, [simuladoId]);
 
   const addCategory = () => {
     if (newCategory.trim()) {
@@ -38,24 +71,31 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
 
     setLoading(true);
     try {
-      const { error } = await supabase.from('simulados').insert([
-        {
-          title,
-          price: parseFloat(price.replace(',', '.')),
-          questions_count: parseInt(questionsCount),
-          description,
-          categories,
-          is_active: isActive,
-          is_featured: isFeatured,
-          image_url: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800' // Placeholder
-        }
-      ]);
+      const payload = {
+        title,
+        price: parseFloat(price.replace(',', '.')),
+        questions_count: parseInt(questionsCount),
+        description,
+        categories,
+        is_active: isActive,
+        is_featured: isFeatured,
+        image_url: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800' // Placeholder
+      };
+
+      let result;
+      if (simuladoId) {
+        result = await supabase.from('simulados').update(payload).eq('id', simuladoId);
+      } else {
+        result = await supabase.from('simulados').insert([payload]);
+      }
+
+      const { error } = result;
 
       if (error) throw error;
 
-      alert('Simulado publicado com sucesso!');
+      alert(simuladoId ? 'Simulado atualizado com sucesso!' : 'Simulado publicado com sucesso!');
       if (onPublishSuccess) onPublishSuccess();
-      setView('admin-dashboard');
+      setView('admin-list-simulados');
     } catch (error: any) {
       console.error('Error publishing:', error);
       alert('Erro ao publicar: ' + error.message);
@@ -78,7 +118,9 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
               <ArrowLeft size={24} />
             </button>
             <div>
-              <h1 className="text-2xl font-black text-slate-900 leading-tight">Novo Simulado</h1>
+              <h1 className="text-2xl font-black text-slate-900 leading-tight">
+                {simuladoId ? 'Editar Simulado' : 'Novo Simulado'}
+              </h1>
               <p className="text-slate-800 text-sm font-semibold opacity-90">Painel Administrativo IQ</p>
             </div>
           </div>
@@ -219,10 +261,13 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
               disabled={loading}
               className={`w-full bg-blue-600 text-white font-bold h-14 rounded-2xl shadow-xl shadow-blue-600/20 active:scale-[0.98] transition-all flex items-center justify-center ${loading ? 'opacity-70' : ''}`}
             >
-              {loading ? 'Publicando...' : 'Publicar Simulado'}
+              {loading ? 'Salvando...' : (simuladoId ? 'Salvar Alterações' : 'Publicar Simulado')}
             </button>
-            <button className="w-full bg-slate-50 dark:bg-slate-800 text-blue-600 font-bold h-14 rounded-2xl border-2 border-blue-600/20 active:scale-[0.98] transition-all">
-              Salvar Rascunho
+            <button
+              onClick={() => setView('admin-list-simulados')}
+              className="w-full bg-[#FFD700] hover:bg-[#FFD700]/90 text-slate-900 font-bold h-14 rounded-2xl shadow-lg shadow-[#FFD700]/10 active:scale-[0.98] transition-all"
+            >
+              Editar Vitrine
             </button>
           </div>
         </main>

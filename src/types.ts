@@ -14,6 +14,7 @@ export type View =
   | 'answer-key'
   | 'user-registration'
   | 'admin-simulados'
+  | 'admin-list-simulados'
   | 'purchase-history';
 
 export interface Simulado {

@@ -47,6 +47,7 @@ import { Auth } from './components/Auth';
 import { User as SupabaseUser } from '@supabase/supabase-js';
 import { Sidebar } from './components/Sidebar';
 import AdminSimulados from './pages/AdminSimulados';
+import AdminListSimulados from './pages/AdminListSimulados';
 
 // --- Screens ---
 
@@ -515,7 +516,7 @@ const ProfileScreen = ({ onOpenMenu, setView, onLogout }: { onOpenMenu: () => vo
   </div>
 );
 
-const AdminDashboardScreen = ({ onOpenMenu, setView }: { onOpenMenu: () => void, setView: (v: View) => void }) => (
+const AdminDashboardScreen = ({ onOpenMenu, setView, onAddNew }: { onOpenMenu: () => void, setView: (v: View) => void, onAddNew: () => void }) => (
   <div className="bg-background-light dark:bg-[#1a1a08] min-h-screen flex flex-col font-display">
     <header className="flex items-center px-6 py-4 pt-12 justify-between sticky top-0 bg-[#f2f20d] z-10 shadow-sm">
       <div className="flex items-center gap-3">
@@ -551,7 +552,7 @@ const AdminDashboardScreen = ({ onOpenMenu, setView }: { onOpenMenu: () => void,
 
       <div className="px-6 pb-6">
         <button
-          onClick={() => setView('admin-simulados')}
+          onClick={onAddNew}
           className="w-full bg-[#f2f20d] hover:bg-[#f2f20d]/90 text-[#1a1a08] font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-xl shadow-[#f2f20d]/10 transition-all"
         >
           <Plus size={20} /> Adicionar Novo Conteúdo
@@ -561,7 +562,7 @@ const AdminDashboardScreen = ({ onOpenMenu, setView }: { onOpenMenu: () => void,
       <div className="px-6 space-y-2">
         <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 px-1">Gerenciamento</h2>
         {[
-          { icon: FileText, label: 'Gerenciar Simulados', sub: 'Provas, questões e cronômetros', color: '#f97316', onClick: () => setView('admin-simulados') },
+          { icon: FileText, label: 'Gerenciar Simulados', sub: 'Provas, questões e cronômetros', color: '#f97316', onClick: () => setView('admin-list-simulados') },
           { icon: Users, label: 'Usuários e Acessos', sub: 'Assinaturas e permissões', color: '#0ea5e9', onClick: () => setView('user-registration') },
           { icon: Rocket, label: 'Recomendações AI', sub: 'Destaques personalizados por aluno', color: '#f97316' }
         ].map((item) => (
@@ -582,7 +583,6 @@ const AdminDashboardScreen = ({ onOpenMenu, setView }: { onOpenMenu: () => void,
         ))}
       </div>
     </main>
-
   </div>
 );
 
@@ -868,6 +868,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [simulados, setSimulados] = useState<Simulado[]>([]);
+  const [selectedSimuladoId, setSelectedSimuladoId] = useState<string>('');
 
   const fetchSimulados = async () => {
     try {
@@ -1016,7 +1017,14 @@ export default function App() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.1 }}
           >
-            <AdminDashboardScreen onOpenMenu={() => setSidebarOpen(true)} setView={setView} />
+            <AdminDashboardScreen
+              onOpenMenu={() => setSidebarOpen(true)}
+              setView={setView}
+              onAddNew={() => {
+                setSelectedSimuladoId('');
+                setView('admin-simulados');
+              }}
+            />
           </motion.div>
         )}
 
@@ -1038,7 +1046,24 @@ export default function App() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
           >
-            <AdminSimulados setView={setView} onPublishSuccess={fetchSimulados} />
+            <AdminSimulados setView={setView} onPublishSuccess={fetchSimulados} simuladoId={selectedSimuladoId} />
+          </motion.div>
+        )}
+
+        {view === 'admin-list-simulados' && (
+          <motion.div
+            key="admin-list-simulados"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+          >
+            <AdminListSimulados
+              setView={setView}
+              onEditSimulado={(id) => {
+                setSelectedSimuladoId(id);
+                setView('admin-simulados');
+              }}
+            />
           </motion.div>
         )}
       </AnimatePresence>
