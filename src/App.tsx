@@ -18,7 +18,8 @@ import {
   Receipt,
   ArrowRight,
   ArrowLeft,
-  ChevronLeft
+  ChevronLeft,
+  TrendingUp
 } from 'lucide-react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { Simulado } from './types';
@@ -45,14 +46,14 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
     : activeSimulados.filter(s => s.categories?.includes(selectedCategory));
 
   return (
-    <div className="bg-[#1a1a0d] min-h-screen pb-24">
-      <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
+    <div className="bg-[#121212] min-h-screen pb-24 text-white font-display">
+      <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5">
         <div className="flex items-center p-4 justify-between pt-12">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
           </button>
           <div className="flex flex-col items-center">
-            <h1 className="text-lg font-bold leading-tight text-black">IQ Simulados</h1>
+            <h1 className="text-lg font-black leading-tight text-black italic uppercase tracking-tighter">IQ Simulados</h1>
             <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Vitrine</p>
           </div>
           <div className="size-10 flex items-center justify-end">
@@ -63,51 +64,17 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
         </div>
       </header>
 
-      <main className="p-4 space-y-8">
-        {/* Hero Section / Featured */}
-        {featuredSimulado && (
-          <section>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold tracking-tight">Destaque da Semana</h2>
-            </div>
-            <div
-              onClick={() => navigate(`/exam/${featuredSimulado.id}`)}
-              className="group relative h-64 w-full rounded-3xl overflow-hidden cursor-pointer shadow-2xl shadow-yellow-500/10"
-            >
-              {featuredSimulado.image_url ? (
-                <img src={featuredSimulado.image_url} alt={featuredSimulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
-                  <span className="text-4xl font-black text-white/20 italic">IQ SIMULADOS</span>
-                </div>
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute bottom-0 p-6 w-full">
-                {featuredSimulado.featured_label && (
-                  <span className="inline-block px-3 py-1 rounded-full bg-yellow-400 text-black text-[10px] font-bold uppercase tracking-wider mb-2">
-                    {featuredSimulado.featured_label}
-                  </span>
-                )}
-                <h3 className="text-2xl font-bold text-white mb-1">{featuredSimulado.title}</h3>
-                <div className="flex items-center justify-between">
-                  <p className="text-white/70 text-sm line-clamp-1">{featuredSimulado.description}</p>
-                  <span className="text-yellow-400 font-bold">R$ {featuredSimulado.price}</span>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Categories */}
+      <main className="p-4 space-y-8 max-w-md mx-auto">
+        {/* Categories Pills */}
         <section className="-mx-4 px-4 overflow-x-auto no-scrollbar py-2">
           <div className="flex gap-2">
             {categories.map(cat => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`flex-shrink-0 px-6 py-2.5 rounded-2xl text-sm font-bold transition-all ${selectedCategory === cat
-                  ? 'bg-yellow-400 text-black shadow-lg shadow-yellow-400/20 scale-105'
-                  : 'bg-white/5 text-slate-400 border border-white/5'
+                className={`flex-shrink-0 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${selectedCategory === cat
+                  ? 'bg-[#f2f20d] text-black shadow-lg shadow-yellow-400/20'
+                  : 'bg-white/5 text-slate-500 border border-white/10'
                   }`}
               >
                 {cat}
@@ -116,47 +83,85 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
           </div>
         </section>
 
+        {/* Hero Section / Featured */}
+        {featuredSimulado && (
+          <section>
+            <div className="flex items-center gap-2 mb-4 px-1">
+              <TrendingUp size={16} className="text-yellow-400" />
+              <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
+                Destaques da Semana <span className="animate-pulse">🔥</span>
+              </h2>
+            </div>
+            <div
+              onClick={() => navigate(`/exam/${featuredSimulado.id}`)}
+              className="group relative h-72 w-full rounded-[2.5rem] overflow-hidden cursor-pointer shadow-2xl ring-1 ring-white/10"
+            >
+              {featuredSimulado.image_url ? (
+                <img src={featuredSimulado.image_url} alt={featuredSimulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-yellow-400/20 to-orange-500/20 flex items-center justify-center">
+                  <span className="text-4xl font-black text-white/5 italic">IQ</span>
+                </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/20 to-transparent" />
+              <div className="absolute bottom-0 p-8 w-full">
+                {featuredSimulado.featured_label && (
+                  <span className="inline-block px-3 py-1 rounded-full bg-orange-600 text-white text-[8px] font-black uppercase tracking-[0.2em] mb-3 shadow-lg">
+                    {featuredSimulado.featured_label}
+                  </span>
+                )}
+                <h3 className="text-2xl font-black text-white mb-2 italic uppercase leading-tight">{featuredSimulado.title}</h3>
+                <div className="flex items-center justify-between mt-4">
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold text-slate-400 line-through">R$ {(featuredSimulado.price * 1.5).toFixed(2)}</span>
+                    <span className="text-2xl font-black text-yellow-400 italic">R$ {featuredSimulado.price.toFixed(2)}</span>
+                  </div>
+                  <button className="bg-[#2563EB] text-white px-6 py-3 rounded-2xl font-black uppercase text-[10px] italic shadow-xl shadow-blue-600/30 active:scale-95 transition-all">
+                    Acessar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Available List */}
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold tracking-tight">Disponíveis</h2>
-            <span className="text-xs font-bold text-yellow-400 px-3 py-1 rounded-full bg-yellow-400/10">{filteredSimulados.length} Itens</span>
+        <section className="pb-10">
+          <div className="flex items-center justify-between mb-6 px-1">
+            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Disponíveis</h2>
+            <div className="h-px flex-1 bg-white/10 mx-4" />
           </div>
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 gap-3">
             {filteredSimulados.length === 0 ? (
-              <div className="p-12 text-center bg-white/5 rounded-3xl border-2 border-dashed border-white/5">
-                <p className="text-slate-500 font-medium">Nenhum simulado cadastrado aqui.</p>
+              <div className="p-12 text-center bg-white/5 rounded-[2rem] border border-dashed border-white/10">
+                <p className="text-slate-500 font-bold uppercase text-[9px] tracking-widest leading-loose">Nenhum simulado disponível<br />nesta categoria no momento.</p>
               </div>
             ) : (
               filteredSimulados.map((simulado) => (
                 <div
                   key={simulado.id}
                   onClick={() => navigate(`/exam/${simulado.id}`)}
-                  className="bg-white/5 backdrop-blur-md rounded-3xl p-4 shadow-sm border border-white/5 cursor-pointer active:scale-[0.98] transition-all group hover:bg-white/[0.08]"
+                  className="group bg-white/5 p-4 rounded-[2rem] border border-white/5 flex items-center gap-4 active:scale-[0.98] transition-all hover:bg-white/[0.08]"
                 >
-                  <div className="flex gap-4">
-                    <div className="size-20 rounded-2xl bg-white/5 overflow-hidden flex-shrink-0 border border-white/10">
-                      {simulado.image_url ? (
-                        <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-[10px] font-black text-white/5 italic">IQ</div>
-                      )}
+                  <div className="size-20 shrink-0 rounded-2xl bg-[#1a1a1a] overflow-hidden border border-white/5 shadow-inner">
+                    {simulado.image_url ? (
+                      <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-white/10 italic font-black text-xl">IQ</div>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-black text-base text-white mb-1 uppercase italic leading-tight truncate">{simulado.title}</h4>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{simulado.categories?.[0]}</span>
+                      <span className="size-1 rounded-full bg-yellow-400/20" />
+                      <span className="text-[9px] font-black text-yellow-400/80 uppercase tracking-widest">OFFICIAL</span>
                     </div>
-                    <div className="flex-1 flex flex-col justify-between py-0.5">
-                      <div>
-                        <h3 className="font-bold text-base leading-tight group-hover:text-yellow-400 transition-colors">{simulado.title}</h3>
-                        <div className="flex gap-2 mt-1">
-                          {simulado.categories?.slice(0, 2).map(c => (
-                            <span key={c} className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{c}</span>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-yellow-400 font-bold">R$ {simulado.price}</span>
-                        <div className="size-8 rounded-full bg-yellow-400/10 flex items-center justify-center text-yellow-400">
-                          <ChevronRight size={16} />
-                        </div>
-                      </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className="text-lg font-black text-white italic">R${simulado.price.toFixed(0)}</span>
+                    <div className="bg-white/5 p-2 rounded-xl text-yellow-400 group-hover:bg-yellow-400 group-hover:text-black transition-colors">
+                      <ChevronRight size={16} strokeWidth={4} />
                     </div>
                   </div>
                 </div>
