@@ -562,6 +562,8 @@ export default function App() {
     return <Auth onLogin={() => { }} />;
   }
 
+  const uniqueCategories = Array.from(new Set(simulados.flatMap(s => s.categories || [])));
+
   return (
     <Router>
       <div className="relative flex min-h-screen w-full flex-col bg-[#0f172a]">
@@ -608,12 +610,12 @@ export default function App() {
           } />
           <Route path="/admin/simulados/new" element={
             <ProtectedRoute requireAdmin>
-              <AdminSimulados onPublishSuccess={fetchSimulados} availableCategories={[]} />
+              <AdminSimulados onPublishSuccess={fetchSimulados} availableCategories={uniqueCategories} />
             </ProtectedRoute>
           } />
           <Route path="/admin/simulados/:id" element={
             <ProtectedRoute requireAdmin>
-              <AdminSimulados onPublishSuccess={fetchSimulados} availableCategories={[]} />
+              <AdminSimulados onPublishSuccess={fetchSimulados} availableCategories={uniqueCategories} />
             </ProtectedRoute>
           } />
           <Route path="/admin/users" element={
