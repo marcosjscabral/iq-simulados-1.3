@@ -67,29 +67,29 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
     );
 
     return (
-        <div className="bg-slate-50 dark:bg-slate-950 min-h-screen flex justify-center">
-            <div className="relative flex min-h-screen w-full flex-col max-w-[430px] shadow-2xl bg-white dark:bg-slate-900 overflow-x-hidden">
+        <div className="bg-[#1a1a0d] min-h-screen flex justify-center">
+            <div className="relative flex min-h-screen w-full flex-col max-w-[430px] bg-[#1a1a0d] overflow-x-hidden">
 
                 {/* Header */}
-                <header className="bg-[#FFD700] p-6 pt-12 pb-10 rounded-b-[2.5rem] shadow-sm">
-                    <div className="flex items-center justify-between gap-4">
+                <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
+                    <div className="flex items-center p-4 justify-between pt-12">
                         <div className="flex items-center gap-4">
                             <button
                                 onClick={() => navigate('/admin')}
-                                className="bg-white/40 p-2 rounded-full backdrop-blur-sm transition-colors text-slate-900 shadow-sm"
+                                className="bg-black/10 p-2 rounded-full text-black shadow-sm"
                             >
-                                <ArrowLeft size={24} />
+                                <ArrowLeft size={22} />
                             </button>
                             <div>
-                                <h1 className="text-xl font-black text-slate-900 leading-tight">Gerenciar Vitrine</h1>
-                                <p className="text-slate-800 text-[10px] font-bold uppercase tracking-wider opacity-80">Administração</p>
+                                <h1 className="text-lg font-black text-black leading-tight uppercase italic">Vitrine</h1>
+                                <p className="text-black/60 text-[10px] font-bold uppercase tracking-widest">Administração</p>
                             </div>
                         </div>
                         <button
                             onClick={() => navigate('/admin/simulados/new')}
-                            className="bg-slate-900 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 text-xs font-bold shadow-lg active:scale-95 transition-all"
+                            className="bg-black text-yellow-400 px-4 py-2 rounded-xl flex items-center gap-2 text-[10px] font-black uppercase italic shadow-lg active:scale-95 transition-all"
                         >
-                            <Plus size={16} /> Novo Simulado
+                            <Plus size={16} strokeWidth={3} /> Novo
                         </button>
                     </div>
                 </header>

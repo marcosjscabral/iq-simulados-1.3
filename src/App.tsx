@@ -34,58 +34,128 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 
 const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView: (v: any) => void, simulados: Simulado[] }) => {
   const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState('Todos');
+
+  const categories = ['Todos', ...Array.from(new Set(simulados.flatMap(s => s.categories || [])))];
+  const featuredSimulado = simulados.find(s => s.is_featured);
+  const activeSimulados = simulados.filter(s => s.is_active && !s.is_featured);
+
+  const filteredSimulados = selectedCategory === 'Todos'
+    ? activeSimulados
+    : activeSimulados.filter(s => s.categories?.includes(selectedCategory));
+
   return (
-    <div className="bg-background-light dark:bg-[#1a1a08] min-h-screen">
-      <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5">
+    <div className="bg-[#1a1a0d] min-h-screen pb-24">
+      <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
         <div className="flex items-center p-4 justify-between pt-12">
-          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start">
-            <Menu size={24} className="text-black" />
+          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
+            <Menu size={24} />
           </button>
           <div className="flex flex-col items-center">
             <h1 className="text-lg font-bold leading-tight text-black">IQ Simulados</h1>
-            <p className="text-[10px] uppercase tracking-widest text-[#1a1a08] font-bold">Vitrine</p>
+            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Vitrine</p>
           </div>
           <div className="size-10 flex items-center justify-end">
-            <button onClick={() => navigate('/profile')} className="rounded-full bg-black/10 p-2">
-              <User className="text-black" size={20} />
+            <button onClick={() => navigate('/profile')} className="rounded-full bg-black/10 p-2 text-black">
+              <User size={20} />
             </button>
           </div>
         </div>
       </header>
 
-      <main className="p-4 space-y-6">
+      <main className="p-4 space-y-8">
+        {/* Hero Section / Featured */}
+        {featuredSimulado && (
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold tracking-tight">Destaque da Semana</h2>
+            </div>
+            <div
+              onClick={() => navigate(`/exam/${featuredSimulado.id}`)}
+              className="group relative h-64 w-full rounded-3xl overflow-hidden cursor-pointer shadow-2xl shadow-yellow-500/10"
+            >
+              {featuredSimulado.image_url ? (
+                <img src={featuredSimulado.image_url} alt={featuredSimulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
+                  <span className="text-4xl font-black text-white/20 italic">IQ SIMULADOS</span>
+                </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 p-6 w-full">
+                {featuredSimulado.featured_label && (
+                  <span className="inline-block px-3 py-1 rounded-full bg-yellow-400 text-black text-[10px] font-bold uppercase tracking-wider mb-2">
+                    {featuredSimulado.featured_label}
+                  </span>
+                )}
+                <h3 className="text-2xl font-bold text-white mb-1">{featuredSimulado.title}</h3>
+                <div className="flex items-center justify-between">
+                  <p className="text-white/70 text-sm line-clamp-1">{featuredSimulado.description}</p>
+                  <span className="text-yellow-400 font-bold">R$ {featuredSimulado.price}</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Categories */}
+        <section className="-mx-4 px-4 overflow-x-auto no-scrollbar py-2">
+          <div className="flex gap-2">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`flex-shrink-0 px-6 py-2.5 rounded-2xl text-sm font-bold transition-all ${selectedCategory === cat
+                  ? 'bg-yellow-400 text-black shadow-lg shadow-yellow-400/20 scale-105'
+                  : 'bg-white/5 text-slate-400 border border-white/5'
+                  }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* Available List */}
         <section>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold tracking-tight">Simulados em Destaque</h2>
+            <h2 className="text-xl font-bold tracking-tight">Disponíveis</h2>
+            <span className="text-xs font-bold text-yellow-400 px-3 py-1 rounded-full bg-yellow-400/10">{filteredSimulados.length} Itens</span>
           </div>
-          <div className="space-y-4">
-            {simulados.length === 0 ? (
-              <div className="p-8 text-center bg-white dark:bg-[#2a2a14] rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800">
-                <p className="text-slate-500 font-medium">Nenhum conteúdo disponível no momento.</p>
+          <div className="grid grid-cols-1 gap-4">
+            {filteredSimulados.length === 0 ? (
+              <div className="p-12 text-center bg-white/5 rounded-3xl border-2 border-dashed border-white/5">
+                <p className="text-slate-500 font-medium">Nenhum simulado cadastrado aqui.</p>
               </div>
             ) : (
-              simulados.map((simulado) => (
+              filteredSimulados.map((simulado) => (
                 <div
                   key={simulado.id}
                   onClick={() => navigate(`/exam/${simulado.id}`)}
-                  className="bg-white dark:bg-[#2a2a14] rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-white/5 cursor-pointer active:scale-[0.98] transition-all"
+                  className="bg-white/5 backdrop-blur-md rounded-3xl p-4 shadow-sm border border-white/5 cursor-pointer active:scale-[0.98] transition-all group hover:bg-white/[0.08]"
                 >
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="col-span-1 aspect-square rounded-xl bg-slate-100 dark:bg-slate-800 overflow-hidden flex items-center justify-center text-center p-2">
+                  <div className="flex gap-4">
+                    <div className="size-20 rounded-2xl bg-white/5 overflow-hidden flex-shrink-0 border border-white/10">
                       {simulado.image_url ? (
                         <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover" />
                       ) : (
-                        <span className="text-[10px] font-bold text-slate-400">IQ Simulados</span>
+                        <div className="w-full h-full flex items-center justify-center text-[10px] font-black text-white/5 italic">IQ</div>
                       )}
                     </div>
-                    <div className="col-span-2 flex flex-col justify-between py-1">
+                    <div className="flex-1 flex flex-col justify-between py-0.5">
                       <div>
-                        <h3 className="font-bold text-base leading-tight mb-1">{simulado.title}</h3>
-                        <p className="text-xs text-slate-500 line-clamp-2">{simulado.description}</p>
+                        <h3 className="font-bold text-base leading-tight group-hover:text-yellow-400 transition-colors">{simulado.title}</h3>
+                        <div className="flex gap-2 mt-1">
+                          {simulado.categories?.slice(0, 2).map(c => (
+                            <span key={c} className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{c}</span>
+                          ))}
+                        </div>
                       </div>
-                      <div className="flex items-center justify-between mt-2">
-                        <span className="text-[#f28d0d] font-bold">R$ {simulado.price}</span>
-                        <ChevronRight size={18} className="text-slate-300" />
+                      <div className="flex items-center justify-between">
+                        <span className="text-yellow-400 font-bold">R$ {simulado.price}</span>
+                        <div className="size-8 rounded-full bg-yellow-400/10 flex items-center justify-center text-yellow-400">
+                          <ChevronRight size={16} />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -102,26 +172,27 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   const navigate = useNavigate();
   return (
-    <div className="bg-background-light dark:bg-[#1a1a08] min-h-screen">
-      <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5">
+    <div className="bg-[#1a1a0d] min-h-screen">
+      <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
         <div className="flex items-center p-4 justify-between pt-12">
-          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start">
-            <Menu size={24} className="text-black" />
+          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
+            <Menu size={24} />
           </button>
           <div className="flex flex-col items-center">
             <h1 className="text-lg font-bold leading-tight text-black">Meus Simulados</h1>
-            <p className="text-[10px] uppercase tracking-widest text-[#1a1a08] font-bold">IQ Simulados</p>
+            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">IQ Simulados</p>
           </div>
           <div className="size-10 flex items-center justify-end">
-            <button onClick={() => navigate('/profile')} className="rounded-full bg-black/10 p-2">
-              <User className="text-black" size={20} />
+            <button onClick={() => navigate('/profile')} className="rounded-full bg-black/10 p-2 text-black">
+              <User size={20} />
             </button>
           </div>
         </div>
       </header>
 
       <main className="p-4 space-y-4">
-        <div className="bg-white dark:bg-[#2a2a14] p-8 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-800 text-center">
+        <div className="bg-white/5 p-12 rounded-3xl border-2 border-dashed border-white/5 text-center">
+          <Rocket size={40} className="mx-auto text-yellow-400/20 mb-4" />
           <p className="text-slate-500 font-medium">Você ainda não possui simulados vinculados à sua conta.</p>
         </div>
       </main>
@@ -132,37 +203,47 @@ const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
 const ExamExecutionScreen = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-background-light dark:bg-[#111621] min-h-screen flex flex-col font-display">
-      <header className="bg-slate-900 text-white p-6 pt-12 flex items-center justify-between">
+    <div className="bg-[#0f172a] min-h-screen flex flex-col">
+      <header className="sticky top-0 z-50 bg-slate-900/50 backdrop-blur-md text-white p-6 pt-12 flex items-center justify-between border-b border-white/5">
         <button onClick={() => navigate('/')} className="p-2 -ml-2 rounded-full hover:bg-white/10">
           <ArrowLeft size={24} />
         </button>
         <div className="text-center">
-          <h1 className="font-bold text-lg">Simulado ENEM</h1>
-          <p className="text-xs text-slate-400">Questão 1 de 45</p>
+          <h1 className="font-bold text-lg text-yellow-400">Simulado</h1>
+          <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Modo Execução</p>
         </div>
         <div className="size-10" />
       </header>
-      <main className="flex-1 p-6 flex flex-col items-center justify-center">
-        <p className="text-slate-400">Interface de execução em desenvolvimento...</p>
+      <main className="flex-1 p-6 flex flex-col items-center justify-center text-center">
+        <div className="size-20 rounded-full bg-yellow-400/10 flex items-center justify-center mb-6">
+          <ShieldCheck size={40} className="text-yellow-400" />
+        </div>
+        <h2 className="text-xl font-bold mb-2">Ambiente Protegido</h2>
+        <p className="text-slate-400 max-w-xs">A interface de execução oficial está sendo carregada...</p>
       </main>
     </div>
   );
 };
 
 const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: any) => void }) => (
-  <div className="bg-background-light dark:bg-[#222210] min-h-screen flex flex-col font-display text-slate-900 dark:text-slate-100">
-    <header className="bg-[#f2df0d] p-6 pt-12 pb-6 flex items-center gap-4">
-      <button onClick={onOpenMenu} className="size-10 flex items-center justify-center bg-white/20 rounded-full text-slate-900">
-        <Menu size={24} />
-      </button>
-      <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Materiais de Estudo</h1>
+  <div className="bg-[#1a1a0d] min-h-screen flex flex-col">
+    <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
+      <div className="flex items-center p-4 justify-between pt-12">
+        <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
+          <Menu size={24} />
+        </button>
+        <div className="flex flex-col items-center">
+          <h1 className="text-lg font-bold leading-tight text-black">Materiais</h1>
+          <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">IQ Simulados</p>
+        </div>
+        <div className="size-10" />
+      </div>
     </header>
     <main className="flex-1 p-6 flex flex-col items-center justify-center text-center">
-      <div className="size-24 rounded-3xl bg-[#f2df0d]/10 flex items-center justify-center text-[#f2df0d] mb-6">
+      <div className="size-24 rounded-3xl bg-yellow-400/10 flex items-center justify-center text-yellow-400 mb-6 border border-yellow-400/20">
         <Rocket size={48} />
       </div>
-      <h2 className="text-xl font-bold mb-2">Em breve!</h2>
+      <h2 className="text-2xl font-black mb-2 italic">EM BREVE!</h2>
       <p className="text-slate-500 max-w-xs mx-auto">Estamos preparando apostilas, resumos e mapas mentais exclusivos para turbinar sua aprovação.</p>
     </main>
   </div>
@@ -171,13 +252,16 @@ const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: 
 const AnswerKeyScreen = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-background-light dark:bg-[#1a1a0d] min-h-screen flex flex-col">
+    <div className="bg-[#1a1a0d] min-h-screen flex flex-col">
       <header className="p-6 pt-12 flex items-center gap-4">
-        <button onClick={() => navigate('/')} className="p-2 rounded-full hover:bg-black/5">
+        <button onClick={() => navigate('/')} className="p-2 rounded-full hover:bg-white/5 text-yellow-400">
           <ChevronLeft size={24} />
         </button>
-        <h1 className="text-xl font-bold">Gabarito</h1>
+        <h1 className="text-xl font-black uppercase italic tracking-tighter">Gabarito</h1>
       </header>
+      <main className="flex-1 flex items-center justify-center p-6 text-center">
+        <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Selecione um simulado finalizado para ver o gabarito.</p>
+      </main>
     </div>
   );
 };
@@ -195,26 +279,30 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
   }, []);
 
   return (
-    <div className="bg-background-light dark:bg-[#1a1a0d] min-h-screen flex flex-col font-display">
-      <header className="sticky top-0 z-10 bg-[#f2f20d] border-b border-black/5 px-4 py-4 pt-12">
-        <div className="flex items-center justify-between max-w-md mx-auto">
-          <button onClick={onOpenMenu} className="flex items-center justify-center p-2 rounded-full hover:bg-black/10 text-black">
+    <div className="bg-[#1a1a0d] min-h-screen flex flex-col font-display">
+      <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
+        <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
+          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
           </button>
-          <h1 className="text-lg font-bold tracking-tight text-black">Meu Perfil</h1>
-          {isAdmin ? (
-            <button onClick={() => navigate('/admin')} className="flex items-center justify-center p-2 rounded-full hover:bg-black/10 text-black">
-              <Settings size={24} />
-            </button>
-          ) : (
-            <div className="size-10" />
-          )}
+          <div className="flex flex-col items-center">
+            <h1 className="text-lg font-bold leading-tight text-black">Perfil</h1>
+            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Conta</p>
+          </div>
+          <div className="size-10 flex items-center justify-end">
+            {isAdmin ? (
+              <button onClick={() => navigate('/admin')} className="text-black">
+                <Settings size={22} />
+              </button>
+            ) : <div className="size-10" />}
+          </div>
         </div>
       </header>
+
       <main className="flex-1 w-full max-w-md mx-auto pb-24 overflow-y-auto">
-        <section className="flex flex-col items-center py-8 px-4">
-          <div className="relative">
-            <div className="w-32 h-32 rounded-full border-4 border-[#f2f20d] p-1 bg-gradient-to-tr from-[#f2f20d] to-[#f97316]">
+        <section className="flex flex-col items-center py-10 px-4">
+          <div className="relative group">
+            <div className="w-32 h-32 rounded-full border-4 border-yellow-400 p-1.5 bg-gradient-to-tr from-yellow-400 to-orange-500 shadow-2xl shadow-yellow-400/20">
               <img
                 src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200"
                 alt="Profile"
@@ -222,37 +310,53 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
                 referrerPolicy="no-referrer"
               />
             </div>
-            <button className="absolute bottom-1 right-1 bg-[#0ea5e9] text-white p-2 rounded-full shadow-lg border-2 border-[#1a1a0d]">
+            <button className="absolute bottom-1 right-1 bg-blue-500 text-white p-2.5 rounded-full shadow-lg border-2 border-[#1a1a0d] group-hover:scale-110 transition-transform">
               <Edit size={14} />
             </button>
           </div>
-          <div className="mt-4 text-center">
-            <h2 className="text-2xl font-bold tracking-tight">Usuário</h2>
-            <div className="mt-2 inline-flex items-center px-3 py-1 rounded-full bg-[#f2f20d]/20 text-[#f2f20d] text-xs font-bold uppercase tracking-wider border border-[#f2f20d]/30">
-              Estudante
+          <div className="mt-6 text-center">
+            <h2 className="text-2xl font-black tracking-tight uppercase italic underline decoration-yellow-400 decoration-4 underline-offset-4">Usuário</h2>
+            <div className="mt-4 inline-flex items-center px-4 py-1.5 rounded-full bg-yellow-400/10 text-yellow-400 text-[10px] font-black uppercase tracking-widest border border-yellow-400/20">
+              ESTUDANTE PRO
             </div>
           </div>
         </section>
 
-        <section className="px-4 mb-6">
-          <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-3 ml-2">Informações de Pagamento</h3>
-          <div className="bg-white dark:bg-[#2a2a16] rounded-xl overflow-hidden divide-y divide-slate-100 dark:divide-white/5 border border-slate-100 dark:border-white/5 shadow-sm">
-            <button onClick={() => navigate('/profile/purchases')} className="w-full flex items-center justify-between p-4 active:bg-slate-50 dark:active:bg-white/5 transition-colors">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center size-10 rounded-lg bg-[#0ea5e9]/10 text-[#0ea5e9]">
-                  <CreditCard size={20} />
+        <section className="px-6 mb-8">
+          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-2">Configurações e Pagamento</h3>
+          <div className="bg-white/5 rounded-3xl overflow-hidden divide-y divide-white/5 border border-white/5 shadow-xl">
+            <button onClick={() => navigate('/profile/purchases')} className="w-full flex items-center justify-between p-5 active:bg-white/5 transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center justify-center size-12 rounded-2xl bg-blue-500/10 text-blue-400">
+                  <CreditCard size={22} />
                 </div>
-                <span className="font-medium">Métodos de Pagamento</span>
+                <div className="text-left">
+                  <span className="block font-bold text-base">Meus Cartões</span>
+                  <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Formas de Pagamento</span>
+                </div>
               </div>
-              <ChevronRight size={20} className="text-slate-400" />
+              <ChevronRight size={20} className="text-slate-600" />
+            </button>
+
+            <button className="w-full flex items-center justify-between p-5 active:bg-white/5 transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center justify-center size-12 rounded-2xl bg-yellow-500/10 text-yellow-500">
+                  <Receipt size={22} />
+                </div>
+                <div className="text-left">
+                  <span className="block font-bold text-base">Histórico de Pedidos</span>
+                  <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Acessar todas as compras</span>
+                </div>
+              </div>
+              <ChevronRight size={20} className="text-slate-600" />
             </button>
           </div>
         </section>
 
-        <section className="px-4 mt-8">
+        <section className="px-6 mt-12 pb-12">
           <button
             onClick={onLogout}
-            className="w-full bg-[#f97316] hover:bg-[#f97316]/90 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 transition-transform active:scale-95"
+            className="w-full bg-orange-600 hover:bg-orange-700 text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 transition-all active:scale-95 shadow-xl shadow-orange-600/20 uppercase tracking-widest text-sm italic"
           >
             <LogOut size={20} /> Sair da Conta
           </button>
@@ -265,20 +369,20 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
 const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   const navigate = useNavigate();
   return (
-    <div className="bg-background-light dark:bg-[#1a1a08] min-h-screen flex flex-col font-display">
-      <header className="flex items-center px-6 py-4 pt-12 justify-between sticky top-0 bg-[#f2f20d] z-10 shadow-sm">
-        <div className="flex items-center gap-3">
-          <button onClick={onOpenMenu} className="p-1 rounded-full hover:bg-black/5 transition-colors">
-            <Menu className="text-[#1a1a08]" size={24} />
+    <div className="bg-[#1a1a0d] min-h-screen flex flex-col font-display">
+      <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
+        <div className="flex items-center p-4 justify-between pt-12">
+          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
+            <Menu size={24} />
           </button>
-          <div>
-            <h1 className="text-xl font-bold tracking-tight text-[#1a1a08]">IQ Simulados</h1>
-            <p className="text-xs text-slate-700">Painel do Administrador</p>
+          <div className="flex flex-col items-center">
+            <h1 className="text-lg font-bold leading-tight text-black italic uppercase">IQ ADMIN</h1>
+            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Gerenciamento</p>
           </div>
+          <button className="size-10 flex items-center justify-end text-black">
+            <Bell size={20} />
+          </button>
         </div>
-        <button className="size-10 flex items-center justify-center rounded-full bg-black/10">
-          <Bell size={20} className="text-[#1a1a08]" />
-        </button>
       </header>
 
       <main className="flex-1 overflow-y-auto pb-24">
@@ -288,44 +392,44 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
             { label: 'Simulados', value: '850', trend: '+5%', color: '#f97316' },
             { label: 'Receita', value: 'R$ 4.2k', trend: '+8%', color: '#0ea5e9' }
           ].map((stat) => (
-            <div key={stat.label} className="flex min-w-[140px] flex-col gap-2 rounded-xl p-4 bg-white dark:bg-[#2a2a12] border border-slate-100 dark:border-white/5 shadow-sm">
-              <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{stat.label}</p>
-              <p className="text-xl font-bold">{stat.value}</p>
-              <div className="flex items-center gap-1 text-[10px] text-emerald-500 font-bold">
+            <div key={stat.label} className="flex min-w-[140px] flex-col gap-2 rounded-2xl p-5 bg-white/5 border border-white/5 shadow-xl">
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{stat.label}</p>
+              <p className="text-2xl font-black italic">{stat.value}</p>
+              <div className="flex items-center gap-1 text-[10px] text-emerald-500 font-black">
                 <BarChart3 size={10} /> {stat.trend}
               </div>
             </div>
           ))}
         </div>
 
-        <div className="px-6 pb-6">
+        <div className="px-6 pb-8">
           <button
             onClick={() => navigate('/admin/simulados/new')}
-            className="w-full bg-[#f2f20d] hover:bg-[#f2f20d]/90 text-[#1a1a08] font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-xl shadow-[#f2f20d]/10 transition-all"
+            className="w-full bg-[#f2f20d] hover:bg-yellow-400 text-black font-black py-5 rounded-2xl flex items-center justify-center gap-3 shadow-2xl shadow-yellow-400/20 transition-all active:scale-95 italic uppercase text-sm"
           >
-            <Plus size={20} /> Adicionar Novo Conteúdo
+            <Plus size={20} strokeWidth={3} /> Criar Novo Simulado
           </button>
         </div>
 
-        <div className="px-6 space-y-2">
-          <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 px-1">Gerenciamento</h2>
+        <div className="px-6 space-y-3">
+          <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-2">Atalhos Administrativos</h2>
           {[
-            { icon: FileText, label: 'Gerenciar Simulados', sub: 'Provas, questões e cronômetros', color: '#f97316', onClick: () => navigate('/admin/list') },
-            { icon: Users, label: 'Usuários e Acessos', sub: 'Assinaturas e permissões', color: '#0ea5e9', onClick: () => navigate('/admin/users') }
+            { icon: FileText, label: 'Gerenciar Simulados', sub: 'Lista completa e edições rápidas', color: '#f97316', onClick: () => navigate('/admin/list') },
+            { icon: Users, label: 'Usuários e Acessos', sub: 'Status de assinaturas e permissões', color: '#0ea5e9', onClick: () => navigate('/admin/users') }
           ].map((item) => (
             <button
               key={item.label}
               onClick={item.onClick}
-              className="w-full flex items-center gap-4 bg-slate-50 dark:bg-[#2a2a12]/50 p-4 rounded-xl border border-slate-100 dark:border-white/5 active:scale-[0.98] transition-all"
+              className="w-full flex items-center gap-4 bg-white/5 p-5 rounded-3xl border border-white/5 active:scale-[0.98] transition-all group hover:bg-white/[0.08]"
             >
-              <div className="flex items-center justify-center rounded-lg text-white shrink-0 size-12 shadow-lg" style={{ backgroundColor: item.color }}>
-                <item.icon size={24} />
+              <div className="flex items-center justify-center rounded-2xl text-white shrink-0 size-14 shadow-2xl transition-transform group-hover:scale-110" style={{ backgroundColor: item.color }}>
+                <item.icon size={28} />
               </div>
               <div className="flex-1 text-left">
-                <p className="font-bold text-base">{item.label}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">{item.sub}</p>
+                <p className="font-black text-lg italic leading-tight uppercase">{item.label}</p>
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">{item.sub}</p>
               </div>
-              <ChevronRight size={20} className="text-slate-400" />
+              <ChevronRight size={20} className="text-slate-600" />
             </button>
           ))}
         </div>
@@ -337,15 +441,19 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
 const UserRegistrationScreen = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-background-light dark:bg-[#111621] min-h-screen flex flex-col font-display text-slate-900 dark:text-slate-100">
-      <header className="bg-[#fbbf24] px-4 pt-12 pb-6 flex items-center gap-4">
-        <button onClick={() => navigate('/admin')} className="flex items-center justify-center size-10 rounded-full bg-white/20 text-slate-900">
+    <div className="bg-[#1a1a0d] min-h-screen flex flex-col font-display">
+      <header className="sticky top-0 z-50 bg-yellow-400 text-black p-6 pt-12 flex items-center gap-4 shadow-xl">
+        <button onClick={() => navigate('/admin')} className="flex items-center justify-center size-10 rounded-full bg-black/10">
           <ArrowLeft size={24} />
         </button>
-        <h1 className="text-xl font-bold tracking-tight text-slate-900">Novo Usuário</h1>
+        <h1 className="text-xl font-black uppercase italic">Novo Usuário</h1>
       </header>
-      <main className="flex-1 p-6 flex flex-col items-center justify-center">
-        <p className="text-slate-500">Formulário de cadastro em desenvolvimento...</p>
+      <main className="flex-1 p-8 flex flex-col items-center justify-center text-center">
+        <div className="size-24 rounded-full bg-yellow-400/10 flex items-center justify-center mb-6">
+          <Users size={48} className="text-yellow-400" />
+        </div>
+        <h2 className="text-2xl font-black italic uppercase">Em Construção</h2>
+        <p className="text-slate-500 mt-2 max-w-xs">A interface de gerenciamento de usuários será implementada em breve.</p>
       </main>
     </div>
   );
@@ -354,15 +462,25 @@ const UserRegistrationScreen = () => {
 const PurchaseHistoryScreen = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-background-light dark:bg-[#222110] min-h-screen flex flex-col font-display text-slate-900 dark:text-slate-100">
-      <header className="bg-[#f2df0d] p-6 pt-12 pb-6 flex flex-col gap-4">
-        <div className="flex items-center gap-3">
-          <button onClick={() => navigate('/profile')} className="flex items-center justify-center bg-white/20 rounded-full p-2">
-            <ChevronLeft size={24} className="text-slate-900" />
+    <div className="bg-[#1a1a0d] min-h-screen flex flex-col font-display">
+      <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
+        <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
+          <button onClick={() => navigate('/profile')} className="size-10 flex items-center justify-start text-black">
+            <ChevronLeft size={24} />
           </button>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Histórico de Compras</h1>
+          <div className="flex flex-col items-center">
+            <h1 className="text-lg font-bold leading-tight text-black uppercase italic text-center">Histórico</h1>
+            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Vendas e Transações</p>
+          </div>
+          <div className="size-10" />
         </div>
       </header>
+      <main className="flex-1 p-8 flex flex-col items-center justify-center text-center">
+        <div className="size-20 rounded-full bg-white/5 flex items-center justify-center mb-6">
+          <Receipt size={32} className="text-slate-500" />
+        </div>
+        <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Nenhuma transação encontrada.</p>
+      </main>
     </div>
   );
 };

@@ -187,23 +187,25 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
   };
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 min-h-screen flex justify-center">
-      <div className="relative flex min-h-screen w-full flex-col max-w-[430px] shadow-2xl bg-white dark:bg-slate-900 overflow-x-hidden">
+    <div className="bg-[#1a1a0d] min-h-screen flex justify-center">
+      <div className="relative flex min-h-screen w-full flex-col max-w-[430px] bg-[#1a1a0d] overflow-x-hidden">
 
         {/* Header */}
-        <header className="bg-[#FFD700] p-6 pt-12 pb-10 rounded-b-[2.5rem] shadow-sm">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => navigate('/admin/list')}
-              className="bg-white/40 p-2 rounded-full backdrop-blur-sm transition-colors text-slate-900 shadow-sm"
-            >
-              <ArrowLeft size={24} />
-            </button>
-            <div>
-              <h1 className="text-2xl font-black text-slate-900 leading-tight">
-                {simuladoId ? 'Editar Simulado' : 'Novo Simulado'}
-              </h1>
-              <p className="text-slate-800 text-sm font-semibold opacity-90">Painel Administrativo IQ</p>
+        <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
+          <div className="flex items-center p-4 justify-between pt-12">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => navigate('/admin/list')}
+                className="bg-black/10 p-2 rounded-full text-black"
+              >
+                <ArrowLeft size={22} />
+              </button>
+              <div>
+                <h1 className="text-lg font-black text-black leading-tight uppercase italic">
+                  {simuladoId ? 'Editar' : 'Novo'} Simulado
+                </h1>
+                <p className="text-black/60 text-[10px] font-bold uppercase tracking-widest">Painel IQ</p>
+              </div>
             </div>
           </div>
         </header>
