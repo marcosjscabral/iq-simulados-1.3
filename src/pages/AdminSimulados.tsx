@@ -187,32 +187,27 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
   };
 
   return (
-    <div className="bg-white min-h-screen flex justify-center text-slate-900">
-      <div className="relative flex min-h-screen w-full flex-col max-w-[430px] bg-white overflow-x-hidden">
-
+    <div className="bg-[#0f172a] min-h-screen flex justify-center text-white">
+      <div className="relative flex min-h-screen w-full flex-col max-w-[430px] bg-[#0f172a] overflow-x-hidden">
         {/* Header */}
-        <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5 shadow-sm">
-          <div className="flex items-center p-4 justify-between pt-12">
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => navigate('/admin/list')}
-                className="bg-black/10 p-2 rounded-full text-black"
-              >
-                <ArrowLeft size={22} />
-              </button>
-              <div>
-                <h1 className="text-lg font-black text-black leading-tight uppercase italic">
-                  {simuladoId ? 'Editar' : 'Novo'} Simulado
-                </h1>
-                <p className="text-black/60 text-[10px] font-bold uppercase tracking-widest">Painel IQ</p>
-              </div>
+        <header className="sticky top-0 z-50 bg-[#ffd700] rounded-b-[3rem] shadow-2xl">
+          <div className="flex items-center p-6 pt-12 gap-4">
+            <button
+              onClick={() => navigate('/admin/list')} // Changed from /admin/simulados to /admin/list
+              className="bg-yellow-100 p-2 rounded-full text-black shadow-lg"
+            >
+              <ArrowLeft size={24} />
+            </button>
+            <div>
+              <h1 className="text-xl font-black text-black leading-tight uppercase italic">{simuladoId ? 'Editar' : 'Novo'} Simulado</h1> {/* Changed id to simuladoId */}
+              <p className="text-black/60 text-[10px] font-bold uppercase tracking-widest">Painel Administrativo</p>
             </div>
           </div>
         </header>
 
-        <main className="flex-1 px-5 pt-8 space-y-6 pb-12">
+        <main className="flex-1 px-5 pt-8 space-y-6 pb-24">
           {/* Upload Section */}
-          <section className="bg-slate-50 rounded-2xl p-6 border-2 border-dashed border-slate-200 shadow-sm overflow-hidden min-h-[220px] flex items-center justify-center">
+          <section className="bg-white/5 rounded-2xl p-6 border-2 border-dashed border-white/10 shadow-sm overflow-hidden min-h-[220px] flex items-center justify-center group hover:bg-white/10 transition-all">
             {imageUrl ? (
               <div className="relative w-full aspect-video rounded-xl overflow-hidden group">
                 <img src={imageUrl} alt="Capa" className="w-full h-full object-cover" />
@@ -225,23 +220,23 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center gap-4">
-                <div className="bg-blue-600/10 p-4 rounded-full text-blue-600">
+                <div className="bg-yellow-400/10 p-4 rounded-full text-yellow-400">
                   <div className="relative">
                     {uploading ? (
-                      <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+                      <div className="w-10 h-10 border-4 border-[#ffd700] border-t-transparent rounded-full animate-spin" />
                     ) : (
                       <>
                         <Camera size={40} />
-                        <Plus size={16} className="absolute -top-1 -right-1 bg-white rounded-full p-0.5 border border-blue-200" />
+                        <Plus size={16} className="absolute -top-1 -right-1 bg-black rounded-full p-0.5 border border-yellow-400/20" />
                       </>
                     )}
                   </div>
                 </div>
                 <div className="text-center">
-                  <p className="font-bold text-slate-900">Capa do Simulado</p>
-                  <p className="text-[10px] text-slate-400 font-medium">800x450px (PNG ou JPG)</p>
+                  <p className="font-bold text-white uppercase tracking-widest text-xs">Capa do Simulado</p>
+                  <p className="text-[10px] text-slate-500 font-medium">800x450px (PNG ou JPG)</p>
                 </div>
-                <label className="cursor-pointer mt-2 text-blue-600 text-sm font-bold border-2 border-blue-600 px-6 py-2.5 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95">
+                <label className="cursor-pointer mt-2 text-black bg-[#ffd700] text-sm font-black uppercase italic px-8 py-3 rounded-xl hover:scale-105 transition-all shadow-lg active:scale-95">
                   {uploading ? 'Enviando...' : 'Selecionar Imagem'}
                   <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
                 </label>
@@ -250,53 +245,56 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
           </section>
 
           {/* Image Size Observations */}
-          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-start gap-3">
-            <AlertCircle size={18} className="text-blue-500 shrink-0 mt-0.5" />
-            <div className="text-[11px] leading-relaxed text-slate-500 font-medium">
-              <p><strong className="text-slate-900">Obs:</strong> Tamanho ideal para as capas: <span className="text-blue-600 font-bold">800x450px</span>.</p>
-              <p>Para o banner de destaque: <span className="text-orange-600 font-bold">1200x600px</span>.</p>
+          <div className="bg-white/5 p-4 rounded-2xl border border-white/5 flex items-start gap-3">
+            <AlertCircle size={18} className="text-yellow-500 shrink-0 mt-0.5" />
+            <div className="text-[11px] leading-relaxed text-slate-400 font-medium">
+              <p><strong className="text-white">Obs:</strong> Tamanho ideal para as capas: <span className="text-yellow-400 font-bold">800x450px</span>.</p>
+              <p>Para o banner de destaque: <span className="text-yellow-400 font-bold">1200x600px</span>.</p>
             </div>
           </div>
 
           {/* Form Fields */}
           <section className="space-y-5">
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-bold text-slate-900 ml-1">Nome do Simulado</label>
+              <label className="text-xs font-black text-slate-500 uppercase tracking-widest ml-1">Nome do Simulado</label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full h-14 bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-blue-600 font-medium text-slate-900"
+                className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-[#ffd700]/50 font-bold text-white placeholder:text-slate-600 uppercase italic"
                 placeholder="Ex: Simulado Completo OAB 2024"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-bold text-slate-900 ml-1">Preço (R$)</label>
-                <input
-                  type="text"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  className="w-full h-14 bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-blue-600 font-medium text-slate-900"
-                  placeholder="0,00"
-                />
+                <label className="text-xs font-black text-slate-500 uppercase tracking-widest ml-1">Preço (R$)</label>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600 font-black">R$</span>
+                  <input
+                    type="text"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl pl-12 pr-5 outline-none focus:ring-2 focus:ring-[#ffd700]/50 font-bold text-white"
+                    placeholder="0,00"
+                  />
+                </div>
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-bold text-slate-900 ml-1">Questões</label>
+                <label className="text-xs font-black text-slate-500 uppercase tracking-widest ml-1">Questões</label>
                 <input
                   type="number"
                   value={questionsCount}
                   onChange={(e) => setQuestionsCount(e.target.value)}
-                  className="w-full h-14 bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-blue-600 font-medium text-slate-900"
+                  className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-[#ffd700]/50 font-bold text-white"
                   placeholder="0"
                 />
               </div>
             </div>
 
             {/* Gerenciar Categorias */}
-            <div className="flex flex-col gap-4 bg-slate-50 p-5 rounded-3xl border border-slate-100">
-              <label className="text-sm font-bold text-slate-900 ml-1">Gerenciar Categorias</label>
+            <div className="flex flex-col gap-4 bg-white/5 p-6 rounded-3xl border border-white/5">
+              <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Gerenciar Categorias</label>
 
               <div className="flex flex-wrap gap-2 mb-2">
                 {/* Existing Categories as Selectable Chips */}
@@ -304,78 +302,78 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                   <div key={cat} className="relative group/cat">
                     <button
                       onClick={() => toggleCategory(cat)}
-                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border-2 ${categories.includes(cat)
-                        ? 'bg-[#2563eb] text-white border-[#2563eb] shadow-md scale-105'
-                        : 'bg-white text-slate-400 border-slate-100 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-500 active:scale-95'
+                      className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border-2 ${categories.includes(cat)
+                        ? 'bg-[#ffd700] text-black border-[#ffd700] shadow-lg shadow-yellow-400/20 scale-105'
+                        : 'bg-white/5 text-slate-500 border-white/5 hover:border-yellow-400/30 hover:bg-white/10 active:scale-95'
                         }`}
                     >
                       {cat}
                     </button>
                     <button
                       onClick={(e) => handleDeleteCategoryClick(cat, e)}
-                      className="absolute -top-1.5 -right-1.5 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center transition-all shadow-lg shadow-red-600/40 active:scale-90 z-10"
+                      className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center transition-all shadow-xl shadow-red-600/40 active:scale-90 z-10 border-2 border-[#0f172a]"
                     >
-                      <X size={12} strokeWidth={4} />
+                      <X size={14} strokeWidth={4} />
                     </button>
                   </div>
                 ))}
               </div>
 
-              <div className="flex gap-2 pt-2 border-t border-slate-100">
+              <div className="flex gap-2 pt-2 border-t border-white/5">
                 <input
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
-                  className="flex-1 h-12 bg-white border-2 border-slate-100 rounded-xl px-4 text-sm outline-none font-medium focus:border-blue-500 transition-colors text-slate-900"
+                  className="flex-1 h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm outline-none font-bold text-white focus:ring-2 focus:ring-[#ffd700]/30 transition-all"
                   placeholder="Criar Nova Categoria"
                   onKeyPress={(e) => e.key === 'Enter' && addCategory()}
                 />
                 <button
                   onClick={addCategory}
-                  className="bg-blue-600 text-white w-12 h-12 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/30 hover:scale-105 active:scale-95 transition-all shrink-0"
+                  className="bg-[#ffd700] text-black w-12 h-12 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-400/20 hover:scale-105 active:scale-95 transition-all shrink-0"
                 >
-                  <Plus size={24} />
+                  <Plus size={24} strokeWidth={3} />
                 </button>
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-bold text-slate-900 ml-1">Descrição Curta</label>
+              <label className="text-xs font-black text-slate-500 uppercase tracking-widest ml-1">Descrição Curta</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full h-32 bg-slate-50 border-2 border-slate-100 rounded-2xl p-5 outline-none focus:ring-2 focus:ring-blue-600 font-medium resize-none text-slate-900"
+                className="w-full h-32 bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:ring-2 focus:ring-[#ffd700]/50 font-medium resize-none text-white italic"
                 placeholder="Breve resumo sobre o conteúdo do simulado..."
               ></textarea>
             </div>
 
             <div className="space-y-3">
               {/* Active Vitrine Toggle */}
-              <div className="flex items-center justify-between p-5 bg-blue-50 rounded-2xl border border-blue-100">
+              <div className="flex items-center justify-between p-5 bg-white/5 rounded-2xl border border-white/5">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-blue-600/10 rounded-lg text-blue-600">
+                  <div className="p-2 bg-yellow-400/10 rounded-lg text-yellow-400">
                     <Eye size={20} />
                   </div>
-                  <span className="font-bold text-slate-900">Ativar na Vitrine</span>
+                  <span className="font-bold text-white uppercase tracking-widest text-[10px]">Ativar na Vitrine</span>
                 </div>
                 <button
                   onClick={() => setIsActive(!isActive)}
-                  className={`w-12 h-6 rounded-full transition-colors relative flex items-center px-1 ${isActive ? 'bg-blue-600' : 'bg-slate-200'}`}
+                  className={`w-12 h-6 rounded-full transition-colors relative flex items-center px-1 ${isActive ? 'bg-[#ffd700]' : 'bg-white/10'}`}
                 >
                   <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${isActive ? 'translate-x-6' : 'translate-x-0'}`}></div>
                 </button>
               </div>
 
               {/* Featured Toggle */}
-              <div className="flex items-center justify-between p-5 bg-orange-50 rounded-2xl border border-orange-100">
+              <div className="flex items-center justify-between p-5 bg-orange-400/5 rounded-2xl border border-orange-400/10">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-orange-500/10 rounded-lg text-orange-500">
                     <Star size={20} />
                   </div>
-                  <span className="font-bold text-slate-900">Colocar em Destaque</span>
+                  <span className="font-bold text-white uppercase tracking-widest text-[10px]">Colocar em Destaque</span>
                 </div>
                 <button
                   onClick={() => setIsFeatured(!isFeatured)}
-                  className={`w-12 h-6 rounded-full transition-colors relative flex items-center px-1 ${isFeatured ? 'bg-orange-500' : 'bg-slate-200'}`}
+                  className={`w-12 h-6 rounded-full transition-colors relative flex items-center px-1 ${isFeatured ? 'bg-orange-500' : 'bg-white/10'}`}
                 >
                   <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${isFeatured ? 'translate-x-6' : 'translate-x-0'}`}></div>
                 </button>
@@ -383,25 +381,33 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
 
               {/* Featured Label Input */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-orange-600 ml-1">Etiqueta de Destaque (Ex: MAIS PROCURADO)</label>
+                <label className="text-[10px] font-black text-orange-400 uppercase tracking-widest ml-1 text-center">Etiqueta de Destaque (Ex: MAIS PROCURADO)</label>
                 <input
                   type="text"
                   value={featuredLabel}
                   onChange={(e) => setFeaturedLabel(e.target.value)}
-                  className="w-full h-12 bg-orange-50 border-2 border-orange-100 rounded-xl px-4 outline-none focus:ring-2 focus:ring-orange-500 font-medium text-sm text-slate-900"
-                  placeholder="Deixe em branco para não exibir mensagem"
+                  className="w-full h-12 bg-white/5 border border-orange-400/20 rounded-xl px-4 outline-none focus:ring-2 focus:ring-orange-500 font-bold text-[10px] text-white text-center uppercase tracking-widest"
+                  placeholder="DEIXE EM BRANCO PARA NÃO EXIBIR"
                 />
               </div>
             </div>
           </section>
 
-          <div className="space-y-3 pt-4">
+          <div className="space-y-4 pt-12 pb-32">
             <button
               onClick={handlePublish}
               disabled={loading}
-              className={`w-full bg-blue-600 text-white font-bold h-14 rounded-2xl shadow-xl shadow-blue-600/20 active:scale-[0.98] transition-all flex items-center justify-center ${loading ? 'opacity-70' : ''}`}
+              className={`w-full bg-[#ffd700] text-black font-black uppercase tracking-tighter italic h-16 rounded-2xl shadow-xl shadow-yellow-400/20 active:scale-[0.98] transition-all flex items-center justify-center text-lg ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
             >
-              {loading ? 'Salvando...' : (simuladoId ? 'Salvar Alterações' : 'Publicar Simulado')}
+              {loading ? (
+                <div className="w-6 h-6 border-4 border-black border-t-transparent rounded-full animate-spin" />
+              ) : (simuladoId ? 'Salvar Alterações' : 'Publicar Simulado')}
+            </button>
+            <button
+              onClick={() => navigate('/admin/list')}
+              className="w-full bg-white/5 text-slate-500 font-black h-16 rounded-2xl uppercase italic tracking-tighter active:scale-95 transition-all border border-white/5"
+            >
+              Cancelar Edição
             </button>
           </div>
         </main>

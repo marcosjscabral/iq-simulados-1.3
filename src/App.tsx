@@ -51,15 +51,15 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
     : activeSimulados.filter(s => s.categories?.includes(selectedCategory));
 
   return (
-    <div className="bg-white min-h-screen pb-24 text-slate-900 font-display">
-      <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5 shadow-sm">
+    <div className="bg-[#0f172a] min-h-screen pb-24 text-white font-display">
+      <header className="sticky top-0 z-50 bg-[#f2f20d] rounded-b-[2.5rem] shadow-2xl">
         <div className="flex items-center p-4 justify-between pt-12">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
           </button>
           <div className="flex flex-col items-center">
-            <h1 className="text-lg font-black leading-tight text-black italic uppercase tracking-tighter">IQ Simulados</h1>
-            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Vitrine</p>
+            <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">IQ Simulados</h1>
+            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Vitrine Premium</p>
           </div>
           <div className="size-10 flex items-center justify-end">
             <button onClick={() => navigate('/profile')} className="rounded-full bg-black/10 p-2 text-black">
@@ -79,7 +79,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                 onClick={() => setSelectedCategory(cat)}
                 className={`flex-shrink-0 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${selectedCategory === cat
                   ? 'bg-[#f2f20d] text-black shadow-lg shadow-yellow-400/20'
-                  : 'bg-slate-100 text-slate-500 border border-slate-200'
+                  : 'bg-white/5 text-slate-400 border border-white/5'
                   }`}
               >
                 {cat}
@@ -138,17 +138,17 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
           </div>
           <div className="grid grid-cols-1 gap-3">
             {filteredSimulados.length === 0 ? (
-              <div className="p-12 text-center bg-slate-50 rounded-[2rem] border border-dashed border-slate-200">
-                <p className="text-slate-400 font-bold uppercase text-[9px] tracking-widest leading-loose">Nenhum simulado disponível<br />nesta categoria no momento.</p>
+              <div className="p-12 text-center bg-white/5 rounded-[2rem] border border-dashed border-white/10">
+                <p className="text-slate-500 font-bold uppercase text-[9px] tracking-widest leading-loose">Nenhum simulado disponível<br />nesta categoria no momento.</p>
               </div>
             ) : (
               filteredSimulados.map((simulado) => (
                 <div
                   key={simulado.id}
                   onClick={() => navigate(`/exam/${simulado.id}`)}
-                  className="group bg-slate-50 p-4 rounded-[2rem] border border-slate-100 flex items-center gap-4 active:scale-[0.98] transition-all hover:bg-slate-100 hover:shadow-md"
+                  className="group bg-white/5 p-4 rounded-[2rem] border border-white/5 flex items-center gap-4 active:scale-[0.98] transition-all hover:bg-white/10"
                 >
-                  <div className="size-20 shrink-0 rounded-2xl bg-white overflow-hidden border border-slate-200 shadow-inner">
+                  <div className="size-20 shrink-0 rounded-2xl bg-slate-900 overflow-hidden border border-white/5 shadow-inner">
                     {simulado.image_url ? (
                       <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
                     ) : (
@@ -156,16 +156,16 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-black text-base text-slate-900 mb-1 uppercase italic leading-tight truncate">{simulado.title}</h4>
+                    <h4 className="font-black text-base text-white mb-1 uppercase italic leading-tight truncate">{simulado.title}</h4>
                     <div className="flex items-center gap-2">
-                      <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{simulado.categories?.[0]}</span>
+                      <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{simulado.categories?.[0]}</span>
                       <span className="size-1 rounded-full bg-yellow-400/40" />
-                      <span className="text-[9px] font-black text-yellow-600 uppercase tracking-widest">OFFICIAL</span>
+                      <span className="text-[9px] font-black text-yellow-400 uppercase tracking-widest">OFFICIAL</span>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1">
-                    <span className="text-lg font-black text-slate-900 italic">R$ {formatPrice(simulado.price)}</span>
-                    <div className="bg-slate-200/50 p-2 rounded-xl text-yellow-600 group-hover:bg-yellow-400 group-hover:text-black transition-colors">
+                    <span className="text-lg font-black text-blue-400 italic">R$ {formatPrice(simulado.price)}</span>
+                    <div className="bg-white/10 p-2 rounded-xl text-yellow-500 group-hover:bg-[#f2f20d] group-hover:text-black transition-colors">
                       <ChevronRight size={16} strokeWidth={4} />
                     </div>
                   </div>
@@ -182,8 +182,8 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   const navigate = useNavigate();
   return (
-    <div className="bg-white min-h-screen text-slate-900">
-      <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5 shadow-sm">
+    <div className="bg-[#0f172a] min-h-screen text-white">
+      <header className="sticky top-0 z-50 bg-[#f2f20d] rounded-b-[2.5rem] shadow-2xl">
         <div className="flex items-center p-4 justify-between pt-12">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
@@ -201,9 +201,9 @@ const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
       </header>
 
       <main className="p-4 space-y-4">
-        <div className="bg-slate-50 p-12 rounded-3xl border-2 border-dashed border-slate-100 text-center">
+        <div className="bg-white/5 p-12 rounded-[2.5rem] border-2 border-dashed border-white/5 text-center">
           <Rocket size={40} className="mx-auto text-yellow-400/40 mb-4" />
-          <p className="text-slate-400 font-medium">Você ainda não possui simulados vinculados à sua conta.</p>
+          <p className="text-slate-500 font-medium">Você ainda não possui simulados vinculados à sua conta.</p>
         </div>
       </main>
     </div>
@@ -213,8 +213,8 @@ const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
 const ExamExecutionScreen = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-white min-h-screen flex flex-col text-slate-900">
-      <header className="sticky top-0 z-50 bg-[#f2f20d] text-black p-6 pt-12 flex items-center justify-between border-b border-black/5 shadow-sm">
+    <div className="bg-[#0f172a] min-h-screen flex flex-col text-white">
+      <header className="sticky top-0 z-50 bg-[#f2f20d] text-black p-6 pt-12 flex items-center justify-between rounded-b-[2.5rem] shadow-2xl">
         <button onClick={() => navigate('/')} className="p-2 -ml-2 rounded-full hover:bg-black/10">
           <ArrowLeft size={24} />
         </button>
@@ -225,19 +225,19 @@ const ExamExecutionScreen = () => {
         <div className="size-10" />
       </header>
       <main className="flex-1 p-6 flex flex-col items-center justify-center text-center">
-        <div className="size-20 rounded-full bg-blue-600/10 flex items-center justify-center mb-6">
-          <ShieldCheck size={40} className="text-blue-600" />
+        <div className="size-20 rounded-full bg-yellow-400/10 flex items-center justify-center mb-6">
+          <ShieldCheck size={40} className="text-yellow-400" />
         </div>
         <h2 className="text-xl font-bold mb-2">Ambiente Protegido</h2>
-        <p className="text-slate-500 max-w-xs">A interface de execução oficial está sendo carregada...</p>
+        <p className="text-slate-400 max-w-xs">A interface de execução oficial está sendo carregada...</p>
       </main>
     </div>
   );
 };
 
 const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: any) => void }) => (
-  <div className="bg-white min-h-screen flex flex-col text-slate-900">
-    <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5 shadow-sm">
+  <div className="bg-[#0f172a] min-h-screen flex flex-col text-white">
+    <header className="sticky top-0 z-50 bg-[#f2f20d] rounded-b-[2.5rem] shadow-2xl">
       <div className="flex items-center p-4 justify-between pt-12">
         <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
           <Menu size={24} />
@@ -250,11 +250,11 @@ const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: 
       </div>
     </header>
     <main className="flex-1 p-6 flex flex-col items-center justify-center text-center">
-      <div className="size-24 rounded-3xl bg-yellow-400/10 flex items-center justify-center text-yellow-600 mb-6 border border-yellow-400/20">
+      <div className="size-24 rounded-3xl bg-yellow-400/10 flex items-center justify-center text-yellow-400 mb-6 border border-yellow-400/20">
         <Rocket size={48} />
       </div>
       <h2 className="text-2xl font-black mb-2 italic">EM BREVE!</h2>
-      <p className="text-slate-400 max-w-xs mx-auto">Estamos preparando apostilas, resumos e mapas mentais exclusivos para turbinar sua aprovação.</p>
+      <p className="text-slate-500 max-w-xs mx-auto">Estamos preparando apostilas, resumos e mapas mentais exclusivos para turbinar sua aprovação.</p>
     </main>
   </div>
 );
@@ -262,15 +262,15 @@ const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: 
 const AnswerKeyScreen = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-white min-h-screen flex flex-col text-slate-900">
-      <header className="p-6 pt-12 flex items-center gap-4 bg-[#f2f20d] shadow-sm">
+    <div className="bg-[#0f172a] min-h-screen flex flex-col text-white">
+      <header className="p-6 pt-12 flex items-center gap-4 bg-[#f2f20d] rounded-b-[2.5rem] shadow-2xl">
         <button onClick={() => navigate('/')} className="p-2 rounded-full hover:bg-black/5 text-black">
           <ChevronLeft size={24} />
         </button>
         <h1 className="text-xl font-black uppercase italic tracking-tighter text-black">Gabarito</h1>
       </header>
       <main className="flex-1 flex items-center justify-center p-6 text-center">
-        <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Selecione um simulado finalizado para ver o gabarito.</p>
+        <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Selecione um simulado finalizado para ver o gabarito.</p>
       </main>
     </div>
   );
@@ -289,8 +289,8 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
   }, []);
 
   return (
-    <div className="bg-white min-h-screen flex flex-col font-display text-slate-900">
-      <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5 shadow-sm">
+    <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
+      <header className="sticky top-0 z-50 bg-[#f2f20d] rounded-b-[2.5rem] shadow-2xl">
         <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
@@ -333,32 +333,32 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
         </section>
 
         <section className="px-6 mb-8">
-          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4 px-2">Configurações e Pagamento</h3>
-          <div className="bg-slate-50 rounded-3xl overflow-hidden divide-y divide-slate-100 border border-slate-100 shadow-sm">
-            <button onClick={() => navigate('/profile/purchases')} className="w-full flex items-center justify-between p-5 active:bg-slate-100 transition-colors">
+          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-2">Configurações e Pagamento</h3>
+          <div className="bg-white/5 rounded-3xl overflow-hidden divide-y divide-white/5 border border-white/5 shadow-sm">
+            <button onClick={() => navigate('/profile/purchases')} className="w-full flex items-center justify-between p-5 active:bg-white/10 transition-colors">
               <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center size-12 rounded-2xl bg-blue-600/10 text-blue-600">
+                <div className="flex items-center justify-center size-12 rounded-2xl bg-blue-600/10 text-blue-400">
                   <CreditCard size={22} />
                 </div>
                 <div className="text-left">
-                  <span className="block font-bold text-base text-slate-900">Meus Cartões</span>
-                  <span className="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">Formas de Pagamento</span>
+                  <span className="block font-bold text-base text-white">Meus Cartões</span>
+                  <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Formas de Pagamento</span>
                 </div>
               </div>
-              <ChevronRight size={20} className="text-slate-300" />
+              <ChevronRight size={20} className="text-slate-600" />
             </button>
 
-            <button className="w-full flex items-center justify-between p-5 active:bg-slate-100 transition-colors">
+            <button className="w-full flex items-center justify-between p-5 active:bg-white/10 transition-colors">
               <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center size-12 rounded-2xl bg-yellow-500/10 text-yellow-600">
+                <div className="flex items-center justify-center size-12 rounded-2xl bg-yellow-400/10 text-yellow-400">
                   <Receipt size={22} />
                 </div>
                 <div className="text-left">
-                  <span className="block font-bold text-base text-slate-900">Histórico de Pedidos</span>
-                  <span className="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">Acessar todas as compras</span>
+                  <span className="block font-bold text-base text-white">Histórico de Pedidos</span>
+                  <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Acessar todas as compras</span>
                 </div>
               </div>
-              <ChevronRight size={20} className="text-slate-300" />
+              <ChevronRight size={20} className="text-slate-600" />
             </button>
           </div>
         </section>
@@ -379,14 +379,14 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
 const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   const navigate = useNavigate();
   return (
-    <div className="bg-white min-h-screen flex flex-col font-display text-slate-900">
-      <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5 shadow-sm">
-        <div className="flex items-center p-4 justify-between pt-12">
+    <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
+      <header className="sticky top-0 z-50 bg-[#ffd700] rounded-b-[2.5rem] shadow-2xl">
+        <div className="flex items-center p-6 pt-12 justify-between">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
           </button>
           <div className="flex flex-col items-center">
-            <h1 className="text-lg font-bold leading-tight text-black italic uppercase">IQ ADMIN</h1>
+            <h1 className="text-xl font-black leading-tight text-black italic uppercase italic tracking-tighter">IQ ADMIN</h1>
             <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Gerenciamento</p>
           </div>
           <button className="size-10 flex items-center justify-end text-black">
@@ -395,51 +395,51 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto pb-24">
+      <main className="flex-1 overflow-y-auto pb-32 pt-8">
         <div className="flex gap-4 p-6 overflow-x-auto no-scrollbar">
           {[
-            { label: 'Usuários', value: '1.240', trend: '+12%', color: '#f2f20d' },
+            { label: 'Usuários', value: '1.240', trend: '+12%', color: '#ffd700' },
             { label: 'Simulados', value: '850', trend: '+5%', color: '#f97316' },
-            { label: 'Receita', value: 'R$ 4.2k', trend: '+8%', color: '#0ea5e9' }
+            { label: 'Receita', value: 'R$ 4.2k', trend: '+8%', color: '#3b82f6' }
           ].map((stat) => (
-            <div key={stat.label} className="flex min-w-[140px] flex-col gap-2 rounded-2xl p-5 bg-slate-50 border border-slate-100 shadow-sm">
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</p>
-              <p className="text-2xl font-black italic text-slate-900">{stat.value}</p>
-              <div className="flex items-center gap-1 text-[10px] text-emerald-600 font-black">
+            <div key={stat.label} className="flex min-w-[140px] flex-col gap-2 rounded-3xl p-6 bg-white/5 border border-white/5 shadow-2xl">
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{stat.label}</p>
+              <p className="text-2xl font-black italic text-white">{stat.value}</p>
+              <div className="flex items-center gap-1 text-[10px] text-emerald-400 font-black">
                 <BarChart3 size={10} /> {stat.trend}
               </div>
             </div>
           ))}
         </div>
 
-        <div className="px-6 pb-8">
+        <div className="px-6 pb-10">
           <button
             onClick={() => navigate('/admin/simulados/new')}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 shadow-xl shadow-blue-600/20 transition-all active:scale-95 italic uppercase text-sm"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-6 rounded-[2rem] flex items-center justify-center gap-3 shadow-2xl shadow-blue-600/30 transition-all active:scale-95 italic uppercase text-sm"
           >
-            <Plus size={20} strokeWidth={3} /> Criar Novo Simulado
+            <Plus size={20} strokeWidth={4} /> Criar Novo Simulado
           </button>
         </div>
 
-        <div className="px-6 space-y-3">
-          <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-2">Atalhos Administrativos</h2>
+        <div className="px-6 space-y-4">
+          <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-6 px-2">Atalhos Administrativos</h2>
           {[
             { icon: FileText, label: 'Gerenciar Simulados', sub: 'Lista completa e edições rápidas', color: '#f97316', onClick: () => navigate('/admin/list') },
-            { icon: Users, label: 'Usuários e Acessos', sub: 'Status de assinaturas e permissões', color: '#0ea5e9', onClick: () => navigate('/admin/users') }
+            { icon: Users, label: 'Usuários e Acessos', sub: 'Status de assinaturas e permissões', color: '#3b82f6', onClick: () => navigate('/admin/users') }
           ].map((item) => (
             <button
               key={item.label}
               onClick={item.onClick}
-              className="w-full flex items-center gap-4 bg-slate-50 p-5 rounded-3xl border border-slate-100 active:scale-[0.98] transition-all group hover:bg-slate-100"
+              className="w-full flex items-center gap-5 bg-white/5 p-6 rounded-[2.5rem] border border-white/5 active:scale-[0.98] transition-all group hover:bg-white/10"
             >
-              <div className="flex items-center justify-center rounded-2xl text-white shrink-0 size-14 shadow-xl transition-transform group-hover:scale-110" style={{ backgroundColor: item.color }}>
-                <item.icon size={28} />
+              <div className="flex items-center justify-center rounded-2xl text-white shrink-0 size-16 shadow-2xl transition-transform group-hover:scale-110" style={{ backgroundColor: item.color }}>
+                <item.icon size={32} />
               </div>
               <div className="flex-1 text-left">
-                <p className="font-black text-lg italic leading-tight uppercase text-slate-900">{item.label}</p>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">{item.sub}</p>
+                <p className="font-black text-lg italic leading-tight uppercase text-white">{item.label}</p>
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">{item.sub}</p>
               </div>
-              <ChevronRight size={20} className="text-slate-300" />
+              <ChevronRight size={20} className="text-slate-600" />
             </button>
           ))}
         </div>
@@ -451,19 +451,19 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
 const UserRegistrationScreen = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-white min-h-screen flex flex-col font-display text-slate-900">
-      <header className="sticky top-0 z-50 bg-[#f2f20d] text-black p-6 pt-12 flex items-center gap-4 shadow-sm">
+    <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
+      <header className="sticky top-0 z-50 bg-[#ffd700] text-black p-6 pt-12 flex items-center gap-4 rounded-b-[2.5rem] shadow-2xl">
         <button onClick={() => navigate('/admin')} className="flex items-center justify-center size-10 rounded-full bg-black/10">
           <ArrowLeft size={24} />
         </button>
-        <h1 className="text-xl font-black uppercase italic">Novo Usuário</h1>
+        <h1 className="text-xl font-black uppercase italic tracking-tighter">Novo Usuário</h1>
       </header>
       <main className="flex-1 p-8 flex flex-col items-center justify-center text-center">
-        <div className="size-24 rounded-full bg-yellow-400/10 flex items-center justify-center mb-6">
-          <Users size={48} className="text-yellow-600" />
+        <div className="size-24 rounded-[2rem] bg-yellow-400/10 flex items-center justify-center mb-6 border border-yellow-400/20">
+          <Users size={48} className="text-yellow-400" />
         </div>
-        <h2 className="text-2xl font-black italic uppercase">Em Construção</h2>
-        <p className="text-slate-400 mt-2 max-w-xs">A interface de gerenciamento de usuários será implementada em breve.</p>
+        <h2 className="text-2xl font-black italic uppercase italic tracking-tighter">Em Construção</h2>
+        <p className="text-slate-500 mt-2 max-w-xs font-bold uppercase text-[10px] tracking-widest leading-loose">A interface de gerenciamento de usuários será implementada em breve.</p>
       </main>
     </div>
   );
@@ -472,24 +472,24 @@ const UserRegistrationScreen = () => {
 const PurchaseHistoryScreen = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-white min-h-screen flex flex-col font-display text-slate-900">
-      <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5 shadow-sm">
-        <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
+    <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
+      <header className="sticky top-0 z-50 bg-[#ffd700] rounded-b-[2.5rem] shadow-2xl">
+        <div className="flex items-center p-6 pt-12 justify-between max-w-md mx-auto w-full">
           <button onClick={() => navigate('/profile')} className="size-10 flex items-center justify-start text-black">
             <ChevronLeft size={24} />
           </button>
           <div className="flex flex-col items-center">
-            <h1 className="text-lg font-bold leading-tight text-black uppercase italic text-center">Histórico</h1>
+            <h1 className="text-lg font-black leading-tight text-black uppercase italic tracking-tighter text-center">Histórico</h1>
             <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Vendas e Transações</p>
           </div>
           <div className="size-10" />
         </div>
       </header>
       <main className="flex-1 p-8 flex flex-col items-center justify-center text-center">
-        <div className="size-20 rounded-full bg-slate-50 flex items-center justify-center mb-6 border border-slate-100 shadow-inner">
-          <Receipt size={32} className="text-slate-300" />
+        <div className="size-20 rounded-2xl bg-white/5 flex items-center justify-center mb-6 border border-white/5 shadow-inner">
+          <Receipt size={32} className="text-slate-700" />
         </div>
-        <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Nenhuma transação encontrada.</p>
+        <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] leading-loose">Nenhuma transação encontrada.</p>
       </main>
     </div>
   );
@@ -541,8 +541,8 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-[#f2f20d] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -553,7 +553,7 @@ export default function App() {
 
   return (
     <Router>
-      <div className="relative flex min-h-screen w-full flex-col bg-white">
+      <div className="relative flex min-h-screen w-full flex-col bg-[#0f172a]">
         <Sidebar
           isOpen={isSidebarOpen}
           onClose={() => setSidebarOpen(false)}
