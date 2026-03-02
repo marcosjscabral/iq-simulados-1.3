@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, Plus, Camera, Image as ImageIcon, MinusCircle, Eye, Star, AlertCircle, Trash2, X } from 'lucide-react';
-import { View } from '../types';
 import { supabase } from '../lib/supabase';
 
 interface AdminSimuladosProps {
-  setView: (v: View) => void;
   onPublishSuccess?: () => void;
-  simuladoId?: string;
   availableCategories?: string[];
 }
 
-const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSuccess, simuladoId, availableCategories = [] }) => {
+const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, availableCategories = [] }) => {
+  const { id: simuladoId } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [questionsCount, setQuestionsCount] = useState('');
@@ -177,7 +177,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
 
       alert(simuladoId ? 'Simulado atualizado com sucesso!' : 'Simulado publicado com sucesso!');
       if (onPublishSuccess) onPublishSuccess();
-      setView('admin-list-simulados');
+      navigate('/admin/list');
     } catch (error: any) {
       console.error('Error publishing:', error);
       alert('Erro ao publicar: ' + error.message);
@@ -194,7 +194,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
         <header className="bg-[#FFD700] p-6 pt-12 pb-10 rounded-b-[2.5rem] shadow-sm">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => setView('admin-list-simulados')}
+              onClick={() => navigate('/admin/list')}
               className="bg-white/40 p-2 rounded-full backdrop-blur-sm transition-colors text-slate-900 shadow-sm"
             >
               <ArrowLeft size={24} />
@@ -402,7 +402,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ setView, onPublishSucce
               {loading ? 'Salvando...' : (simuladoId ? 'Salvar Alterações' : 'Publicar Simulado')}
             </button>
             <button
-              onClick={() => setView('admin-list-simulados')}
+              onClick={() => navigate('/admin/list')}
               className="w-full bg-[#FFD700] hover:bg-[#FFD700]/90 text-slate-900 font-bold h-14 rounded-2xl shadow-lg shadow-[#FFD700]/10 active:scale-[0.98] transition-all"
             >
               Editar Vitrine

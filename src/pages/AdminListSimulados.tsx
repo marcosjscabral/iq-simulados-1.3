@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     ArrowLeft,
     Plus,
@@ -8,15 +9,15 @@ import {
     Filter,
     Image as ImageIcon
 } from 'lucide-react';
-import { View, Simulado } from '../types';
+import { Simulado } from '../types';
 import { supabase } from '../lib/supabase';
 
 interface AdminListSimuladosProps {
-    setView: (v: View) => void;
-    onEditSimulado: (id: string) => void;
+    onPublishSuccess?: () => void;
 }
 
-const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ setView, onEditSimulado }) => {
+const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSuccess }) => {
+    const navigate = useNavigate();
     const [simulados, setSimulados] = useState<Simulado[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -74,7 +75,7 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ setView, onEdit
                     <div className="flex items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
                             <button
-                                onClick={() => setView('admin-dashboard')}
+                                onClick={() => navigate('/admin')}
                                 className="bg-white/40 p-2 rounded-full backdrop-blur-sm transition-colors text-slate-900 shadow-sm"
                             >
                                 <ArrowLeft size={24} />
@@ -85,10 +86,7 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ setView, onEdit
                             </div>
                         </div>
                         <button
-                            onClick={() => {
-                                onEditSimulado(''); // Clear selection
-                                setView('admin-simulados');
-                            }}
+                            onClick={() => navigate('/admin/simulados/new')}
                             className="bg-slate-900 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 text-xs font-bold shadow-lg active:scale-95 transition-all"
                         >
                             <Plus size={16} /> Novo Simulado
@@ -149,7 +147,7 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ setView, onEdit
 
                                     <div className="flex items-center gap-2">
                                         <button
-                                            onClick={() => onEditSimulado(sim.id)}
+                                            onClick={() => navigate(`/admin/simulados/${sim.id}`)}
                                             className="size-9 flex items-center justify-center rounded-full bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all"
                                         >
                                             <Edit2 size={16} />

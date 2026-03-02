@@ -1,5 +1,4 @@
-import React from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
     Home,
     FileText,
@@ -8,33 +7,31 @@ import {
     LogOut,
     X
 } from 'lucide-react';
-import { View } from '../types';
 import './SidebarStyles.css';
 
 interface SidebarProps {
     isOpen: boolean;
     onClose: () => void;
-    currentView: View;
-    setView: (v: View) => void;
     onLogout: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
     isOpen,
     onClose,
-    currentView,
-    setView,
     onLogout
 }) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const navItems = [
-        { id: 'home', label: 'Vitrine', icon: Home },
-        { id: 'my-exams', label: 'Meus Simulados', icon: FileText },
-        { id: 'materials', label: 'Materiais', icon: FolderOpen },
-        { id: 'profile', label: 'Meu Perfil', icon: User },
+        { path: '/', label: 'Vitrine', icon: Home },
+        { path: '/my-exams', label: 'Meus Simulados', icon: FileText },
+        { path: '/materials', label: 'Materiais', icon: FolderOpen },
+        { path: '/profile', label: 'Meu Perfil', icon: User },
     ];
 
-    const handleNav = (view: View) => {
-        setView(view);
+    const handleNav = (path: string) => {
+        navigate(path);
         onClose();
     };
 
@@ -77,9 +74,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         <nav className="sidebar-content">
                             {navItems.map((item) => (
                                 <button
-                                    key={item.id}
-                                    onClick={() => handleNav(item.id as View)}
-                                    className={`sidebar-item ${currentView === item.id ? 'active' : ''}`}
+                                    key={item.path}
+                                    onClick={() => handleNav(item.path)}
+                                    className={`sidebar-item ${location.pathname === item.path ? 'active' : ''}`}
                                 >
                                     <item.icon size={22} />
                                     <span>{item.label}</span>
