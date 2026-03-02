@@ -50,3 +50,18 @@ export interface Question {
   }[];
   correctOptionId: string;
 }
+
+export interface Questao {
+  id: string;
+  simulado_id: string;
+  numero: number;
+  enunciado: string;
+  opcao_a: string;
+  opcao_b: string;
+  opcao_c: string;
+  opcao_d: string;
+  opcao_e?: string;
+  resposta_correta: 'A' | 'B' | 'C' | 'D' | 'E';
+  explicacao?: string;
+  created_at: string;
+}

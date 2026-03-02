@@ -21,7 +21,8 @@ import {
   ChevronLeft,
   TrendingUp,
   Flame,
-  ShoppingCart
+  ShoppingCart,
+  List
 } from 'lucide-react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { Simulado } from './types';
@@ -34,6 +35,8 @@ import AdminListSimulados from './pages/AdminListSimulados';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { MyExamsScreen } from './pages/MyExamsScreen';
 import { UserRegistrationScreen } from './pages/UserRegistrationScreen';
+import { AdminQuestoesScreen } from './pages/AdminQuestoesScreen';
+import { ExamExecutionScreen } from './pages/ExamExecutionScreen';
 
 // --- Utils ---
 const formatPrice = (price: number) => {
@@ -192,31 +195,6 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
   );
 };
 
-
-const ExamExecutionScreen = () => {
-  const navigate = useNavigate();
-  return (
-    <div className="bg-[#0f172a] min-h-screen flex flex-col text-white">
-      <header className="sticky top-0 z-50 bg-[#f2f20d] text-black p-6 pt-12 flex items-center justify-between rounded-b-[2.5rem] shadow-2xl">
-        <button onClick={() => navigate('/')} className="p-2 -ml-2 rounded-full hover:bg-black/10">
-          <ArrowLeft size={24} />
-        </button>
-        <div className="text-center">
-          <h1 className="font-bold text-lg uppercase italic">Simulado</h1>
-          <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Modo Execução</p>
-        </div>
-        <div className="size-10" />
-      </header>
-      <main className="flex-1 p-6 flex flex-col items-center justify-center text-center">
-        <div className="size-20 rounded-full bg-yellow-400/10 flex items-center justify-center mb-6">
-          <ShieldCheck size={40} className="text-yellow-400" />
-        </div>
-        <h2 className="text-xl font-bold mb-2">Ambiente Protegido</h2>
-        <p className="text-slate-400 max-w-xs">A interface de execução oficial está sendo carregada...</p>
-      </main>
-    </div>
-  );
-};
 
 const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: any) => void }) => (
   <div className="bg-[#0f172a] min-h-screen flex flex-col text-white">
@@ -408,6 +386,7 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
           <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-6 px-2">Atalhos Administrativos</h2>
           {[
             { icon: FileText, label: 'Gerenciar Simulados', sub: 'Lista completa e edições rápidas', color: '#f97316', onClick: () => navigate('/admin/list') },
+            { icon: List, label: 'Banco de Questões', sub: 'Cadastrar perguntas e respostas', color: '#10b981', onClick: () => navigate('/admin/questoes') },
             { icon: Users, label: 'Usuários e Acessos', sub: 'Status de assinaturas e permissões', color: '#3b82f6', onClick: () => navigate('/admin/users') }
           ].map((item) => (
             <button
@@ -573,6 +552,11 @@ export default function App() {
           <Route path="/admin/users" element={
             <ProtectedRoute requireAdmin>
               <UserRegistrationScreen />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/questoes" element={
+            <ProtectedRoute requireAdmin>
+              <AdminQuestoesScreen />
             </ProtectedRoute>
           } />
 
