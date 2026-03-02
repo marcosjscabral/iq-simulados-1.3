@@ -107,9 +107,11 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
             >
               <div className="relative h-[200px] w-full bg-[#a3c2b8]">
                 {/* Banner */}
-                <span className="absolute top-4 left-4 z-10 px-2.5 py-1 bg-[#f15a24] text-white text-[10px] font-black uppercase tracking-wider rounded-sm shadow-md">
-                  MAIS PROCURADO
-                </span>
+                {featuredSimulado.featured_label && (
+                  <span className="absolute top-4 left-4 z-10 px-2.5 py-1 bg-[#f15a24] text-white text-[10px] font-black uppercase tracking-wider rounded-sm shadow-md">
+                    {featuredSimulado.featured_label}
+                  </span>
+                )}
                 {featuredSimulado.image_url ? (
                   <img src={featuredSimulado.image_url} alt={featuredSimulado.title} className="w-full h-full object-cover" />
                 ) : (
@@ -126,8 +128,8 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                   </div>
                 </div>
 
-                <p className="text-[14px] text-[#7aa2a9] font-medium leading-snug pr-2">
-                  180 Questões inéditas com correção TRI e proposta de redação exclusiva.
+                <p className="text-[14px] text-[#7aa2a9] font-medium leading-snug pr-2 line-clamp-3">
+                  {featuredSimulado.description || 'Descrição não informada.'}
                 </p>
 
                 <button className="w-full mt-1 bg-[#2c73eb] text-white py-3.5 rounded-xl text-[15px] font-black flex items-center justify-center gap-2.5 hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/20">
