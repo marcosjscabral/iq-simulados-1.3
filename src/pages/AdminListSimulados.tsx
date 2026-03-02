@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { Simulado } from '../types';
 import { supabase } from '../lib/supabase';
+import { useModal } from '../components/ModalContext';
 
 interface AdminListSimuladosProps {
     onPublishSuccess?: () => void;
@@ -22,6 +23,7 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
     const [simulados, setSimulados] = useState<Simulado[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const { showAlert, showConfirm } = useModal();
 
     const formatPrice = (price: number) => {
         return price.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -49,7 +51,7 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
     }, []);
 
     const handleDelete = async (id: string, title: string) => {
-        if (window.confirm(`Tem certeza que deseja excluir o simulado "${title}" ? `)) {
+        showConfirm('Excluir Simulado', `Tem certeza que deseja excluir o simulado "${title}"?`, async () => {
             try {
                 const { error } = await supabase
                     .from('simulados')
@@ -58,13 +60,13 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
 
                 if (error) throw error;
 
-                setSimulados(simulados.filter(s => s.id !== id));
-                alert('Simulado excluído com sucesso!');
+                setSimulados(prev => prev.filter(s => s.id !== id));
+                showAlert('Sucesso', 'Simulado excluído com sucesso!', 'success');
             } catch (error: any) {
                 console.error('Error deleting:', error);
-                alert('Erro ao excluir: ' + error.message);
+                showAlert('Erro', 'Erro ao excluir: ' + error.message, 'error');
             }
-        }
+        });
     };
 
     const filteredSimulados = simulados.filter(s =>

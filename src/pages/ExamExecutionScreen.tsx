@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, ShieldCheck, Loader2, CheckCircle2, ChevronRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Simulado, Questao } from '../types';
+import { useModal } from '../components/ModalContext';
 
 export const ExamExecutionScreen = () => {
     const { id } = useParams<{ id: string }>();
@@ -14,6 +15,7 @@ export const ExamExecutionScreen = () => {
     const [answers, setAnswers] = useState<Record<string, 'A' | 'B' | 'C' | 'D' | 'E'>>({});
     const [showFeedback, setShowFeedback] = useState(false); // Used if we want immediate feedback, but usually exams show at the end. For now, we'll store answers and allow review at the end.
     const [examFinished, setExamFinished] = useState(false);
+    const { showAlert, showConfirm } = useModal();
 
     useEffect(() => {
         fetchData();
@@ -35,7 +37,7 @@ export const ExamExecutionScreen = () => {
             setQuestoes(questoesRes.data || []);
         } catch (error: any) {
             console.error('Error fetching exam:', error);
-            alert('Erro ao carregar simulado. Talvez você não tenha acesso a ele.');
+            showAlert('Aviso', 'Erro ao carregar simulado. Talvez você não tenha acesso a ele.', 'alert');
             navigate('/');
         } finally {
             setLoading(false);
@@ -57,9 +59,9 @@ export const ExamExecutionScreen = () => {
             setCurrentQuestionIndex(prev => prev + 1);
         } else {
             // Finish exam
-            if (confirm('Deseja realmente finalizar o simulado? Você não poderá alterar suas respostas depois.')) {
+            showConfirm('Finalizar Simulado', 'Deseja realmente finalizar o simulado? Você não poderá alterar suas respostas depois.', () => {
                 setExamFinished(true);
-            }
+            });
         }
     };
 
@@ -188,8 +190,8 @@ export const ExamExecutionScreen = () => {
                                     key={opt.id}
                                     onClick={() => handleSelectOption(opt.id as any)}
                                     className={`group relative flex items-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-[0.98] ${isSelected
-                                            ? 'bg-[#2b2b1a] border-[#ffd700] shadow-[0_4px_20px_rgba(255,215,0,0.15)]'
-                                            : 'bg-[#272a24] border-[#3c3d35] hover:border-[#ffd700]/50 hover:bg-[#2c2f29]'
+                                        ? 'bg-[#2b2b1a] border-[#ffd700] shadow-[0_4px_20px_rgba(255,215,0,0.15)]'
+                                        : 'bg-[#272a24] border-[#3c3d35] hover:border-[#ffd700]/50 hover:bg-[#2c2f29]'
                                         }`}
                                 >
                                     <div className={`size-10 shrink-0 rounded-xl flex items-center justify-center font-black text-lg transition-colors border ${isSelected ? 'bg-[#ffd700] text-black border-[#ffd700]' : 'bg-[#181a17] text-slate-400 border-[#3c3d35] group-hover:border-[#ffd700]/50 group-hover:text-[#ffd700]'
@@ -219,8 +221,8 @@ export const ExamExecutionScreen = () => {
                     <button
                         onClick={handleNext}
                         className={`flex-[1.5] py-4 flex items-center justify-center gap-2 rounded-2xl font-black uppercase tracking-widest text-[13px] transition-all active:scale-95 shadow-xl ${currentQuestionIndex === questoes.length - 1
-                                ? 'bg-[#f15a24] text-white shadow-[#f15a24]/20 hover:bg-orange-600' // Finalizar
-                                : 'bg-[#2c73eb] text-white shadow-blue-500/20 hover:bg-blue-600' // Próxima
+                            ? 'bg-[#f15a24] text-white shadow-[#f15a24]/20 hover:bg-orange-600' // Finalizar
+                            : 'bg-[#2c73eb] text-white shadow-blue-500/20 hover:bg-blue-600' // Próxima
                             }`}
                     >
                         {currentQuestionIndex === questoes.length - 1 ? 'Finalizar' : 'Próxima'}

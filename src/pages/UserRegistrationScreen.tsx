@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Users, ShieldCheck, Plus, Check, Loader2, Trash2, Search } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Simulado } from '../types';
+import { useModal } from '../components/ModalContext';
 
 interface UserData {
     id: string;
@@ -24,6 +25,7 @@ export const UserRegistrationScreen = () => {
     const [simulados, setSimulados] = useState<Simulado[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
+    const { showAlert, showConfirm } = useModal();
 
     // Expanded user state
     const [expandedUserId, setExpandedUserId] = useState<string | null>(null);
@@ -54,7 +56,7 @@ export const UserRegistrationScreen = () => {
             setSimulados(simuladoData || []);
         } catch (error: any) {
             console.error('Error fetching data:', error);
-            alert('Erro ao carregar dados: ' + error.message);
+            showAlert('Erro', 'Erro ao carregar dados: ' + error.message, 'error');
         } finally {
             setLoading(false);
         }
@@ -99,7 +101,7 @@ export const UserRegistrationScreen = () => {
 
     const grantAccess = async (userId: string) => {
         if (!selectedSimuladoId) {
-            alert('Selecione um simulado primeiro.');
+            showAlert('Atenção', 'Selecione um simulado primeiro.', 'alert');
             return;
         }
 
@@ -111,41 +113,41 @@ export const UserRegistrationScreen = () => {
 
             if (error) {
                 if (error.code === '23505') { // Unique violation
-                    alert('Este usuário já possui acesso a este simulado.');
+                    showAlert('Atenção', 'Este usuário já possui acesso a este simulado.', 'alert');
                 } else {
                     throw error;
                 }
             } else {
-                alert('Acesso concedido com sucesso!');
+                showAlert('Sucesso', 'Acesso concedido com sucesso!', 'success');
                 await loadUserAccesses(userId);
                 setSelectedSimuladoId('');
             }
         } catch (error: any) {
             console.error('Error granting access:', error);
-            alert('Erro ao conceder acesso: ' + error.message);
+            showAlert('Erro', 'Erro ao conceder acesso: ' + error.message, 'error');
         } finally {
             setLoadingAccess(null);
         }
     };
 
     const revokeAccess = async (accessId: string, userId: string) => {
-        if (!confirm('Tem certeza que deseja remover o acesso deste usuário a este simulado?')) return;
+        showConfirm('Revogar Acesso', 'Tem certeza que deseja remover o acesso deste usuário a este simulado?', async () => {
+            try {
+                setLoadingAccess(userId);
+                const { error } = await supabase
+                    .from('user_simulados')
+                    .delete()
+                    .eq('id', accessId);
 
-        try {
-            setLoadingAccess(userId);
-            const { error } = await supabase
-                .from('user_simulados')
-                .delete()
-                .eq('id', accessId);
-
-            if (error) throw error;
-            await loadUserAccesses(userId);
-        } catch (error: any) {
-            console.error('Error revoking access:', error);
-            alert('Erro ao remover acesso: ' + error.message);
-        } finally {
-            setLoadingAccess(null);
-        }
+                if (error) throw error;
+                await loadUserAccesses(userId);
+            } catch (error: any) {
+                console.error('Error revoking access:', error);
+                showAlert('Erro', 'Erro ao remover acesso: ' + error.message, 'error');
+            } finally {
+                setLoadingAccess(null);
+            }
+        });
     };
 
     const filteredUsers = users.filter(user =>

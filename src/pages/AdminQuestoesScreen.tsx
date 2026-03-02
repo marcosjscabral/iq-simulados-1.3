@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Plus, Trash2, Edit2, Check, Save, Layers, List } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Simulado, Questao } from '../types';
+import { useModal } from '../components/ModalContext';
 
 export const AdminQuestoesScreen = () => {
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ export const AdminQuestoesScreen = () => {
 
     const [isSaving, setIsSaving] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
+    const { showAlert, showConfirm } = useModal();
 
     useEffect(() => {
         fetchSimulados();
@@ -76,32 +78,32 @@ export const AdminQuestoesScreen = () => {
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm('Deseja realmente excluir esta questão?')) return;
+        showConfirm('Excluir Questão', 'Deseja realmente excluir esta questão?', async () => {
+            try {
+                await supabase.from('questoes').delete().eq('id', id);
+                await fetchQuestoes(selectedSimuladoId);
 
-        try {
-            await supabase.from('questoes').delete().eq('id', id);
-            await fetchQuestoes(selectedSimuladoId);
-
-            // Update question count
-            if (selectedSimuladoId) {
-                const { count } = await supabase.from('questoes').select('*', { count: 'exact', head: true }).eq('simulado_id', selectedSimuladoId);
-                await supabase.from('simulados').update({ questions_count: count || 0 }).eq('id', selectedSimuladoId);
+                // Update question count
+                if (selectedSimuladoId) {
+                    const { count } = await supabase.from('questoes').select('*', { count: 'exact', head: true }).eq('simulado_id', selectedSimuladoId);
+                    await supabase.from('simulados').update({ questions_count: count || 0 }).eq('id', selectedSimuladoId);
+                }
+            } catch (e) {
+                console.error(e);
+                showAlert('Erro', 'Erro ao excluir componente.', 'error');
             }
-        } catch (e) {
-            console.error(e);
-            alert('Erro ao excluir');
-        }
+        });
     };
 
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!selectedSimuladoId) {
-            alert('Selecione um simulado antes de cadastrar a questão.');
+            showAlert('Atenção', 'Selecione um simulado antes de cadastrar a questão.', 'alert');
             return;
         }
 
         if (!enunciado || !opcaoA || !opcaoB || !opcaoC || !opcaoD) {
-            alert('Preencha os campos obrigatórios (Enunciado e opções A a D).');
+            showAlert('Atenção', 'Preencha os campos obrigatórios (Enunciado e opções A a D).', 'alert');
             return;
         }
 
@@ -134,10 +136,10 @@ export const AdminQuestoesScreen = () => {
             await supabase.from('simulados').update({ questions_count: count || 0 }).eq('id', selectedSimuladoId);
 
             resetForm();
-            alert('Questão salva com sucesso!');
+            showAlert('Sucesso', 'Questão salva com sucesso!', 'success');
         } catch (err: any) {
             console.error(err);
-            alert('Erro ao salvar questão: ' + err.message);
+            showAlert('Erro', 'Erro ao salvar questão: ' + err.message, 'error');
         } finally {
             setIsSaving(false);
         }

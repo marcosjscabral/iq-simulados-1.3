@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Plus, Camera, Image as ImageIcon, MinusCircle, Eye, Star, AlertCircle, Trash2, X } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { useModal } from '../components/ModalContext';
 
 interface AdminSimuladosProps {
   onPublishSuccess?: () => void;
@@ -27,6 +28,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState<string | null>(null);
   const [isDeletingGlobal, setIsDeletingGlobal] = useState(false);
+  const { showAlert } = useModal();
 
   useEffect(() => {
     if (simuladoId) {
@@ -53,7 +55,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
           }
         } catch (error) {
           console.error('Error fetching simulado:', error);
-          alert('Erro ao carregar os dados do simulado.');
+          showAlert('Erro', 'Erro ao carregar os dados do simulado.', 'error');
         } finally {
           setLoading(false);
         }
@@ -105,7 +107,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
       setCategoryToDelete(null);
     } catch (error: any) {
       console.error('Error deleting category:', error);
-      alert('Erro ao excluir categoria globalmente: ' + error.message);
+      showAlert('Erro', 'Erro ao excluir categoria globalmente: ' + error.message, 'error');
     } finally {
       setIsDeletingGlobal(false);
     }
@@ -134,7 +136,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
       setImageUrl(publicUrl);
     } catch (error: any) {
       console.error('Error uploading image:', error);
-      alert('Erro ao fazer upload da imagem: ' + error.message);
+      showAlert('Erro', 'Erro ao fazer upload da imagem: ' + error.message, 'error');
     } finally {
       setUploading(false);
     }
@@ -146,7 +148,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
 
   const handlePublish = async () => {
     if (!title || !price || !questionsCount) {
-      alert('Por favor, preencha o título, preço e questões.');
+      showAlert('Atenção', 'Por favor, preencha o título, preço e questões.', 'alert');
       return;
     }
 
@@ -175,12 +177,12 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
 
       if (error) throw error;
 
-      alert(simuladoId ? 'Simulado atualizado com sucesso!' : 'Simulado publicado com sucesso!');
+      showAlert('Sucesso', simuladoId ? 'Simulado atualizado com sucesso!' : 'Simulado publicado com sucesso!', 'success');
       if (onPublishSuccess) onPublishSuccess();
       navigate('/admin/list');
     } catch (error: any) {
       console.error('Error publishing:', error);
-      alert('Erro ao publicar: ' + error.message);
+      showAlert('Erro', 'Erro ao publicar: ' + error.message, 'error');
     } finally {
       setLoading(false);
     }

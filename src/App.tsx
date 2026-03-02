@@ -37,6 +37,7 @@ import { MyExamsScreen } from './pages/MyExamsScreen';
 import { UserRegistrationScreen } from './pages/UserRegistrationScreen';
 import { AdminQuestoesScreen } from './pages/AdminQuestoesScreen';
 import { ExamExecutionScreen } from './pages/ExamExecutionScreen';
+import { ModalProvider } from './components/ModalContext';
 
 // --- Utils ---
 const formatPrice = (price: number) => {
@@ -496,74 +497,76 @@ export default function App() {
   const uniqueCategories = Array.from(new Set(simulados.flatMap(s => s.categories || [])));
 
   return (
-    <Router>
-      <div className="relative flex min-h-screen w-full flex-col bg-[#0f172a]">
-        <Sidebar
-          isOpen={isSidebarOpen}
-          onClose={() => setSidebarOpen(false)}
-          onLogout={handleLogout}
-        />
+    <ModalProvider>
+      <Router>
+        <div className="relative flex min-h-screen w-full flex-col bg-[#0f172a]">
+          <Sidebar
+            isOpen={isSidebarOpen}
+            onClose={() => setSidebarOpen(false)}
+            onLogout={handleLogout}
+          />
 
-        <Routes>
-          <Route path="/" element={
-            <HomeScreen
-              onOpenMenu={() => setSidebarOpen(true)}
-              setView={() => { }}
-              simulados={simulados}
-            />
-          } />
-          <Route path="/my-exams" element={
-            <MyExamsScreen onOpenMenu={() => setSidebarOpen(true)} />
-          } />
-          <Route path="/materials" element={
-            <MaterialsScreen onOpenMenu={() => setSidebarOpen(true)} setView={() => { }} />
-          } />
-          <Route path="/profile" element={
-            <ProfileScreen
-              onOpenMenu={() => setSidebarOpen(true)}
-              onLogout={handleLogout}
-            />
-          } />
-          <Route path="/profile/purchases" element={<PurchaseHistoryScreen />} />
-          <Route path="/exam/:id" element={<ExamExecutionScreen />} />
-          <Route path="/exam/:id/answer-key" element={<AnswerKeyScreen />} />
+          <Routes>
+            <Route path="/" element={
+              <HomeScreen
+                onOpenMenu={() => setSidebarOpen(true)}
+                setView={() => { }}
+                simulados={simulados}
+              />
+            } />
+            <Route path="/my-exams" element={
+              <MyExamsScreen onOpenMenu={() => setSidebarOpen(true)} />
+            } />
+            <Route path="/materials" element={
+              <MaterialsScreen onOpenMenu={() => setSidebarOpen(true)} setView={() => { }} />
+            } />
+            <Route path="/profile" element={
+              <ProfileScreen
+                onOpenMenu={() => setSidebarOpen(true)}
+                onLogout={handleLogout}
+              />
+            } />
+            <Route path="/profile/purchases" element={<PurchaseHistoryScreen />} />
+            <Route path="/exam/:id" element={<ExamExecutionScreen />} />
+            <Route path="/exam/:id/answer-key" element={<AnswerKeyScreen />} />
 
-          {/* Admin Routes (Protected) */}
-          <Route path="/admin" element={
-            <ProtectedRoute requireAdmin>
-              <AdminDashboardScreen onOpenMenu={() => setSidebarOpen(true)} />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/list" element={
-            <ProtectedRoute requireAdmin>
-              <AdminListSimulados onPublishSuccess={fetchSimulados} />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/simulados/new" element={
-            <ProtectedRoute requireAdmin>
-              <AdminSimulados onPublishSuccess={fetchSimulados} availableCategories={uniqueCategories} />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/simulados/:id" element={
-            <ProtectedRoute requireAdmin>
-              <AdminSimulados onPublishSuccess={fetchSimulados} availableCategories={uniqueCategories} />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/users" element={
-            <ProtectedRoute requireAdmin>
-              <UserRegistrationScreen />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/questoes" element={
-            <ProtectedRoute requireAdmin>
-              <AdminQuestoesScreen />
-            </ProtectedRoute>
-          } />
+            {/* Admin Routes (Protected) */}
+            <Route path="/admin" element={
+              <ProtectedRoute requireAdmin>
+                <AdminDashboardScreen onOpenMenu={() => setSidebarOpen(true)} />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/list" element={
+              <ProtectedRoute requireAdmin>
+                <AdminListSimulados onPublishSuccess={fetchSimulados} />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/simulados/new" element={
+              <ProtectedRoute requireAdmin>
+                <AdminSimulados onPublishSuccess={fetchSimulados} availableCategories={uniqueCategories} />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/simulados/:id" element={
+              <ProtectedRoute requireAdmin>
+                <AdminSimulados onPublishSuccess={fetchSimulados} availableCategories={uniqueCategories} />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/users" element={
+              <ProtectedRoute requireAdmin>
+                <UserRegistrationScreen />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/questoes" element={
+              <ProtectedRoute requireAdmin>
+                <AdminQuestoesScreen />
+              </ProtectedRoute>
+            } />
 
-          {/* Catch-all fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </div>
-    </Router>
+            {/* Catch-all fallback */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+      </Router>
+    </ModalProvider>
   );
 }
