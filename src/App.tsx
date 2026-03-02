@@ -19,7 +19,9 @@ import {
   ArrowRight,
   ArrowLeft,
   ChevronLeft,
-  TrendingUp
+  TrendingUp,
+  Flame,
+  ShoppingCart
 } from 'lucide-react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { Simulado } from './types';
@@ -51,122 +53,129 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
     : activeSimulados.filter(s => s.categories?.includes(selectedCategory));
 
   return (
-    <div className="bg-[#0f172a] min-h-screen pb-24 text-white font-display">
-      <header className="sticky top-0 z-50 bg-[#f2f20d] rounded-b-[2.5rem] shadow-2xl">
-        <div className="flex items-center p-4 justify-between pt-12">
-          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
-            <Menu size={24} />
-          </button>
-          <div className="flex flex-col items-center">
-            <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">IQ Simulados</h1>
-            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Vitrine Premium</p>
+    <div className="bg-[#181a17] min-h-screen pb-24 text-white font-sans selection:bg-[#f3ec05] selection:text-black">
+      {/* HEADER */}
+      <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-md">
+        <div className="flex items-center px-4 py-3 justify-between">
+          <div className="flex items-center gap-3 text-black">
+            <button onClick={onOpenMenu} className="p-1 active:scale-95 transition-transform">
+              <Menu size={26} strokeWidth={2.5} />
+            </button>
+            <h1 className="text-[22px] font-black tracking-tight text-black leading-none">IQ Simulados</h1>
           </div>
-          <div className="size-10 flex items-center justify-end">
-            <button onClick={() => navigate('/profile')} className="rounded-full bg-black/10 p-2 text-black">
-              <User size={20} />
+          <div className="flex items-center gap-4 text-black">
+            <button className="p-1 active:scale-95 transition-transform"><Search size={22} strokeWidth={2.5} /></button>
+            <button onClick={() => navigate('/profile')} className="p-1.5 rounded-full border border-black/30 active:scale-95 transition-transform">
+              <User size={18} strokeWidth={2.5} />
             </button>
           </div>
         </div>
       </header>
 
-      <main className="p-4 space-y-8 max-w-md mx-auto">
-        {/* Categories Pills */}
-        <section className="-mx-4 px-4 overflow-x-auto no-scrollbar py-2">
-          <div className="flex gap-2">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`flex-shrink-0 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${selectedCategory === cat
-                  ? 'bg-[#f2f20d] text-black shadow-lg shadow-yellow-400/20'
-                  : 'bg-white/5 text-slate-400 border border-white/5'
-                  }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </section>
+      {/* CATEGORIES */}
+      <div className="bg-[#181a17] px-4 py-4 border-b border-[#2b2d26] shadow-sm mb-6">
+        <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1">
+          {categories.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`flex-shrink-0 px-6 py-1.5 rounded-full text-[13px] font-bold transition-all border ${selectedCategory === cat
+                ? 'bg-[#f3ec05] text-black border-[#f3ec05] shadow-[0_2px_10px_rgba(243,236,5,0.2)]'
+                : 'bg-[#2b2d26] text-slate-300 border-[#3c3d35] hover:border-white/20'
+                }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
 
-        {/* Hero Section / Featured */}
+      <main className="px-4 space-y-8 max-w-md mx-auto">
+        {/* Destaques da Semana */}
         {featuredSimulado && (
           <section>
-            <div className="flex items-center gap-2 mb-4 px-1">
-              <TrendingUp size={16} className="text-yellow-400" />
-              <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-                Destaques da Semana <span className="animate-pulse">🔥</span>
+            <div className="flex items-center gap-2.5 mb-5 px-1">
+              <Flame size={22} className="text-[#f15a24]" strokeWidth={2.5} />
+              <h2 className="text-[19px] font-black text-white tracking-tight">
+                Destaques da Semana
               </h2>
             </div>
+
             <div
               onClick={() => navigate(`/exam/${featuredSimulado.id}`)}
-              className="group relative h-72 w-full rounded-[2.5rem] overflow-hidden cursor-pointer shadow-2xl ring-1 ring-white/10"
+              className="group relative w-full rounded-2xl overflow-hidden cursor-pointer border-2 border-[#f15a24] bg-[#272a24] shadow-2xl flex flex-col transition-transform active:scale-[0.98]"
             >
-              {featuredSimulado.image_url ? (
-                <img src={featuredSimulado.image_url} alt={featuredSimulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-yellow-400/20 to-orange-500/20 flex items-center justify-center">
-                  <span className="text-4xl font-black text-white/5 italic">IQ</span>
-                </div>
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              <div className="absolute bottom-0 p-8 w-full">
-                {featuredSimulado.featured_label && (
-                  <span className="inline-block px-3 py-1 rounded-full bg-orange-600 text-white text-[8px] font-black uppercase tracking-[0.2em] mb-3 shadow-lg">
-                    {featuredSimulado.featured_label}
-                  </span>
+              <div className="relative h-[200px] w-full bg-[#a3c2b8]">
+                {/* Banner */}
+                <span className="absolute top-4 left-4 z-10 px-2.5 py-1 bg-[#f15a24] text-white text-[10px] font-black uppercase tracking-wider rounded-sm shadow-md">
+                  MAIS PROCURADO
+                </span>
+                {featuredSimulado.image_url ? (
+                  <img src={featuredSimulado.image_url} alt={featuredSimulado.title} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-black/10">IMG</div>
                 )}
-                <h3 className="text-2xl font-black text-white mb-2 italic uppercase leading-tight">{featuredSimulado.title}</h3>
-                <div className="flex items-center justify-between mt-4">
-                  <div className="flex flex-col">
-                    <span className="text-xs font-bold text-white/60 line-through">R$ {formatPrice(featuredSimulado.price * 1.5)}</span>
-                    <span className="text-2xl font-black text-yellow-400 italic">R$ {formatPrice(featuredSimulado.price)}</span>
+              </div>
+
+              <div className="p-5 flex flex-col gap-4">
+                <div className="flex justify-between items-start gap-4">
+                  <h3 className="text-xl font-black text-white leading-tight">{featuredSimulado.title}</h3>
+                  <div className="flex flex-col items-end shrink-0 pt-1">
+                    <span className="text-[13px] font-black text-[#2c73eb] mb-[-4px]">R$</span>
+                    <span className="text-[22px] font-black text-[#2c73eb] leading-none">{formatPrice(featuredSimulado.price)}</span>
                   </div>
-                  <button className="bg-blue-600 text-white px-6 py-3 rounded-2xl font-black uppercase text-[10px] italic shadow-xl shadow-blue-600/30 active:scale-95 transition-all">
-                    Acessar
-                  </button>
                 </div>
+
+                <p className="text-[14px] text-[#7aa2a9] font-medium leading-snug pr-2">
+                  180 Questões inéditas com correção TRI e proposta de redação exclusiva.
+                </p>
+
+                <button className="w-full mt-1 bg-[#2c73eb] text-white py-3.5 rounded-xl text-[15px] font-black flex items-center justify-center gap-2.5 hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/20">
+                  <ShoppingCart size={18} strokeWidth={2.5} /> Comprar Agora
+                </button>
               </div>
             </div>
           </section>
         )}
 
-        {/* Available List */}
-        <section className="pb-10">
-          <div className="flex items-center justify-between mb-6 px-1">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Disponíveis</h2>
-            <div className="h-px flex-1 bg-slate-100 mx-4" />
-          </div>
-          <div className="grid grid-cols-1 gap-3">
+        {/* Simulados Disponíveis */}
+        <section className="pb-8">
+          <h2 className="text-[19px] font-black text-white mb-5 px-1 tracking-tight">Simulados Disponíveis</h2>
+          <div className="grid grid-cols-1 gap-4">
             {filteredSimulados.length === 0 ? (
-              <div className="p-12 text-center bg-white/5 rounded-[2rem] border border-dashed border-white/10">
-                <p className="text-slate-500 font-bold uppercase text-[9px] tracking-widest leading-loose">Nenhum simulado disponível<br />nesta categoria no momento.</p>
+              <div className="p-8 text-center bg-[#272a24] rounded-[1.25rem] border border-[#3c3d35]">
+                <p className="text-slate-400 font-bold text-sm">Nenhum simulado disponível nesta categoria.</p>
               </div>
             ) : (
               filteredSimulados.map((simulado) => (
                 <div
                   key={simulado.id}
                   onClick={() => navigate(`/exam/${simulado.id}`)}
-                  className="group bg-white/5 p-4 rounded-[2rem] border border-white/5 flex items-center gap-4 active:scale-[0.98] transition-all hover:bg-white/10"
+                  className="bg-[#272a24] rounded-[1.25rem] p-4 flex gap-4 cursor-pointer hover:bg-[#2c2f29] transition-all border border-[#3c3d35] hover:border-[#f15a24]/30 shadow-md active:scale-[0.98]"
                 >
-                  <div className="size-20 shrink-0 rounded-2xl bg-slate-900 overflow-hidden border border-white/5 shadow-inner">
+                  <div className="size-[88px] shrink-0 rounded-xl bg-[#2a4e4d] border border-white/5 overflow-hidden flex items-center justify-center shadow-inner">
                     {simulado.image_url ? (
-                      <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                      <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-200 italic font-black text-xl">IQ</div>
+                      <span className="text-white/20 text-3xl font-light italic">IQ</span>
                     )}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-black text-base text-white mb-1 uppercase italic leading-tight truncate">{simulado.title}</h4>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{simulado.categories?.[0]}</span>
-                      <span className="size-1 rounded-full bg-yellow-400/40" />
-                      <span className="text-[9px] font-black text-yellow-400 uppercase tracking-widest">OFFICIAL</span>
+
+                  <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+                    <div>
+                      <h4 className="font-bold text-[15px] text-white leading-snug mb-1 truncate">
+                        {simulado.title}
+                      </h4>
+                      <p className="text-[12px] text-[#686868] font-semibold">
+                        80 Questões Objetivas
+                      </p>
                     </div>
-                  </div>
-                  <div className="flex flex-col items-end gap-1">
-                    <span className="text-lg font-black text-blue-400 italic">R$ {formatPrice(simulado.price)}</span>
-                    <div className="bg-white/10 p-2 rounded-xl text-yellow-500 group-hover:bg-[#f2f20d] group-hover:text-black transition-colors">
-                      <ChevronRight size={16} strokeWidth={4} />
+
+                    <div className="flex items-center justify-between mt-2">
+                      <span className="text-[15px] font-black text-[#2c73eb]">R$ {formatPrice(simulado.price)}</span>
+                      <button className="bg-[#2c73eb] text-white px-5 py-2 rounded-xl text-[13px] font-black hover:bg-blue-600 transition-colors shadow-md">
+                        Comprar
+                      </button>
                     </div>
                   </div>
                 </div>
