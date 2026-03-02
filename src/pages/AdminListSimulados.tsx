@@ -152,7 +152,7 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
 
                                     <div className="flex items-center gap-2">
                                         <button
-                                            onClick={() => navigate(`/admin/simulados/edit/${sim.id}`)}
+                                            onClick={() => navigate(`/admin/simulados/${sim.id}`)}
                                             className="bg-white p-2.5 rounded-full text-blue-600 shadow-lg hover:scale-110 transition-transform active:scale-95"
                                         >
                                             <Edit2 size={16} strokeWidth={3} />
