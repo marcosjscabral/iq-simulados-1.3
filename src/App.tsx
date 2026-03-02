@@ -32,6 +32,8 @@ import { Sidebar } from './components/Sidebar';
 import AdminSimulados from './pages/AdminSimulados';
 import AdminListSimulados from './pages/AdminListSimulados';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { MyExamsScreen } from './pages/MyExamsScreen';
+import { UserRegistrationScreen } from './pages/UserRegistrationScreen';
 
 // --- Utils ---
 const formatPrice = (price: number) => {
@@ -190,36 +192,6 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
   );
 };
 
-const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
-  const navigate = useNavigate();
-  return (
-    <div className="bg-[#0f172a] min-h-screen text-white">
-      <header className="sticky top-0 z-50 bg-[#f2f20d] rounded-b-[2.5rem] shadow-2xl">
-        <div className="flex items-center p-4 justify-between pt-12">
-          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
-            <Menu size={24} />
-          </button>
-          <div className="flex flex-col items-center">
-            <h1 className="text-lg font-bold leading-tight text-black">Meus Simulados</h1>
-            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">IQ Simulados</p>
-          </div>
-          <div className="size-10 flex items-center justify-end">
-            <button onClick={() => navigate('/profile')} className="rounded-full bg-black/10 p-2 text-black">
-              <User size={20} />
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <main className="p-4 space-y-4">
-        <div className="bg-white/5 p-12 rounded-[2.5rem] border-2 border-dashed border-white/5 text-center">
-          <Rocket size={40} className="mx-auto text-yellow-400/40 mb-4" />
-          <p className="text-slate-500 font-medium">Você ainda não possui simulados vinculados à sua conta.</p>
-        </div>
-      </main>
-    </div>
-  );
-};
 
 const ExamExecutionScreen = () => {
   const navigate = useNavigate();
@@ -459,26 +431,6 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   );
 };
 
-const UserRegistrationScreen = () => {
-  const navigate = useNavigate();
-  return (
-    <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
-      <header className="sticky top-0 z-50 bg-[#ffd700] text-black p-6 pt-12 flex items-center gap-4 rounded-b-[2.5rem] shadow-2xl">
-        <button onClick={() => navigate('/admin')} className="flex items-center justify-center size-10 rounded-full bg-black/10">
-          <ArrowLeft size={24} />
-        </button>
-        <h1 className="text-xl font-black uppercase italic tracking-tighter">Novo Usuário</h1>
-      </header>
-      <main className="flex-1 p-8 flex flex-col items-center justify-center text-center">
-        <div className="size-24 rounded-[2rem] bg-yellow-400/10 flex items-center justify-center mb-6 border border-yellow-400/20">
-          <Users size={48} className="text-yellow-400" />
-        </div>
-        <h2 className="text-2xl font-black italic uppercase italic tracking-tighter">Em Construção</h2>
-        <p className="text-slate-500 mt-2 max-w-xs font-bold uppercase text-[10px] tracking-widest leading-loose">A interface de gerenciamento de usuários será implementada em breve.</p>
-      </main>
-    </div>
-  );
-};
 
 const PurchaseHistoryScreen = () => {
   const navigate = useNavigate();
