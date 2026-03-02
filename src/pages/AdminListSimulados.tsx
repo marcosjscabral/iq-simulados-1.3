@@ -22,6 +22,10 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
 
+    const formatPrice = (price: number) => {
+        return price.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
+
     const fetchSimulados = async () => {
         setLoading(true);
         try {
@@ -71,7 +75,7 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
             <div className="relative flex min-h-screen w-full flex-col max-w-[430px] bg-[#1a1a0d] overflow-x-hidden">
 
                 {/* Header */}
-                <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
+                <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5 shadow-sm">
                     <div className="flex items-center p-4 justify-between pt-12">
                         <div className="flex items-center gap-4">
                             <button
@@ -87,14 +91,14 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
                         </div>
                         <button
                             onClick={() => navigate('/admin/simulados/new')}
-                            className="bg-black text-yellow-400 px-4 py-2 rounded-xl flex items-center gap-2 text-[10px] font-black uppercase italic shadow-lg active:scale-95 transition-all"
+                            className="bg-blue-600 text-white px-4 py-2 rounded-xl flex items-center gap-2 text-[10px] font-black uppercase italic shadow-lg active:scale-95 transition-all"
                         >
-                            <Plus size={16} strokeWidth={3} /> Novo
+                            <Plus size={16} strokeWidth={3} /> Simulado
                         </button>
                     </div>
                 </header>
 
-                <main className="flex-1 px-5 -mt-6 space-y-6 pb-24">
+                <main className="flex-1 px-5 pt-8 space-y-6 pb-24">
                     {/* Search Bar */}
                     <div className="relative">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
@@ -103,7 +107,7 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
                             placeholder="Buscar simulado pelo nome"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full h-14 pl-12 pr-4 bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-800 rounded-2xl shadow-sm outline-none focus:ring-2 focus:ring-[#FFD700] transition-all font-medium"
+                            className="w-full h-14 pl-12 pr-4 bg-slate-50 border-2 border-slate-100 rounded-2xl shadow-sm outline-none focus:ring-2 focus:ring-blue-600 transition-all font-medium text-slate-900"
                         />
                     </div>
 
@@ -122,9 +126,9 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
                             {filteredSimulados.map((sim) => (
                                 <div
                                     key={sim.id}
-                                    className="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex items-center gap-4 group"
+                                    className="bg-slate-50 p-3 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 group"
                                 >
-                                    <div className="size-16 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-900 overflow-hidden border border-slate-50 dark:border-slate-700">
+                                    <div className="size-16 shrink-0 rounded-xl bg-white overflow-hidden border border-slate-100">
                                         {sim.image_url ? (
                                             <img src={sim.image_url} alt={sim.title} className="w-full h-full object-cover" />
                                         ) : (
@@ -135,11 +139,11 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
                                     </div>
 
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="font-bold text-sm text-slate-800 dark:text-slate-100 truncate leading-tight mb-1">
+                                        <h3 className="font-bold text-sm text-slate-900 truncate leading-tight mb-1">
                                             {sim.title}
                                         </h3>
-                                        <div className="flex items-center gap-2 text-[10px] font-bold text-slate-500 uppercase tracking-tight">
-                                            <span className="text-blue-600 dark:text-blue-400">R$ {sim.price.toFixed(2)}</span>
+                                        <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-tight">
+                                            <span className="text-blue-600">R$ {formatPrice(sim.price)}</span>
                                             <span className="opacity-30">•</span>
                                             <span className="truncate max-w-[100px]">{sim.categories[0]}</span>
                                         </div>

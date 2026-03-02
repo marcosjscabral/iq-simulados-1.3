@@ -31,6 +31,11 @@ import AdminSimulados from './pages/AdminSimulados';
 import AdminListSimulados from './pages/AdminListSimulados';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
+// --- Utils ---
+const formatPrice = (price: number) => {
+  return price.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+};
+
 // --- Screens ---
 
 const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView: (v: any) => void, simulados: Simulado[] }) => {
@@ -46,8 +51,8 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
     : activeSimulados.filter(s => s.categories?.includes(selectedCategory));
 
   return (
-    <div className="bg-[#121212] min-h-screen pb-24 text-white font-display">
-      <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5">
+    <div className="bg-white min-h-screen pb-24 text-slate-900 font-display">
+      <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5 shadow-sm">
         <div className="flex items-center p-4 justify-between pt-12">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
@@ -74,7 +79,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                 onClick={() => setSelectedCategory(cat)}
                 className={`flex-shrink-0 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${selectedCategory === cat
                   ? 'bg-[#f2f20d] text-black shadow-lg shadow-yellow-400/20'
-                  : 'bg-white/5 text-slate-500 border border-white/10'
+                  : 'bg-slate-100 text-slate-500 border border-slate-200'
                   }`}
               >
                 {cat}
@@ -103,7 +108,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                   <span className="text-4xl font-black text-white/5 italic">IQ</span>
                 </div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-0 p-8 w-full">
                 {featuredSimulado.featured_label && (
                   <span className="inline-block px-3 py-1 rounded-full bg-orange-600 text-white text-[8px] font-black uppercase tracking-[0.2em] mb-3 shadow-lg">
@@ -113,10 +118,10 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                 <h3 className="text-2xl font-black text-white mb-2 italic uppercase leading-tight">{featuredSimulado.title}</h3>
                 <div className="flex items-center justify-between mt-4">
                   <div className="flex flex-col">
-                    <span className="text-xs font-bold text-slate-400 line-through">R$ {(featuredSimulado.price * 1.5).toFixed(2)}</span>
-                    <span className="text-2xl font-black text-yellow-400 italic">R$ {featuredSimulado.price.toFixed(2)}</span>
+                    <span className="text-xs font-bold text-white/60 line-through">R$ {formatPrice(featuredSimulado.price * 1.5)}</span>
+                    <span className="text-2xl font-black text-yellow-400 italic">R$ {formatPrice(featuredSimulado.price)}</span>
                   </div>
-                  <button className="bg-[#2563EB] text-white px-6 py-3 rounded-2xl font-black uppercase text-[10px] italic shadow-xl shadow-blue-600/30 active:scale-95 transition-all">
+                  <button className="bg-blue-600 text-white px-6 py-3 rounded-2xl font-black uppercase text-[10px] italic shadow-xl shadow-blue-600/30 active:scale-95 transition-all">
                     Acessar
                   </button>
                 </div>
@@ -128,39 +133,39 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
         {/* Available List */}
         <section className="pb-10">
           <div className="flex items-center justify-between mb-6 px-1">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Disponíveis</h2>
-            <div className="h-px flex-1 bg-white/10 mx-4" />
+            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Disponíveis</h2>
+            <div className="h-px flex-1 bg-slate-100 mx-4" />
           </div>
           <div className="grid grid-cols-1 gap-3">
             {filteredSimulados.length === 0 ? (
-              <div className="p-12 text-center bg-white/5 rounded-[2rem] border border-dashed border-white/10">
-                <p className="text-slate-500 font-bold uppercase text-[9px] tracking-widest leading-loose">Nenhum simulado disponível<br />nesta categoria no momento.</p>
+              <div className="p-12 text-center bg-slate-50 rounded-[2rem] border border-dashed border-slate-200">
+                <p className="text-slate-400 font-bold uppercase text-[9px] tracking-widest leading-loose">Nenhum simulado disponível<br />nesta categoria no momento.</p>
               </div>
             ) : (
               filteredSimulados.map((simulado) => (
                 <div
                   key={simulado.id}
                   onClick={() => navigate(`/exam/${simulado.id}`)}
-                  className="group bg-white/5 p-4 rounded-[2rem] border border-white/5 flex items-center gap-4 active:scale-[0.98] transition-all hover:bg-white/[0.08]"
+                  className="group bg-slate-50 p-4 rounded-[2rem] border border-slate-100 flex items-center gap-4 active:scale-[0.98] transition-all hover:bg-slate-100 hover:shadow-md"
                 >
-                  <div className="size-20 shrink-0 rounded-2xl bg-[#1a1a1a] overflow-hidden border border-white/5 shadow-inner">
+                  <div className="size-20 shrink-0 rounded-2xl bg-white overflow-hidden border border-slate-200 shadow-inner">
                     {simulado.image_url ? (
                       <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-white/10 italic font-black text-xl">IQ</div>
+                      <div className="w-full h-full flex items-center justify-center text-slate-200 italic font-black text-xl">IQ</div>
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-black text-base text-white mb-1 uppercase italic leading-tight truncate">{simulado.title}</h4>
+                    <h4 className="font-black text-base text-slate-900 mb-1 uppercase italic leading-tight truncate">{simulado.title}</h4>
                     <div className="flex items-center gap-2">
-                      <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{simulado.categories?.[0]}</span>
-                      <span className="size-1 rounded-full bg-yellow-400/20" />
-                      <span className="text-[9px] font-black text-yellow-400/80 uppercase tracking-widest">OFFICIAL</span>
+                      <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{simulado.categories?.[0]}</span>
+                      <span className="size-1 rounded-full bg-yellow-400/40" />
+                      <span className="text-[9px] font-black text-yellow-600 uppercase tracking-widest">OFFICIAL</span>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1">
-                    <span className="text-lg font-black text-white italic">R${simulado.price.toFixed(0)}</span>
-                    <div className="bg-white/5 p-2 rounded-xl text-yellow-400 group-hover:bg-yellow-400 group-hover:text-black transition-colors">
+                    <span className="text-lg font-black text-slate-900 italic">R$ {formatPrice(simulado.price)}</span>
+                    <div className="bg-slate-200/50 p-2 rounded-xl text-yellow-600 group-hover:bg-yellow-400 group-hover:text-black transition-colors">
                       <ChevronRight size={16} strokeWidth={4} />
                     </div>
                   </div>
@@ -177,8 +182,8 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   const navigate = useNavigate();
   return (
-    <div className="bg-[#1a1a0d] min-h-screen">
-      <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
+    <div className="bg-white min-h-screen text-slate-900">
+      <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5 shadow-sm">
         <div className="flex items-center p-4 justify-between pt-12">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
@@ -196,9 +201,9 @@ const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
       </header>
 
       <main className="p-4 space-y-4">
-        <div className="bg-white/5 p-12 rounded-3xl border-2 border-dashed border-white/5 text-center">
-          <Rocket size={40} className="mx-auto text-yellow-400/20 mb-4" />
-          <p className="text-slate-500 font-medium">Você ainda não possui simulados vinculados à sua conta.</p>
+        <div className="bg-slate-50 p-12 rounded-3xl border-2 border-dashed border-slate-100 text-center">
+          <Rocket size={40} className="mx-auto text-yellow-400/40 mb-4" />
+          <p className="text-slate-400 font-medium">Você ainda não possui simulados vinculados à sua conta.</p>
         </div>
       </main>
     </div>
@@ -208,31 +213,31 @@ const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
 const ExamExecutionScreen = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-[#0f172a] min-h-screen flex flex-col">
-      <header className="sticky top-0 z-50 bg-slate-900/50 backdrop-blur-md text-white p-6 pt-12 flex items-center justify-between border-b border-white/5">
-        <button onClick={() => navigate('/')} className="p-2 -ml-2 rounded-full hover:bg-white/10">
+    <div className="bg-white min-h-screen flex flex-col text-slate-900">
+      <header className="sticky top-0 z-50 bg-[#f2f20d] text-black p-6 pt-12 flex items-center justify-between border-b border-black/5 shadow-sm">
+        <button onClick={() => navigate('/')} className="p-2 -ml-2 rounded-full hover:bg-black/10">
           <ArrowLeft size={24} />
         </button>
         <div className="text-center">
-          <h1 className="font-bold text-lg text-yellow-400">Simulado</h1>
-          <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Modo Execução</p>
+          <h1 className="font-bold text-lg uppercase italic">Simulado</h1>
+          <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Modo Execução</p>
         </div>
         <div className="size-10" />
       </header>
       <main className="flex-1 p-6 flex flex-col items-center justify-center text-center">
-        <div className="size-20 rounded-full bg-yellow-400/10 flex items-center justify-center mb-6">
-          <ShieldCheck size={40} className="text-yellow-400" />
+        <div className="size-20 rounded-full bg-blue-600/10 flex items-center justify-center mb-6">
+          <ShieldCheck size={40} className="text-blue-600" />
         </div>
         <h2 className="text-xl font-bold mb-2">Ambiente Protegido</h2>
-        <p className="text-slate-400 max-w-xs">A interface de execução oficial está sendo carregada...</p>
+        <p className="text-slate-500 max-w-xs">A interface de execução oficial está sendo carregada...</p>
       </main>
     </div>
   );
 };
 
 const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: any) => void }) => (
-  <div className="bg-[#1a1a0d] min-h-screen flex flex-col">
-    <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
+  <div className="bg-white min-h-screen flex flex-col text-slate-900">
+    <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5 shadow-sm">
       <div className="flex items-center p-4 justify-between pt-12">
         <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
           <Menu size={24} />
@@ -245,11 +250,11 @@ const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: 
       </div>
     </header>
     <main className="flex-1 p-6 flex flex-col items-center justify-center text-center">
-      <div className="size-24 rounded-3xl bg-yellow-400/10 flex items-center justify-center text-yellow-400 mb-6 border border-yellow-400/20">
+      <div className="size-24 rounded-3xl bg-yellow-400/10 flex items-center justify-center text-yellow-600 mb-6 border border-yellow-400/20">
         <Rocket size={48} />
       </div>
       <h2 className="text-2xl font-black mb-2 italic">EM BREVE!</h2>
-      <p className="text-slate-500 max-w-xs mx-auto">Estamos preparando apostilas, resumos e mapas mentais exclusivos para turbinar sua aprovação.</p>
+      <p className="text-slate-400 max-w-xs mx-auto">Estamos preparando apostilas, resumos e mapas mentais exclusivos para turbinar sua aprovação.</p>
     </main>
   </div>
 );
@@ -257,15 +262,15 @@ const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: 
 const AnswerKeyScreen = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-[#1a1a0d] min-h-screen flex flex-col">
-      <header className="p-6 pt-12 flex items-center gap-4">
-        <button onClick={() => navigate('/')} className="p-2 rounded-full hover:bg-white/5 text-yellow-400">
+    <div className="bg-white min-h-screen flex flex-col text-slate-900">
+      <header className="p-6 pt-12 flex items-center gap-4 bg-[#f2f20d] shadow-sm">
+        <button onClick={() => navigate('/')} className="p-2 rounded-full hover:bg-black/5 text-black">
           <ChevronLeft size={24} />
         </button>
-        <h1 className="text-xl font-black uppercase italic tracking-tighter">Gabarito</h1>
+        <h1 className="text-xl font-black uppercase italic tracking-tighter text-black">Gabarito</h1>
       </header>
       <main className="flex-1 flex items-center justify-center p-6 text-center">
-        <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Selecione um simulado finalizado para ver o gabarito.</p>
+        <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Selecione um simulado finalizado para ver o gabarito.</p>
       </main>
     </div>
   );
@@ -284,8 +289,8 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
   }, []);
 
   return (
-    <div className="bg-[#1a1a0d] min-h-screen flex flex-col font-display">
-      <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
+    <div className="bg-white min-h-screen flex flex-col font-display text-slate-900">
+      <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5 shadow-sm">
         <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
@@ -315,7 +320,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
                 referrerPolicy="no-referrer"
               />
             </div>
-            <button className="absolute bottom-1 right-1 bg-blue-500 text-white p-2.5 rounded-full shadow-lg border-2 border-[#1a1a0d] group-hover:scale-110 transition-transform">
+            <button className="absolute bottom-1 right-1 bg-blue-600 text-white p-2.5 rounded-full shadow-lg border-2 border-white group-hover:scale-110 transition-transform">
               <Edit size={14} />
             </button>
           </div>
@@ -328,32 +333,32 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
         </section>
 
         <section className="px-6 mb-8">
-          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-2">Configurações e Pagamento</h3>
-          <div className="bg-white/5 rounded-3xl overflow-hidden divide-y divide-white/5 border border-white/5 shadow-xl">
-            <button onClick={() => navigate('/profile/purchases')} className="w-full flex items-center justify-between p-5 active:bg-white/5 transition-colors">
+          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4 px-2">Configurações e Pagamento</h3>
+          <div className="bg-slate-50 rounded-3xl overflow-hidden divide-y divide-slate-100 border border-slate-100 shadow-sm">
+            <button onClick={() => navigate('/profile/purchases')} className="w-full flex items-center justify-between p-5 active:bg-slate-100 transition-colors">
               <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center size-12 rounded-2xl bg-blue-500/10 text-blue-400">
+                <div className="flex items-center justify-center size-12 rounded-2xl bg-blue-600/10 text-blue-600">
                   <CreditCard size={22} />
                 </div>
                 <div className="text-left">
-                  <span className="block font-bold text-base">Meus Cartões</span>
-                  <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Formas de Pagamento</span>
+                  <span className="block font-bold text-base text-slate-900">Meus Cartões</span>
+                  <span className="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">Formas de Pagamento</span>
                 </div>
               </div>
-              <ChevronRight size={20} className="text-slate-600" />
+              <ChevronRight size={20} className="text-slate-300" />
             </button>
 
-            <button className="w-full flex items-center justify-between p-5 active:bg-white/5 transition-colors">
+            <button className="w-full flex items-center justify-between p-5 active:bg-slate-100 transition-colors">
               <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center size-12 rounded-2xl bg-yellow-500/10 text-yellow-500">
+                <div className="flex items-center justify-center size-12 rounded-2xl bg-yellow-500/10 text-yellow-600">
                   <Receipt size={22} />
                 </div>
                 <div className="text-left">
-                  <span className="block font-bold text-base">Histórico de Pedidos</span>
-                  <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Acessar todas as compras</span>
+                  <span className="block font-bold text-base text-slate-900">Histórico de Pedidos</span>
+                  <span className="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">Acessar todas as compras</span>
                 </div>
               </div>
-              <ChevronRight size={20} className="text-slate-600" />
+              <ChevronRight size={20} className="text-slate-300" />
             </button>
           </div>
         </section>
@@ -374,8 +379,8 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
 const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   const navigate = useNavigate();
   return (
-    <div className="bg-[#1a1a0d] min-h-screen flex flex-col font-display">
-      <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
+    <div className="bg-white min-h-screen flex flex-col font-display text-slate-900">
+      <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5 shadow-sm">
         <div className="flex items-center p-4 justify-between pt-12">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
@@ -393,14 +398,14 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
       <main className="flex-1 overflow-y-auto pb-24">
         <div className="flex gap-4 p-6 overflow-x-auto no-scrollbar">
           {[
-            { label: 'Usuários', value: '1,240', trend: '+12%', color: '#f2f20d' },
+            { label: 'Usuários', value: '1.240', trend: '+12%', color: '#f2f20d' },
             { label: 'Simulados', value: '850', trend: '+5%', color: '#f97316' },
             { label: 'Receita', value: 'R$ 4.2k', trend: '+8%', color: '#0ea5e9' }
           ].map((stat) => (
-            <div key={stat.label} className="flex min-w-[140px] flex-col gap-2 rounded-2xl p-5 bg-white/5 border border-white/5 shadow-xl">
-              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{stat.label}</p>
-              <p className="text-2xl font-black italic">{stat.value}</p>
-              <div className="flex items-center gap-1 text-[10px] text-emerald-500 font-black">
+            <div key={stat.label} className="flex min-w-[140px] flex-col gap-2 rounded-2xl p-5 bg-slate-50 border border-slate-100 shadow-sm">
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</p>
+              <p className="text-2xl font-black italic text-slate-900">{stat.value}</p>
+              <div className="flex items-center gap-1 text-[10px] text-emerald-600 font-black">
                 <BarChart3 size={10} /> {stat.trend}
               </div>
             </div>
@@ -410,7 +415,7 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
         <div className="px-6 pb-8">
           <button
             onClick={() => navigate('/admin/simulados/new')}
-            className="w-full bg-[#f2f20d] hover:bg-yellow-400 text-black font-black py-5 rounded-2xl flex items-center justify-center gap-3 shadow-2xl shadow-yellow-400/20 transition-all active:scale-95 italic uppercase text-sm"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 shadow-xl shadow-blue-600/20 transition-all active:scale-95 italic uppercase text-sm"
           >
             <Plus size={20} strokeWidth={3} /> Criar Novo Simulado
           </button>
@@ -425,16 +430,16 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
             <button
               key={item.label}
               onClick={item.onClick}
-              className="w-full flex items-center gap-4 bg-white/5 p-5 rounded-3xl border border-white/5 active:scale-[0.98] transition-all group hover:bg-white/[0.08]"
+              className="w-full flex items-center gap-4 bg-slate-50 p-5 rounded-3xl border border-slate-100 active:scale-[0.98] transition-all group hover:bg-slate-100"
             >
-              <div className="flex items-center justify-center rounded-2xl text-white shrink-0 size-14 shadow-2xl transition-transform group-hover:scale-110" style={{ backgroundColor: item.color }}>
+              <div className="flex items-center justify-center rounded-2xl text-white shrink-0 size-14 shadow-xl transition-transform group-hover:scale-110" style={{ backgroundColor: item.color }}>
                 <item.icon size={28} />
               </div>
               <div className="flex-1 text-left">
-                <p className="font-black text-lg italic leading-tight uppercase">{item.label}</p>
-                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">{item.sub}</p>
+                <p className="font-black text-lg italic leading-tight uppercase text-slate-900">{item.label}</p>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">{item.sub}</p>
               </div>
-              <ChevronRight size={20} className="text-slate-600" />
+              <ChevronRight size={20} className="text-slate-300" />
             </button>
           ))}
         </div>
@@ -446,8 +451,8 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
 const UserRegistrationScreen = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-[#1a1a0d] min-h-screen flex flex-col font-display">
-      <header className="sticky top-0 z-50 bg-yellow-400 text-black p-6 pt-12 flex items-center gap-4 shadow-xl">
+    <div className="bg-white min-h-screen flex flex-col font-display text-slate-900">
+      <header className="sticky top-0 z-50 bg-[#f2f20d] text-black p-6 pt-12 flex items-center gap-4 shadow-sm">
         <button onClick={() => navigate('/admin')} className="flex items-center justify-center size-10 rounded-full bg-black/10">
           <ArrowLeft size={24} />
         </button>
@@ -455,10 +460,10 @@ const UserRegistrationScreen = () => {
       </header>
       <main className="flex-1 p-8 flex flex-col items-center justify-center text-center">
         <div className="size-24 rounded-full bg-yellow-400/10 flex items-center justify-center mb-6">
-          <Users size={48} className="text-yellow-400" />
+          <Users size={48} className="text-yellow-600" />
         </div>
         <h2 className="text-2xl font-black italic uppercase">Em Construção</h2>
-        <p className="text-slate-500 mt-2 max-w-xs">A interface de gerenciamento de usuários será implementada em breve.</p>
+        <p className="text-slate-400 mt-2 max-w-xs">A interface de gerenciamento de usuários será implementada em breve.</p>
       </main>
     </div>
   );
@@ -467,8 +472,8 @@ const UserRegistrationScreen = () => {
 const PurchaseHistoryScreen = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-[#1a1a0d] min-h-screen flex flex-col font-display">
-      <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
+    <div className="bg-white min-h-screen flex flex-col font-display text-slate-900">
+      <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5 shadow-sm">
         <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
           <button onClick={() => navigate('/profile')} className="size-10 flex items-center justify-start text-black">
             <ChevronLeft size={24} />
@@ -481,10 +486,10 @@ const PurchaseHistoryScreen = () => {
         </div>
       </header>
       <main className="flex-1 p-8 flex flex-col items-center justify-center text-center">
-        <div className="size-20 rounded-full bg-white/5 flex items-center justify-center mb-6">
-          <Receipt size={32} className="text-slate-500" />
+        <div className="size-20 rounded-full bg-slate-50 flex items-center justify-center mb-6 border border-slate-100 shadow-inner">
+          <Receipt size={32} className="text-slate-300" />
         </div>
-        <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Nenhuma transação encontrada.</p>
+        <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Nenhuma transação encontrada.</p>
       </main>
     </div>
   );
@@ -536,8 +541,8 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -548,7 +553,7 @@ export default function App() {
 
   return (
     <Router>
-      <div className="relative flex min-h-screen w-full flex-col bg-background-light dark:bg-[#1a1a0d]">
+      <div className="relative flex min-h-screen w-full flex-col bg-white">
         <Sidebar
           isOpen={isSidebarOpen}
           onClose={() => setSidebarOpen(false)}

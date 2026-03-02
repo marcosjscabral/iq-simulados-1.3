@@ -187,11 +187,11 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
   };
 
   return (
-    <div className="bg-[#1a1a0d] min-h-screen flex justify-center">
-      <div className="relative flex min-h-screen w-full flex-col max-w-[430px] bg-[#1a1a0d] overflow-x-hidden">
+    <div className="bg-white min-h-screen flex justify-center text-slate-900">
+      <div className="relative flex min-h-screen w-full flex-col max-w-[430px] bg-white overflow-x-hidden">
 
         {/* Header */}
-        <header className="sticky top-0 z-50 bg-[#f2f20d]/90 backdrop-blur-xl border-b border-black/5">
+        <header className="sticky top-0 z-50 bg-[#f2f20d] border-b border-black/5 shadow-sm">
           <div className="flex items-center p-4 justify-between pt-12">
             <div className="flex items-center gap-3">
               <button
@@ -212,7 +212,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
 
         <main className="flex-1 px-5 pt-8 space-y-6 pb-12">
           {/* Upload Section */}
-          <section className="bg-blue-50/50 dark:bg-blue-900/10 rounded-2xl p-6 border-2 border-dashed border-blue-200 dark:border-blue-800/50 shadow-sm overflow-hidden min-h-[220px] flex items-center justify-center">
+          <section className="bg-slate-50 rounded-2xl p-6 border-2 border-dashed border-slate-200 shadow-sm overflow-hidden min-h-[220px] flex items-center justify-center">
             {imageUrl ? (
               <div className="relative w-full aspect-video rounded-xl overflow-hidden group">
                 <img src={imageUrl} alt="Capa" className="w-full h-full object-cover" />
@@ -238,8 +238,8 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                   </div>
                 </div>
                 <div className="text-center">
-                  <p className="font-bold text-slate-700 dark:text-slate-200">Capa do Simulado</p>
-                  <p className="text-[10px] text-slate-500 font-medium">800x450px (PNG ou JPG)</p>
+                  <p className="font-bold text-slate-900">Capa do Simulado</p>
+                  <p className="text-[10px] text-slate-400 font-medium">800x450px (PNG ou JPG)</p>
                 </div>
                 <label className="cursor-pointer mt-2 text-blue-600 text-sm font-bold border-2 border-blue-600 px-6 py-2.5 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95">
                   {uploading ? 'Enviando...' : 'Selecionar Imagem'}
@@ -250,10 +250,10 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
           </section>
 
           {/* Image Size Observations */}
-          <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 flex items-start gap-3">
+          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex items-start gap-3">
             <AlertCircle size={18} className="text-blue-500 shrink-0 mt-0.5" />
-            <div className="text-[11px] leading-relaxed text-slate-600 dark:text-slate-400 font-medium">
-              <p><strong className="text-slate-700 dark:text-slate-200">Obs:</strong> Tamanho ideal para as capas: <span className="text-blue-600 font-bold">800x450px</span>.</p>
+            <div className="text-[11px] leading-relaxed text-slate-500 font-medium">
+              <p><strong className="text-slate-900">Obs:</strong> Tamanho ideal para as capas: <span className="text-blue-600 font-bold">800x450px</span>.</p>
               <p>Para o banner de destaque: <span className="text-orange-600 font-bold">1200x600px</span>.</p>
             </div>
           </div>
@@ -261,42 +261,42 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
           {/* Form Fields */}
           <section className="space-y-5">
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">Nome do Simulado</label>
+              <label className="text-sm font-bold text-slate-900 ml-1">Nome do Simulado</label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full h-14 bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-800 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-blue-600 font-medium"
+                className="w-full h-14 bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-blue-600 font-medium text-slate-900"
                 placeholder="Ex: Simulado Completo OAB 2024"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">Preço (R$)</label>
+                <label className="text-sm font-bold text-slate-900 ml-1">Preço (R$)</label>
                 <input
                   type="text"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  className="w-full h-14 bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-800 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-blue-600 font-medium"
+                  className="w-full h-14 bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-blue-600 font-medium text-slate-900"
                   placeholder="0,00"
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">Questões</label>
+                <label className="text-sm font-bold text-slate-900 ml-1">Questões</label>
                 <input
                   type="number"
                   value={questionsCount}
                   onChange={(e) => setQuestionsCount(e.target.value)}
-                  className="w-full h-14 bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-800 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-blue-600 font-medium"
+                  className="w-full h-14 bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-blue-600 font-medium text-slate-900"
                   placeholder="0"
                 />
               </div>
             </div>
 
             {/* Gerenciar Categorias */}
-            <div className="flex flex-col gap-4 bg-slate-50/50 dark:bg-slate-800/30 p-5 rounded-3xl border border-slate-100 dark:border-slate-800">
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">Gerenciar Categorias</label>
+            <div className="flex flex-col gap-4 bg-slate-50 p-5 rounded-3xl border border-slate-100">
+              <label className="text-sm font-bold text-slate-900 ml-1">Gerenciar Categorias</label>
 
               <div className="flex flex-wrap gap-2 mb-2">
                 {/* Existing Categories as Selectable Chips */}
@@ -306,26 +306,26 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                       onClick={() => toggleCategory(cat)}
                       className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border-2 ${categories.includes(cat)
                         ? 'bg-[#2563eb] text-white border-[#2563eb] shadow-md scale-105'
-                        : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-100 dark:border-slate-800 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-500 active:scale-95'
+                        : 'bg-white text-slate-400 border-slate-100 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-500 active:scale-95'
                         }`}
                     >
                       {cat}
                     </button>
                     <button
                       onClick={(e) => handleDeleteCategoryClick(cat, e)}
-                      className="absolute -top-1.5 -right-1.5 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center transition-all opacity-0 group-hover/cat:opacity-100 shadow-lg shadow-red-600/40 active:scale-90"
+                      className="absolute -top-1.5 -right-1.5 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center transition-all shadow-lg shadow-red-600/40 active:scale-90 z-10"
                     >
-                      <MinusCircle size={14} fill="currentColor" />
+                      <X size={12} strokeWidth={4} />
                     </button>
                   </div>
                 ))}
               </div>
 
-              <div className="flex gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+              <div className="flex gap-2 pt-2 border-t border-slate-100">
                 <input
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
-                  className="flex-1 h-12 bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-xl px-4 text-sm outline-none font-medium focus:border-blue-500 transition-colors"
+                  className="flex-1 h-12 bg-white border-2 border-slate-100 rounded-xl px-4 text-sm outline-none font-medium focus:border-blue-500 transition-colors text-slate-900"
                   placeholder="Criar Nova Categoria"
                   onKeyPress={(e) => e.key === 'Enter' && addCategory()}
                 />
@@ -339,43 +339,43 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">Descrição Curta</label>
+              <label className="text-sm font-bold text-slate-900 ml-1">Descrição Curta</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full h-32 bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-800 rounded-2xl p-5 outline-none focus:ring-2 focus:ring-blue-600 font-medium resize-none"
+                className="w-full h-32 bg-slate-50 border-2 border-slate-100 rounded-2xl p-5 outline-none focus:ring-2 focus:ring-blue-600 font-medium resize-none text-slate-900"
                 placeholder="Breve resumo sobre o conteúdo do simulado..."
               ></textarea>
             </div>
 
             <div className="space-y-3">
               {/* Active Vitrine Toggle */}
-              <div className="flex items-center justify-between p-5 bg-blue-50/50 dark:bg-blue-900/10 rounded-2xl border border-blue-100 dark:border-blue-800/30">
+              <div className="flex items-center justify-between p-5 bg-blue-50 rounded-2xl border border-blue-100">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-blue-600/10 rounded-lg text-blue-600">
                     <Eye size={20} />
                   </div>
-                  <span className="font-bold text-slate-700 dark:text-slate-200">Ativar na Vitrine</span>
+                  <span className="font-bold text-slate-900">Ativar na Vitrine</span>
                 </div>
                 <button
                   onClick={() => setIsActive(!isActive)}
-                  className={`w-12 h-6 rounded-full transition-colors relative flex items-center px-1 ${isActive ? 'bg-blue-600' : 'bg-slate-300'}`}
+                  className={`w-12 h-6 rounded-full transition-colors relative flex items-center px-1 ${isActive ? 'bg-blue-600' : 'bg-slate-200'}`}
                 >
                   <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${isActive ? 'translate-x-6' : 'translate-x-0'}`}></div>
                 </button>
               </div>
 
               {/* Featured Toggle */}
-              <div className="flex items-center justify-between p-5 bg-orange-50/50 dark:bg-orange-900/10 rounded-2xl border border-orange-100 dark:border-orange-800/30">
+              <div className="flex items-center justify-between p-5 bg-orange-50 rounded-2xl border border-orange-100">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-orange-500/10 rounded-lg text-orange-500">
                     <Star size={20} />
                   </div>
-                  <span className="font-bold text-slate-700 dark:text-slate-200">Colocar em Destaque</span>
+                  <span className="font-bold text-slate-900">Colocar em Destaque</span>
                 </div>
                 <button
                   onClick={() => setIsFeatured(!isFeatured)}
-                  className={`w-12 h-6 rounded-full transition-colors relative flex items-center px-1 ${isFeatured ? 'bg-orange-500' : 'bg-slate-300'}`}
+                  className={`w-12 h-6 rounded-full transition-colors relative flex items-center px-1 ${isFeatured ? 'bg-orange-500' : 'bg-slate-200'}`}
                 >
                   <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${isFeatured ? 'translate-x-6' : 'translate-x-0'}`}></div>
                 </button>
@@ -383,12 +383,12 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
 
               {/* Featured Label Input */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-orange-600 dark:text-orange-400 ml-1">Etiqueta de Destaque (Ex: MAIS PROCURADO)</label>
+                <label className="text-xs font-bold text-orange-600 ml-1">Etiqueta de Destaque (Ex: MAIS PROCURADO)</label>
                 <input
                   type="text"
                   value={featuredLabel}
                   onChange={(e) => setFeaturedLabel(e.target.value)}
-                  className="w-full h-12 bg-orange-50/50 dark:bg-orange-900/10 border-2 border-orange-100 dark:border-orange-800/30 rounded-xl px-4 outline-none focus:ring-2 focus:ring-orange-500 font-medium text-sm"
+                  className="w-full h-12 bg-orange-50 border-2 border-orange-100 rounded-xl px-4 outline-none focus:ring-2 focus:ring-orange-500 font-medium text-sm text-slate-900"
                   placeholder="Deixe em branco para não exibir mensagem"
                 />
               </div>
@@ -402,12 +402,6 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
               className={`w-full bg-blue-600 text-white font-bold h-14 rounded-2xl shadow-xl shadow-blue-600/20 active:scale-[0.98] transition-all flex items-center justify-center ${loading ? 'opacity-70' : ''}`}
             >
               {loading ? 'Salvando...' : (simuladoId ? 'Salvar Alterações' : 'Publicar Simulado')}
-            </button>
-            <button
-              onClick={() => navigate('/admin/list')}
-              className="w-full bg-[#FFD700] hover:bg-[#FFD700]/90 text-slate-900 font-bold h-14 rounded-2xl shadow-lg shadow-[#FFD700]/10 active:scale-[0.98] transition-all"
-            >
-              Editar Vitrine
             </button>
           </div>
         </main>
