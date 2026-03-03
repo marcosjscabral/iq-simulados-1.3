@@ -28,7 +28,16 @@ export interface Simulado {
   is_active: boolean;
   is_featured: boolean;
   featured_label?: string;
+  stripe_product_id?: string;
+  stripe_price_id?: string;
   created_at?: string;
+}
+
+export interface AppSetting {
+  id: string;
+  key: string;
+  value: string;
+  updated_at: string;
 }
 
 export interface UserSimulado extends Simulado {

@@ -13,6 +13,9 @@ import {
 import { Simulado } from '../types';
 import { supabase } from '../lib/supabase';
 import { useModal } from '../components/ModalContext';
+import { StripeToggle } from '../components/StripeToggle';
+import { StripeService } from '../lib/stripeService';
+import { Ticket } from 'lucide-react';
 
 interface AdminListSimuladosProps {
     onPublishSuccess?: () => void;
@@ -53,6 +56,31 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
     const handleDelete = async (id: string, title: string) => {
         showConfirm('Excluir Simulado', `Tem certeza que deseja excluir o simulado "${title}"?`, async () => {
             try {
+                // 1. Check if Stripe is enabled and if we have a product ID
+                const { data: settings } = await supabase
+                    .from('app_settings')
+                    .select('value')
+                    .eq('key', 'stripe_enabled')
+                    .single();
+
+                const stripeEnabled = settings?.value === 'true';
+
+                if (stripeEnabled) {
+                    const { data: sim } = await supabase
+                        .from('simulados')
+                        .select('stripe_product_id')
+                        .eq('id', id)
+                        .single();
+
+                    if (sim?.stripe_product_id) {
+                        try {
+                            await StripeService.archiveProduct(sim.stripe_product_id);
+                        } catch (err) {
+                            console.error('Error archiving stripe product:', err);
+                        }
+                    }
+                }
+
                 const { error } = await supabase
                     .from('simulados')
                     .delete()
@@ -92,16 +120,27 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
                                 <p className="text-black/60 text-[10px] font-bold uppercase tracking-widest">Administração</p>
                             </div>
                         </div>
-                        <button
-                            onClick={() => navigate('/admin/simulados/new')}
-                            className="bg-black text-white px-4 py-2 rounded-xl flex items-center gap-2 text-[10px] font-black uppercase italic shadow-lg active:scale-95 transition-all"
-                        >
-                            <Plus size={16} strokeWidth={3} /> Novo Simulado
-                        </button>
+                        <div className="flex gap-2">
+                            <button
+                                onClick={() => navigate('/admin/coupons')}
+                                className="bg-black text-[#ffd700] p-2.5 rounded-xl shadow-lg active:scale-95 transition-all flex items-center gap-2"
+                                title="Gerenciar Cupons"
+                            >
+                                <Ticket size={18} />
+                            </button>
+                            <button
+                                onClick={() => navigate('/admin/simulados/new')}
+                                className="bg-black text-white px-4 py-2 rounded-xl flex items-center gap-2 text-[10px] font-black uppercase italic shadow-lg active:scale-95 transition-all"
+                            >
+                                <Plus size={16} strokeWidth={3} /> Novo
+                            </button>
+                        </div>
                     </div>
                 </header>
 
                 <main className="flex-1 px-5 pt-6 space-y-6 pb-24">
+                    <StripeToggle />
+
                     {/* Search Bar */}
                     <div className="relative">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />

@@ -22,7 +22,8 @@ import {
   TrendingUp,
   Flame,
   ShoppingCart,
-  List
+  List,
+  Ticket
 } from 'lucide-react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { Simulado } from './types';
@@ -32,6 +33,10 @@ import { User as SupabaseUser } from '@supabase/supabase-js';
 import { Sidebar } from './components/Sidebar';
 import AdminSimulados from './pages/AdminSimulados';
 import AdminListSimulados from './pages/AdminListSimulados';
+import AdminCoupons from './pages/AdminCoupons';
+import CheckoutSuccess from './pages/CheckoutSuccess';
+import CheckoutCancel from './pages/CheckoutCancel';
+import { StripeService } from './lib/stripeService';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { MyExamsScreen } from './pages/MyExamsScreen';
 import { UserRegistrationScreen } from './pages/UserRegistrationScreen';
@@ -49,8 +54,63 @@ const formatPrice = (price: number) => {
 const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView: (v: any) => void, simulados: Simulado[] }) => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('Todos');
+  const [ownedIds, setOwnedIds] = useState<string[]>([]);
+  const [buyingId, setBuyingId] = useState<string | null>(null);
 
   const categories = ['Todos', ...Array.from(new Set(simulados.flatMap(s => s.categories || [])))];
+
+  useEffect(() => {
+    fetchOwnedSimulados();
+  }, []);
+
+  const fetchOwnedSimulados = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data } = await supabase.from('user_simulados').select('simulado_id').eq('user_id', user.id);
+      if (data) setOwnedIds(data.map(d => d.simulado_id));
+    } catch (err) {
+      console.error('Error fetching owned:', err);
+    }
+  };
+
+  const handleBuy = async (sim: Simulado) => {
+    if (ownedIds.includes(sim.id)) {
+      navigate(`/exam/${sim.id}`);
+      return;
+    }
+
+    if (!sim.stripe_price_id) {
+      alert('Este simulado não possui um preço configurado no Stripe.');
+      return;
+    }
+
+    setBuyingId(sim.id);
+    try {
+      // Check if Stripe enabled
+      const { data: settings } = await supabase.from('app_settings').select('value').eq('key', 'stripe_enabled').single();
+      if (settings?.value !== 'true') {
+        alert('O checkout está desabilitado no momento (Modo Desenvolvimento).');
+        return;
+      }
+
+      const successUrl = `${window.location.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}&simulado_id=${sim.id}`;
+      const cancelUrl = `${window.location.origin}/`;
+
+      const session = await StripeService.createCheckoutSession(sim.stripe_price_id, successUrl, cancelUrl);
+      if (session.url) {
+        window.location.href = session.url;
+      } else {
+        throw new Error('Could not create checkout session');
+      }
+    } catch (err: any) {
+      console.error('Checkout error:', err);
+      alert('Erro ao iniciar checkout: ' + (err.message || 'Erro desconhecido'));
+    } finally {
+      setBuyingId(null);
+    }
+  };
+
   const featuredSimulado = simulados.find(s => s.is_featured);
   const activeSimulados = simulados.filter(s => s.is_active && !s.is_featured);
 
@@ -138,8 +198,21 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                   {featuredSimulado.description || 'Descrição não informada.'}
                 </p>
 
-                <button className="w-full mt-1 bg-[#2c73eb] text-white py-3.5 rounded-xl text-[15px] font-black flex items-center justify-center gap-2.5 hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/20">
-                  <ShoppingCart size={18} strokeWidth={2.5} /> Comprar Agora
+                <button
+                  disabled={buyingId === featuredSimulado.id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleBuy(featuredSimulado);
+                  }}
+                  className={`w-full mt-1 ${ownedIds.includes(featuredSimulado.id) ? 'bg-emerald-600' : 'bg-[#2c73eb]'} text-white py-3.5 rounded-xl text-[15px] font-black flex items-center justify-center gap-2.5 hover:opacity-90 transition-colors shadow-lg`}
+                >
+                  {buyingId === featuredSimulado.id ? (
+                    <div className="size-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : ownedIds.includes(featuredSimulado.id) ? (
+                    <>Acessar Simulado</>
+                  ) : (
+                    <><ShoppingCart size={18} strokeWidth={2.5} /> Comprar Agora</>
+                  )}
                 </button>
               </div>
             </div>
@@ -181,8 +254,21 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 
                     <div className="flex items-center justify-between mt-2">
                       <span className="text-[15px] font-black text-[#2c73eb]">R$ {formatPrice(simulado.price)}</span>
-                      <button className="bg-[#2c73eb] text-white px-5 py-2 rounded-xl text-[13px] font-black hover:bg-blue-600 transition-colors shadow-md">
-                        Comprar
+                      <button
+                        disabled={buyingId === simulado.id}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleBuy(simulado);
+                        }}
+                        className={`${ownedIds.includes(simulado.id) ? 'bg-emerald-600' : 'bg-[#2c73eb]'} text-white px-5 py-2 rounded-xl text-[13px] font-black hover:opacity-90 transition-colors shadow-md`}
+                      >
+                        {buyingId === simulado.id ? (
+                          <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        ) : ownedIds.includes(simulado.id) ? (
+                          'Acessar'
+                        ) : (
+                          'Comprar'
+                        )}
                       </button>
                     </div>
                   </div>
@@ -342,6 +428,7 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   const navigate = useNavigate();
   const [userCount, setUserCount] = useState<number | string>('...');
   const [simuladosCount, setSimuladosCount] = useState<number | string>('...');
+  const [stripeBalance, setStripeBalance] = useState<string>('...');
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -354,6 +441,19 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
           .select('*', { count: 'exact', head: true });
 
         if (simCount !== null) setSimuladosCount(simCount);
+
+        try {
+          const balance = await StripeService.getBalance();
+          if (balance.available && balance.available[0]) {
+            const amount = balance.available[0].amount / 100;
+            setStripeBalance(`R$ ${amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`);
+          } else {
+            setStripeBalance('R$ 0,00');
+          }
+        } catch (e) {
+          console.error('Error fetching Stripe balance:', e);
+          setStripeBalance('Indisponível');
+        }
       } catch (error) {
         console.error('Error fetching admin stats:', error);
       }
@@ -382,7 +482,7 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
           {[
             { label: 'Usuários', value: userCount.toString(), trend: '+12%', color: '#ffd700' },
             { label: 'Simulados', value: simuladosCount.toString(), trend: '+5%', color: '#f97316' },
-            { label: 'Receita', value: 'R$ 4.2k', trend: '+8%', color: '#3b82f6' }
+            { label: 'Disponível (Stripe)', value: stripeBalance, trend: 'Real-time', color: '#3b82f6' }
           ].map((stat) => (
             <div key={stat.label} className="flex min-w-[140px] flex-col gap-2 rounded-3xl p-6 bg-white/5 border border-white/5 shadow-2xl">
               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{stat.label}</p>
@@ -397,6 +497,7 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
           <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-6 px-2">Atalhos Administrativos</h2>
           {[
             { icon: FileText, label: 'Gerenciar Simulados', sub: 'Lista completa e edições rápidas', color: '#f97316', onClick: () => navigate('/admin/list') },
+            { icon: Ticket, label: 'Cupons e Descontos', sub: 'Criar códigos promocionais Stripe', color: '#ffd700', onClick: () => navigate('/admin/coupons') },
             { icon: List, label: 'Banco de Questões', sub: 'Cadastrar perguntas e respostas', color: '#10b981', onClick: () => navigate('/admin/questoes') },
             { icon: Users, label: 'Usuários e Acessos', sub: 'Status de assinaturas e permissões', color: '#3b82f6', onClick: () => navigate('/admin/users') }
           ].map((item) => (
@@ -539,6 +640,8 @@ export default function App() {
             <Route path="/profile/purchases" element={<PurchaseHistoryScreen />} />
             <Route path="/exam/:id" element={<ExamExecutionScreen />} />
             <Route path="/exam/:id/answer-key" element={<AnswerKeyScreen />} />
+            <Route path="/checkout/success" element={<CheckoutSuccess />} />
+            <Route path="/checkout/cancel" element={<CheckoutCancel />} />
 
             {/* Admin Routes (Protected) */}
             <Route path="/admin" element={
@@ -569,6 +672,11 @@ export default function App() {
             <Route path="/admin/questoes" element={
               <ProtectedRoute requireAdmin>
                 <AdminQuestoesScreen />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/coupons" element={
+              <ProtectedRoute requireAdmin>
+                <AdminCoupons />
               </ProtectedRoute>
             } />
 

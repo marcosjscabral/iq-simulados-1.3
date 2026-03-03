@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Plus, Camera, Image as ImageIcon, MinusCircle, Eye, Star, AlertCircle, Trash2, X } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useModal } from '../components/ModalContext';
+import { StripeService } from '../lib/stripeService';
+import { Simulado } from '../types';
 
 interface AdminSimuladosProps {
   onPublishSuccess?: () => void;
@@ -154,16 +156,64 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
 
     setLoading(true);
     try {
+      // 1. Check if Stripe is enabled
+      const { data: settings } = await supabase
+        .from('app_settings')
+        .select('value')
+        .eq('key', 'stripe_enabled')
+        .single();
+
+      const stripeEnabled = settings?.value === 'true';
+      const numericPrice = parseFloat(price.replace(',', '.'));
+
+      // 2. Load existing simulado data if editing
+      let existingSimulado: Simulado | null = null;
+      if (simuladoId) {
+        const { data } = await supabase.from('simulados').select('*').eq('id', simuladoId).single();
+        existingSimulado = data;
+      }
+
+      let stripeProductId = existingSimulado?.stripe_product_id;
+      let stripePriceId = existingSimulado?.stripe_price_id;
+
+      // 3. Sync with Stripe if enabled
+      if (stripeEnabled) {
+        try {
+          if (stripeProductId) {
+            // Update product
+            await StripeService.updateProduct(stripeProductId, { name: title, description });
+
+            // If price changed, we must create a new price (Stripe requirement)
+            if (existingSimulado && existingSimulado.price !== numericPrice) {
+              const newPriceData = await StripeService.createPrice(stripeProductId, numericPrice);
+              stripePriceId = newPriceData.id;
+            }
+          } else {
+            // Create new product
+            const product = await StripeService.createProduct(title, description);
+            stripeProductId = product.id;
+            const priceData = await StripeService.createPrice(stripeProductId, numericPrice);
+            stripePriceId = priceData.id;
+          }
+        } catch (err) {
+          console.error('Stripe Sync Error:', err);
+          // We continue but notify the user
+          showAlert('Aviso', 'Erro ao sincronizar com Stripe. O simulado será salvo apenas localmente.', 'alert');
+        }
+      }
+
       const payload = {
         title,
-        price: parseFloat(price.replace(',', '.')),
+        price: numericPrice,
         questions_count: parseInt(questionsCount),
         description,
         categories,
         is_active: isActive,
         is_featured: isFeatured,
         featured_label: featuredLabel,
-        image_url: imageUrl || 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800' // Better fallback
+        image_url: imageUrl || 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800',
+        stripe_product_id: stripeProductId,
+        stripe_price_id: stripePriceId
       };
 
       let result;
