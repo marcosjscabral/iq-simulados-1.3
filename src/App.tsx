@@ -340,6 +340,28 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
 
 const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   const navigate = useNavigate();
+  const [userCount, setUserCount] = useState<number | string>('...');
+  const [simuladosCount, setSimuladosCount] = useState<number | string>('...');
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const { data: userData } = await supabase.rpc('get_all_users');
+        if (userData) setUserCount(userData.length);
+
+        const { count: simCount } = await supabase
+          .from('simulados')
+          .select('*', { count: 'exact', head: true });
+
+        if (simCount !== null) setSimuladosCount(simCount);
+      } catch (error) {
+        console.error('Error fetching admin stats:', error);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
   return (
     <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
       <header className="sticky top-0 z-50 bg-[#ffd700] rounded-b-[2.5rem] shadow-2xl">
@@ -351,17 +373,15 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
             <h1 className="text-xl font-black leading-tight text-black italic uppercase italic tracking-tighter">IQ ADMIN</h1>
             <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Gerenciamento</p>
           </div>
-          <button className="size-10 flex items-center justify-end text-black">
-            <Bell size={20} />
-          </button>
+          <div className="size-10 flex items-center justify-end text-black" />
         </div>
       </header>
 
       <main className="flex-1 overflow-y-auto pb-32 pt-8">
         <div className="flex gap-4 p-6 overflow-x-auto no-scrollbar">
           {[
-            { label: 'Usuários', value: '1.240', trend: '+12%', color: '#ffd700' },
-            { label: 'Simulados', value: '850', trend: '+5%', color: '#f97316' },
+            { label: 'Usuários', value: userCount.toString(), trend: '+12%', color: '#ffd700' },
+            { label: 'Simulados', value: simuladosCount.toString(), trend: '+5%', color: '#f97316' },
             { label: 'Receita', value: 'R$ 4.2k', trend: '+8%', color: '#3b82f6' }
           ].map((stat) => (
             <div key={stat.label} className="flex min-w-[140px] flex-col gap-2 rounded-3xl p-6 bg-white/5 border border-white/5 shadow-2xl">
@@ -373,16 +393,6 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
             </div>
           ))}
         </div>
-
-        <div className="px-6 pb-10">
-          <button
-            onClick={() => navigate('/admin/simulados/new')}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-6 rounded-[2rem] flex items-center justify-center gap-3 shadow-2xl shadow-blue-600/30 transition-all active:scale-95 italic uppercase text-sm"
-          >
-            <Plus size={20} strokeWidth={4} /> Criar Novo Simulado
-          </button>
-        </div>
-
         <div className="px-6 space-y-4">
           <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-6 px-2">Atalhos Administrativos</h2>
           {[
@@ -406,8 +416,8 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
             </button>
           ))}
         </div>
-      </main>
-    </div>
+      </main >
+    </div >
   );
 };
 
