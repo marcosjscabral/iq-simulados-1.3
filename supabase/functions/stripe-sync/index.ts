@@ -11,7 +11,7 @@ serve(async (req) => {
     try {
         const authHeader = req.headers.get('Authorization');
         if (!authHeader) {
-            return jsonResponse({ error: 'Auth header missing' }, 401);
+            return jsonResponse({ error: 'Auth header missing' }, 200);
         }
 
         const supabaseClient = createClient(
@@ -34,7 +34,7 @@ serve(async (req) => {
             return jsonResponse({
                 error: 'Unauthorized',
                 details: userError?.message || 'No user found'
-            }, 401);
+            }, 200);
         }
 
         // In our app, admin check is done via app_metadata.is_admin or user_metadata.is_admin (based on RLS)

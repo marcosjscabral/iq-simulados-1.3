@@ -13,6 +13,7 @@ export class StripeService {
             body: { action: 'createProduct', payload: { name, description } }
         });
         if (error) throw error;
+        if (data && data.error) throw new Error(data.details || data.error);
         return data;
     }
 
@@ -21,6 +22,7 @@ export class StripeService {
             body: { action: 'updateProduct', payload: { productId, ...payloadData } }
         });
         if (error) throw error;
+        if (data && data.error) throw new Error(data.details || data.error);
         return data;
     }
 
@@ -29,6 +31,7 @@ export class StripeService {
             body: { action: 'createPrice', payload: { productId, amount } }
         });
         if (error) throw error;
+        if (data && data.error) throw new Error(data.details || data.error);
         return data;
     }
 
@@ -37,6 +40,7 @@ export class StripeService {
             body: { priceId, successUrl, cancelUrl, simuladoId }
         });
         if (error) throw error;
+        if (data && data.error) throw new Error(data.details || data.error);
         return data;
     }
 
@@ -49,6 +53,7 @@ export class StripeService {
             body: { action: 'listCoupons' }
         });
         if (error) throw error;
+        if (data && data.error) throw new Error(data.details || data.error);
         return data;
     }
 
@@ -57,6 +62,7 @@ export class StripeService {
             body: { action: 'createCoupon', payload: { name, percentOff, amountOff } }
         });
         if (error) throw error;
+        if (data && data.error) throw new Error(data.details || data.error);
         return data;
     }
 
@@ -65,6 +71,7 @@ export class StripeService {
             body: { action: 'deleteCoupon', payload: { couponId } }
         });
         if (error) throw error;
+        if (data && data.error) throw new Error(data.details || data.error);
         return data;
     }
 
@@ -73,6 +80,7 @@ export class StripeService {
             body: { action: 'getBalance' }
         });
         if (error) throw error;
+        if (data && data.error) throw new Error(data.details || data.error);
         return data;
     }
 }
