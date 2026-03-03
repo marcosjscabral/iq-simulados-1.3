@@ -237,9 +237,10 @@ export const ExamExecutionScreen = () => {
                         <div className="absolute -top-3 left-8 bg-[#334155] text-[10px] font-black text-white uppercase px-3 py-1 rounded-full tracking-widest shadow-sm">
                             Enunciado
                         </div>
-                        <p className="text-slate-200 text-lg sm:text-xl font-medium leading-relaxed">
-                            {currentQuestion.enunciado}
-                        </p>
+                        <div
+                            className="text-slate-200 text-lg sm:text-xl font-medium leading-relaxed"
+                            dangerouslySetInnerHTML={{ __html: currentQuestion.enunciado }}
+                        />
                     </div>
 
                     {/* Options */}
@@ -304,9 +305,16 @@ export const ExamExecutionScreen = () => {
                                     Comentário
                                 </span>
                             </div>
-                            <div className="text-slate-200 text-base font-medium leading-relaxed mt-3 whitespace-pre-wrap">
-                                {currentQuestion.explicacao ? currentQuestion.explicacao : 'Nenhum comentário disponível para esta questão.'}
-                            </div>
+                            {currentQuestion.explicacao ? (
+                                <div
+                                    className="text-slate-200 text-base font-medium leading-relaxed mt-3"
+                                    dangerouslySetInnerHTML={{ __html: currentQuestion.explicacao }}
+                                />
+                            ) : (
+                                <div className="text-slate-200 text-base font-medium leading-relaxed mt-3 whitespace-pre-wrap">
+                                    Nenhum comentário disponível para esta questão.
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>

@@ -4,6 +4,7 @@ import { ArrowLeft, Plus, Trash2, Edit2, Check, Save, Layers, List } from 'lucid
 import { supabase } from '../lib/supabase';
 import { Simulado, Questao } from '../types';
 import { useModal } from '../components/ModalContext';
+import { RichInput } from '../components/RichInput';
 
 export const AdminQuestoesScreen = () => {
     const navigate = useNavigate();
@@ -198,10 +199,10 @@ export const AdminQuestoesScreen = () => {
                             <form onSubmit={handleSave} className="space-y-5">
                                 <div>
                                     <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2 pl-1">Enunciado / Pergunta</label>
-                                    <textarea
+                                    <RichInput
                                         value={enunciado}
-                                        onChange={(e) => setEnunciado(e.target.value)}
-                                        className="w-full bg-[#0f172a] border-2 border-[#334155] rounded-xl p-4 text-white font-medium outline-none focus:border-[#ffd700] transition-colors min-h-[120px] resize-y"
+                                        onChange={(val) => setEnunciado(val)}
+                                        className="w-full"
                                         placeholder="Digite o enunciado da questão..."
                                     />
                                 </div>
@@ -237,10 +238,10 @@ export const AdminQuestoesScreen = () => {
 
                                 <div>
                                     <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1 mt-6 mb-2">Comentário / Explicação (Opcional)</label>
-                                    <textarea
+                                    <RichInput
                                         value={explicacao}
-                                        onChange={(e) => setExplicacao(e.target.value)}
-                                        className="w-full bg-[#0f172a] border-2 border-[#334155] rounded-xl p-4 text-white text-sm outline-none focus:border-blue-500 transition-colors min-h-[80px] resize-y"
+                                        onChange={(val) => setExplicacao(val)}
+                                        className="w-full"
                                         placeholder="Justificativa da resposta..."
                                     />
                                 </div>
@@ -281,9 +282,10 @@ export const AdminQuestoesScreen = () => {
                                                 {index + 1}
                                             </div>
                                             <div className="flex-1 min-w-0">
-                                                <p className="font-medium text-sm text-white line-clamp-2 leading-relaxed">
-                                                    {q.enunciado}
-                                                </p>
+                                                <div
+                                                    className="font-medium text-sm text-white line-clamp-2 leading-relaxed"
+                                                    dangerouslySetInnerHTML={{ __html: q.enunciado }}
+                                                />
                                                 <div className="flex items-center gap-3 mt-3">
                                                     <span className="text-[10px] uppercase font-bold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded">
                                                         Gabarito: {q.resposta_correta}
