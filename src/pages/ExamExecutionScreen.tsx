@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, ShieldCheck, Loader2, CheckCircle2, ChevronRight, Clock, ListChecks } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ShieldCheck, Loader2, CheckCircle2, ChevronRight, Clock, ListChecks, Eye, EyeOff } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Simulado, Questao } from '../types';
 import { useModal } from '../components/ModalContext';
@@ -17,8 +17,20 @@ export const ExamExecutionScreen = () => {
     const [examFinished, setExamFinished] = useState(false);
     const [isReviewing, setIsReviewing] = useState(false);
     const [startTime] = useState<number>(Date.now());
+    const [currentTime, setCurrentTime] = useState<number>(Date.now());
     const [timeSpent, setTimeSpent] = useState<number>(0);
+    const [showTimer, setShowTimer] = useState<boolean>(false);
     const { showAlert, showConfirm } = useModal();
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout;
+        if (!examFinished && !loading) {
+            interval = setInterval(() => {
+                setCurrentTime(Date.now());
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [examFinished, loading]);
 
     useEffect(() => {
         fetchData();
@@ -197,9 +209,25 @@ export const ExamExecutionScreen = () => {
                             <span className="font-bold text-sm text-slate-300">de {questoes.length}</span>
                         </div>
                     </div>
-                    <div className="flex items-center gap-1.5 opacity-50">
-                        <ShieldCheck size={18} className="text-emerald-400" />
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400">Protegido</span>
+                    <div className="flex items-center gap-1.5 opacity-80 cursor-pointer p-2 rounded-xl hover:bg-white/5 transition-colors" onClick={() => setShowTimer(!showTimer)}>
+                        {showTimer ? (
+                            <>
+                                <EyeOff size={18} className="text-emerald-400" />
+                                <span className="text-[14px] font-black tracking-widest text-emerald-400 font-mono">
+                                    {(() => {
+                                        const elapsed = Math.floor((currentTime - startTime) / 1000);
+                                        const h = Math.floor(elapsed / 3600);
+                                        const m = Math.floor((elapsed % 3600) / 60);
+                                        const s = elapsed % 60;
+                                        return `${h > 0 ? h.toString().padStart(2, '0') + ':' : ''}${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                                    })()}
+                                </span>
+                            </>
+                        ) : (
+                            <>
+                                <Eye size={18} className="text-slate-500" />
+                            </>
+                        )}
                     </div>
                 </div>
 
@@ -271,10 +299,12 @@ export const ExamExecutionScreen = () => {
                     {/* Explicacao Area */}
                     {isReviewing && (
                         <div className="mt-8 bg-[#1e293b] p-6 rounded-[2rem] border border-[#334155] shadow-xl relative animate-in fade-in slide-in-from-bottom-4 duration-500 mb-8 max-w-full overflow-hidden">
-                            <div className="absolute -top-3 left-8 bg-[#4686f7] text-[10px] font-black text-white px-3 py-1 rounded-full uppercase tracking-widest shadow-sm">
-                                Comentário
+                            <div className="flex items-center mb-1">
+                                <span className="text-[12px] font-black text-[#4686f7] uppercase tracking-widest bg-[#4686f7]/10 px-3 py-1 rounded-full border border-[#4686f7]/20">
+                                    Comentário
+                                </span>
                             </div>
-                            <div className="text-slate-200 text-base font-medium leading-relaxed mt-2 whitespace-pre-wrap">
+                            <div className="text-slate-200 text-base font-medium leading-relaxed mt-3 whitespace-pre-wrap">
                                 {currentQuestion.explicacao ? currentQuestion.explicacao : 'Nenhum comentário disponível para esta questão.'}
                             </div>
                         </div>
