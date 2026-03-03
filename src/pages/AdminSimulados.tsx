@@ -202,7 +202,9 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
           }
         } catch (err: any) {
           console.error('Stripe Sync Error:', err);
-          showAlert('Aviso Stripe', `Erro na sincronização: ${err.message}. O simulado foi salvo, mas a venda via Stripe pode não funcionar.`, 'alert');
+          showAlert('Erro Stripe', `A chave VITE_STRIPE_SECRET_KEY parece estar ausente ou a sincronização falhou: ${err.message}. Configure a chave no arquivo .env.local para continuar.`, 'error');
+          setLoading(false);
+          return; // Block save if Stripe fails
         }
       }
 
