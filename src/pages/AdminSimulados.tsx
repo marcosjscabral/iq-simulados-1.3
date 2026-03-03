@@ -202,7 +202,11 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
           }
         } catch (err: any) {
           console.error('Stripe Sync Error:', err);
-          showAlert('Erro Stripe', `A chave VITE_STRIPE_SECRET_KEY parece estar ausente ou a sincronização falhou: ${err.message}. Configure a chave no arquivo .env.local para continuar.`, 'error');
+          let errorMsg = err.message;
+          if (err.context && err.context.status) {
+            errorMsg = `A função retornou o código de erro ${err.context.status}. Verifique os logs do Supabase Edge Functions.`;
+          }
+          showAlert('Erro Stripe', `Ocorreu um erro ao conectar com o Stripe: ${errorMsg}`, 'error');
           setLoading(false);
           return; // Block save if Stripe fails
         }
