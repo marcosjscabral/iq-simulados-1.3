@@ -64,8 +64,11 @@ export class StripeService {
             success_url: successUrl,
             cancel_url: cancelUrl,
             mode: 'payment',
+            'payment_method_types[0]': 'card',
+            'payment_method_types[1]': 'pix',
             'line_items[0][price]': priceId,
             'line_items[0][quantity]': '1',
+            'payment_method_options[pix][expires_after_seconds]': '3600'
         };
         const response = await fetch('https://api.stripe.com/v1/checkout/sessions', {
             method: 'POST',

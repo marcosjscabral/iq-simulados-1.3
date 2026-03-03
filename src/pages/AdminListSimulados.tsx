@@ -8,7 +8,9 @@ import {
     Edit2,
     TrendingUp,
     Filter,
-    Image as ImageIcon
+    Image as ImageIcon,
+    Link,
+    Link2Off
 } from 'lucide-react';
 import { Simulado } from '../types';
 import { supabase } from '../lib/supabase';
@@ -181,9 +183,22 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
                                     </div>
 
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="font-bold text-sm text-white truncate leading-tight mb-1">
-                                            {sim.title}
-                                        </h3>
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <h3 className="font-bold text-sm text-white truncate leading-tight">
+                                                {sim.title}
+                                            </h3>
+                                            {sim.stripe_product_id ? (
+                                                <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-500 border border-emerald-500/20" title="Sincronizado com Stripe">
+                                                    <Link size={10} />
+                                                    <span className="text-[8px] font-black uppercase">Stripe OK</span>
+                                                </div>
+                                            ) : (
+                                                <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-orange-500/10 text-orange-500 border border-orange-500/20" title="Apenas Local (Necessário Salvar Novamente)">
+                                                    <Link2Off size={10} />
+                                                    <span className="text-[8px] font-black uppercase">Local Only</span>
+                                                </div>
+                                            )}
+                                        </div>
                                         <div className="flex items-center gap-2 text-[10px] font-bold text-slate-500 uppercase tracking-tight">
                                             <span className="text-blue-400">R$ {formatPrice(sim.price)}</span>
                                             <span className="opacity-30">•</span>

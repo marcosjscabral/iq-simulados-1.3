@@ -180,25 +180,29 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
       if (stripeEnabled) {
         try {
           if (stripeProductId) {
-            // Update product
+            // Update product details
             await StripeService.updateProduct(stripeProductId, { name: title, description });
 
-            // If price changed, we must create a new price (Stripe requirement)
-            if (existingSimulado && existingSimulado.price !== numericPrice) {
-              const newPriceData = await StripeService.createPrice(stripeProductId, numericPrice);
-              stripePriceId = newPriceData.id;
+            // IF stripePriceId is missing OR price changed, create a new price
+            if (!stripePriceId || (existingSimulado && existingSimulado.price !== numericPrice)) {
+              const priceResult = await StripeService.createPrice(stripeProductId, numericPrice);
+              if (priceResult.error) throw new Error(priceResult.error.message);
+              stripePriceId = priceResult.id;
             }
           } else {
             // Create new product
-            const product = await StripeService.createProduct(title, description);
-            stripeProductId = product.id;
-            const priceData = await StripeService.createPrice(stripeProductId, numericPrice);
-            stripePriceId = priceData.id;
+            const productResult = await StripeService.createProduct(title, description);
+            if (productResult.error) throw new Error(productResult.error.message);
+
+            stripeProductId = productResult.id;
+            const priceResult = await StripeService.createPrice(stripeProductId, numericPrice);
+            if (priceResult.error) throw new Error(priceResult.error.message);
+
+            stripePriceId = priceResult.id;
           }
-        } catch (err) {
+        } catch (err: any) {
           console.error('Stripe Sync Error:', err);
-          // We continue but notify the user
-          showAlert('Aviso', 'Erro ao sincronizar com Stripe. O simulado será salvo apenas localmente.', 'alert');
+          showAlert('Aviso Stripe', `Erro na sincronização: ${err.message}. O simulado foi salvo, mas a venda via Stripe pode não funcionar.`, 'alert');
         }
       }
 
