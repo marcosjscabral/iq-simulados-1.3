@@ -1,14 +1,6 @@
+import { supabase } from './supabase';
+
 export class StripeService {
-    private static get headers() {
-        const apiKey = (import.meta as any).env.VITE_STRIPE_SECRET_KEY;
-        if (!apiKey) {
-            console.warn('VITE_STRIPE_SECRET_KEY is not defined');
-        }
-        return {
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/x-www-form-urlencoded'
-        };
-    }
 
     private static toFormUrlEncoded(data: any) {
         return Object.keys(data)
@@ -17,65 +9,35 @@ export class StripeService {
     }
 
     static async createProduct(name: string, description: string) {
-        const data = {
-            name,
-            description,
-            active: 'true'
-        };
-        const response = await fetch('https://api.stripe.com/v1/products', {
-            method: 'POST',
-            headers: this.headers,
-            body: this.toFormUrlEncoded(data)
+        const { data, error } = await supabase.functions.invoke('stripe-sync', {
+            body: { action: 'createProduct', payload: { name, description } }
         });
-        return response.json();
+        if (error) throw error;
+        return data;
     }
 
-    static async updateProduct(productId: string, data: { name?: string; description?: string; active?: boolean }) {
-        const formData: any = {};
-        if (data.name) formData.name = data.name;
-        if (data.description) formData.description = data.description;
-        if (data.active !== undefined) formData.active = data.active.toString();
-
-        const response = await fetch(`https://api.stripe.com/v1/products/${productId}`, {
-            method: 'POST',
-            headers: this.headers,
-            body: this.toFormUrlEncoded(formData)
+    static async updateProduct(productId: string, payloadData: { name?: string; description?: string; active?: boolean }) {
+        const { data, error } = await supabase.functions.invoke('stripe-sync', {
+            body: { action: 'updateProduct', payload: { productId, ...payloadData } }
         });
-        return response.json();
+        if (error) throw error;
+        return data;
     }
 
     static async createPrice(productId: string, amount: number) {
-        // Stripe amounts are in cents
-        const data = {
-            product: productId,
-            unit_amount: Math.round(amount * 100).toString(),
-            currency: 'brl'
-        };
-        const response = await fetch('https://api.stripe.com/v1/prices', {
-            method: 'POST',
-            headers: this.headers,
-            body: this.toFormUrlEncoded(data)
+        const { data, error } = await supabase.functions.invoke('stripe-sync', {
+            body: { action: 'createPrice', payload: { productId, amount } }
         });
-        return response.json();
+        if (error) throw error;
+        return data;
     }
 
-    static async createCheckoutSession(priceId: string, successUrl: string, cancelUrl: string) {
-        const data = {
-            success_url: successUrl,
-            cancel_url: cancelUrl,
-            mode: 'payment',
-            'payment_method_types[0]': 'card',
-            'payment_method_types[1]': 'pix',
-            'line_items[0][price]': priceId,
-            'line_items[0][quantity]': '1',
-            'payment_method_options[pix][expires_after_seconds]': '3600'
-        };
-        const response = await fetch('https://api.stripe.com/v1/checkout/sessions', {
-            method: 'POST',
-            headers: this.headers,
-            body: this.toFormUrlEncoded(data)
+    static async createCheckoutSession(priceId: string, successUrl: string, cancelUrl: string, simuladoId: string) {
+        const { data, error } = await supabase.functions.invoke('stripe-checkout', {
+            body: { priceId, successUrl, cancelUrl, simuladoId }
         });
-        return response.json();
+        if (error) throw error;
+        return data;
     }
 
     static async archiveProduct(productId: string) {
@@ -83,45 +45,34 @@ export class StripeService {
     }
 
     static async listCoupons() {
-        const response = await fetch('https://api.stripe.com/v1/coupons', {
-            method: 'GET',
-            headers: this.headers
+        const { data, error } = await supabase.functions.invoke('stripe-sync', {
+            body: { action: 'listCoupons' }
         });
-        return response.json();
+        if (error) throw error;
+        return data;
     }
 
     static async createCoupon(name: string, percentOff?: number, amountOff?: number) {
-        const data: any = {
-            name,
-            duration: 'once'
-        };
-        if (percentOff) data.percent_off = percentOff.toString();
-        if (amountOff) {
-            data.amount_off = Math.round(amountOff * 100).toString();
-            data.currency = 'brl';
-        }
-
-        const response = await fetch('https://api.stripe.com/v1/coupons', {
-            method: 'POST',
-            headers: this.headers,
-            body: this.toFormUrlEncoded(data)
+        const { data, error } = await supabase.functions.invoke('stripe-sync', {
+            body: { action: 'createCoupon', payload: { name, percentOff, amountOff } }
         });
-        return response.json();
+        if (error) throw error;
+        return data;
     }
 
     static async deleteCoupon(couponId: string) {
-        const response = await fetch(`https://api.stripe.com/v1/coupons/${couponId}`, {
-            method: 'DELETE',
-            headers: this.headers
+        const { data, error } = await supabase.functions.invoke('stripe-sync', {
+            body: { action: 'deleteCoupon', payload: { couponId } }
         });
-        return response.json();
+        if (error) throw error;
+        return data;
     }
 
     static async getBalance() {
-        const response = await fetch('https://api.stripe.com/v1/balance', {
-            method: 'GET',
-            headers: this.headers
+        const { data, error } = await supabase.functions.invoke('stripe-sync', {
+            body: { action: 'getBalance' }
         });
-        return response.json();
+        if (error) throw error;
+        return data;
     }
 }
