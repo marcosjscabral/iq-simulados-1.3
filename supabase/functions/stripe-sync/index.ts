@@ -9,12 +9,17 @@ serve(async (req) => {
     }
 
     try {
+        const authHeader = req.headers.get('Authorization');
+        if (!authHeader) {
+            return jsonResponse({ error: 'Auth header missing' }, 401);
+        }
+
         const supabaseClient = createClient(
             Deno.env.get('SUPABASE_URL') ?? '',
             Deno.env.get('SUPABASE_ANON_KEY') ?? '',
             {
                 global: {
-                    headers: { Authorization: req.headers.get('Authorization')! },
+                    headers: { Authorization: authHeader },
                 },
             }
         );
@@ -26,7 +31,10 @@ serve(async (req) => {
         } = await supabaseClient.auth.getUser();
 
         if (userError || !user) {
-            return jsonResponse({ error: 'Unauthorized' }, 401);
+            return jsonResponse({
+                error: 'Unauthorized',
+                details: userError?.message || 'No user found'
+            }, 401);
         }
 
         // In our app, admin check is done via app_metadata.is_admin or user_metadata.is_admin (based on RLS)
