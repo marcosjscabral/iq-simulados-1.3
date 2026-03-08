@@ -97,7 +97,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
       const successUrl = `${window.location.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}&simulado_id=${sim.id}`;
       const cancelUrl = `${window.location.origin}/`;
 
-      const session = await StripeService.createCheckoutSession(sim.stripe_price_id, successUrl, cancelUrl);
+      const session = await StripeService.createCheckoutSession(sim.stripe_price_id, successUrl, cancelUrl, sim.id);
       if (session.url) {
         window.location.href = session.url;
       } else {
