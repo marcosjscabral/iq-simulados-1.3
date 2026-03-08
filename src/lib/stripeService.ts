@@ -8,16 +8,16 @@ export class StripeService {
             .join('&');
     }
 
-    static async createProduct(name: string, description: string) {
+    static async createProduct(name: string, description: string, images?: string[]) {
         const { data, error } = await supabase.functions.invoke('stripe-sync', {
-            body: { action: 'createProduct', payload: { name, description } }
+            body: { action: 'createProduct', payload: { name, description, images } }
         });
         if (error) throw error;
         if (data && data.error) throw new Error(data.details || data.error);
         return data;
     }
 
-    static async updateProduct(productId: string, payloadData: { name?: string; description?: string; active?: boolean }) {
+    static async updateProduct(productId: string, payloadData: { name?: string; description?: string; active?: boolean; images?: string[] }) {
         const { data, error } = await supabase.functions.invoke('stripe-sync', {
             body: { action: 'updateProduct', payload: { productId, ...payloadData } }
         });

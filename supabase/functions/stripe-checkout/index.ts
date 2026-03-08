@@ -46,6 +46,7 @@ serve(async (req) => {
             success_url: successUrl,
             cancel_url: cancelUrl,
             client_reference_id: user.id, // Helps identify the user in the webhook
+            allow_promotion_codes: true,
             metadata: {
                 simulado_id: simuladoId,
                 user_id: user.id

@@ -51,6 +51,7 @@ serve(async (req) => {
                 const product = await stripe.products.create({
                     name: payload.name,
                     description: payload.description,
+                    images: payload.images,
                     active: true,
                 });
                 return jsonResponse(product);
@@ -60,6 +61,7 @@ serve(async (req) => {
                 const product = await stripe.products.update(payload.productId, {
                     name: payload.name,
                     description: payload.description,
+                    images: payload.images,
                     active: payload.active,
                 });
                 return jsonResponse(product);

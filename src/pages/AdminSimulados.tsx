@@ -181,7 +181,11 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
         try {
           if (stripeProductId) {
             // Update product details
-            await StripeService.updateProduct(stripeProductId, { name: title, description });
+            await StripeService.updateProduct(stripeProductId, {
+              name: title,
+              description,
+              images: imageUrl ? [imageUrl] : []
+            });
 
             // IF stripePriceId is missing OR price changed, create a new price
             if (!stripePriceId || (existingSimulado && existingSimulado.price !== numericPrice)) {
@@ -191,7 +195,11 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
             }
           } else {
             // Create new product
-            const productResult = await StripeService.createProduct(title, description);
+            const productResult = await StripeService.createProduct(
+              title,
+              description,
+              imageUrl ? [imageUrl] : []
+            );
             if (productResult.error) throw new Error(productResult.error.message);
 
             stripeProductId = productResult.id;
