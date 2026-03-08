@@ -25,10 +25,11 @@ serve(async (req) => {
         );
 
         // Verify user is an admin
+        const token = authHeader.replace('Bearer ', '');
         const {
             data: { user },
             error: userError,
-        } = await supabaseClient.auth.getUser();
+        } = await supabaseClient.auth.getUser(token);
 
         if (userError || !user) {
             return jsonResponse({
