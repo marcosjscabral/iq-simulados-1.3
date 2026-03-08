@@ -36,12 +36,6 @@ serve(async (req) => {
 
         // Pass the user_id and simulado_id in client_reference_id or metadata so the webhook knows who bought what
         const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card', 'pix'],
-            payment_method_options: {
-                pix: {
-                    expires_after_seconds: 3600,
-                },
-            },
             line_items: [
                 {
                     price: priceId,
@@ -60,7 +54,7 @@ serve(async (req) => {
 
         return jsonResponse(session);
     } catch (err: any) {
-        console.error(err);
-        return jsonResponse({ error: err.message }, 500);
+        console.error('Stripe Checkout Error:', err);
+        return jsonResponse({ error: err.message || 'Unknown error', details: err }, 500);
     }
 });
