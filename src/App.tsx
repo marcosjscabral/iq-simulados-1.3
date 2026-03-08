@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Menu,
   Search,
@@ -42,7 +42,7 @@ import { MyExamsScreen } from './pages/MyExamsScreen';
 import { UserRegistrationScreen } from './pages/UserRegistrationScreen';
 import { AdminQuestoesScreen } from './pages/AdminQuestoesScreen';
 import { ExamExecutionScreen } from './pages/ExamExecutionScreen';
-import { ModalProvider } from './components/ModalContext';
+import { ModalProvider, useModal } from './components/ModalContext';
 
 // --- Utils ---
 const formatPrice = (price: number) => {
@@ -111,6 +111,16 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
     }
   };
 
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setIsAdmin(user?.app_metadata?.is_admin === true || user?.user_metadata?.is_admin === true);
+    };
+    checkAdmin();
+  }, []);
+
   const featuredSimulado = simulados.find(s => s.is_featured);
   const activeSimulados = simulados.filter(s => s.is_active && !s.is_featured);
 
@@ -131,8 +141,15 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
           </div>
           <div className="flex items-center gap-4 text-black">
             <button className="p-1 active:scale-95 transition-transform"><Search size={22} strokeWidth={2.5} /></button>
-            <button onClick={() => navigate('/profile')} className="p-1.5 rounded-full border border-black/30 active:scale-95 transition-transform">
-              <User size={18} strokeWidth={2.5} />
+            <button
+              onClick={() => navigate(isAdmin ? '/admin' : '/profile')}
+              className="p-1.5 rounded-full border border-black/30 active:scale-95 transition-transform"
+            >
+              {isAdmin ? (
+                <Settings size={18} strokeWidth={2.5} />
+              ) : (
+                <User size={18} strokeWidth={2.5} />
+              )}
             </button>
           </div>
         </div>
@@ -327,14 +344,85 @@ const AnswerKeyScreen = () => {
 const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLogout: () => void }) => {
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [userName, setUserName] = useState('Usuário');
+  const [userAvatar, setUserAvatar] = useState('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200');
+  const [uploading, setUploading] = useState(false);
+  const { showAlert } = useModal();
 
   useEffect(() => {
-    const checkAdmin = async () => {
+    const fetchUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      setIsAdmin(user?.app_metadata?.is_admin === true || user?.user_metadata?.is_admin === true);
+      if (user) {
+        setIsAdmin(user.app_metadata?.is_admin === true || user.user_metadata?.is_admin === true);
+
+        // Extract first name
+        const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuário';
+        const firstName = fullName.split(' ')[0];
+        setUserName(firstName);
+
+        if (user.user_metadata?.avatar_url) {
+          setUserAvatar(user.user_metadata.avatar_url);
+        }
+      }
     };
-    checkAdmin();
+    fetchUser();
   }, []);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Not logged in');
+
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}-${Math.random()}.${fileExt}`;
+      const filePath = `avatars/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('simulados') // Using the same bucket for simplicity, or create an 'avatars' bucket
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('simulados')
+        .getPublicUrl(filePath);
+
+      // Update user metadata
+      const { error: updateError } = await supabase.auth.updateUser({
+        data: { avatar_url: publicUrl }
+      });
+
+      if (updateError) throw updateError;
+
+      setUserAvatar(publicUrl);
+      showAlert('Sucesso', 'Foto de perfil atualizada!', 'success');
+    } catch (error: any) {
+      console.error('Error uploading image:', error);
+      showAlert('Erro', 'Erro ao fazer upload: ' + error.message, 'error');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handlePasswordChange = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user?.email) return;
+
+      const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
+        redirectTo: `${window.location.origin}/profile`,
+      });
+
+      if (error) throw error;
+      showAlert('Sucesso', 'E-mail de redefinição enviado para ' + user.email, 'success');
+    } catch (error: any) {
+      showAlert('Erro', 'Erro ao solicitar troca: ' + error.message, 'error');
+    }
+  };
 
   return (
     <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
@@ -360,23 +448,25 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
       <main className="flex-1 w-full max-w-md mx-auto pb-24 overflow-y-auto">
         <section className="flex flex-col items-center py-10 px-4">
           <div className="relative group">
-            <div className="w-32 h-32 rounded-full border-4 border-yellow-400 p-1.5 bg-gradient-to-tr from-yellow-400 to-orange-500 shadow-2xl shadow-yellow-400/20">
+            <div className={`w-32 h-32 rounded-full border-4 border-yellow-400 p-1.5 bg-gradient-to-tr from-yellow-400 to-orange-500 shadow-2xl shadow-yellow-400/20 ${uploading ? 'opacity-50' : ''}`}>
               <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200"
+                src={userAvatar}
                 alt="Profile"
                 className="w-full h-full rounded-full object-cover"
                 referrerPolicy="no-referrer"
               />
             </div>
-            <button className="absolute bottom-1 right-1 bg-blue-600 text-white p-2.5 rounded-full shadow-lg border-2 border-white group-hover:scale-110 transition-transform">
-              <Edit size={14} />
-            </button>
+            <label className="absolute bottom-1 right-1 bg-blue-600 text-white p-2.5 rounded-full shadow-lg border-2 border-white cursor-pointer hover:scale-110 transition-transform">
+              {uploading ? (
+                <div className="size-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              ) : (
+                <Edit size={14} />
+              )}
+              <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
+            </label>
           </div>
           <div className="mt-6 text-center">
-            <h2 className="text-2xl font-black tracking-tight uppercase italic underline decoration-yellow-400 decoration-4 underline-offset-4">Usuário</h2>
-            <div className="mt-4 inline-flex items-center px-4 py-1.5 rounded-full bg-yellow-400/10 text-yellow-400 text-[10px] font-black uppercase tracking-widest border border-yellow-400/20">
-              ESTUDANTE PRO
-            </div>
+            <h2 className="text-2xl font-black tracking-tight uppercase italic underline decoration-yellow-400 decoration-4 underline-offset-4">{userName}</h2>
           </div>
         </section>
 
@@ -404,6 +494,20 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
                 <div className="text-left">
                   <span className="block font-bold text-base text-white">Histórico de Pedidos</span>
                   <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Acessar todas as compras</span>
+                </div>
+              </div>
+              <ChevronRight size={20} className="text-slate-600" />
+            </button>
+
+            {/* Change Password Button */}
+            <button onClick={handlePasswordChange} className="w-full flex items-center justify-between p-5 active:bg-white/10 transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center justify-center size-12 rounded-2xl bg-orange-600/10 text-orange-400">
+                  <ShieldCheck size={22} />
+                </div>
+                <div className="text-left">
+                  <span className="block font-bold text-base text-white">Trocar Senha</span>
+                  <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Enviar e-mail de redefinição</span>
                 </div>
               </div>
               <ChevronRight size={20} className="text-slate-600" />
