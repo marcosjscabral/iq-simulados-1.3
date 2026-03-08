@@ -411,6 +411,155 @@ const ResetPasswordScreen = () => {
   );
 };
 
+const EditProfileScreen = () => {
+  const navigate = useNavigate();
+  const { showAlert } = useModal();
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: ''
+  });
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+
+        if (error && error.code !== 'PGRST116') throw error;
+        if (data) {
+          setFormData({
+            first_name: data.first_name || '',
+            last_name: data.last_name || '',
+            email: data.email || user.email || '',
+            phone: data.phone || ''
+          });
+        }
+      } catch (error: any) {
+        console.error('Error fetching profile:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Not logged in');
+
+      const { error } = await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          ...formData,
+          updated_at: new Date().toISOString()
+        });
+
+      if (error) throw error;
+      showAlert('Sucesso', 'Perfil atualizado com sucesso!', 'success');
+      navigate('/profile');
+    } catch (error: any) {
+      console.error('Error saving profile:', error);
+      showAlert('Erro', 'Erro ao salvar: ' + error.message, 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-[#f2f20d] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
+      <header className="sticky top-0 z-50 bg-[#f2f20d] rounded-b-[2.5rem] shadow-2xl">
+        <div className="flex items-center p-6 pt-12 justify-between max-w-md mx-auto w-full">
+          <button onClick={() => navigate('/profile')} className="size-10 flex items-center justify-start text-black">
+            <ChevronLeft size={24} />
+          </button>
+          <div className="flex flex-col items-center">
+            <h1 className="text-lg font-black leading-tight text-black uppercase italic tracking-tighter">Editar Perfil</h1>
+            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Dados Pessoais</p>
+          </div>
+          <div className="size-10" />
+        </div>
+      </header>
+
+      <main className="flex-1 w-full max-w-md mx-auto p-8 overflow-y-auto">
+        <form onSubmit={handleSave} className="space-y-6">
+          <div className="space-y-2">
+            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Nome</label>
+            <input
+              type="text"
+              required
+              value={formData.first_name}
+              onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
+              className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Sobrenome</label>
+            <input
+              type="text"
+              required
+              value={formData.last_name}
+              onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
+              className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">E-mail de Contato</label>
+            <input
+              type="email"
+              required
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Telefone / WhatsApp</label>
+            <input
+              type="text"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
+              placeholder="(00) 00000-0000"
+            />
+          </div>
+
+          <button
+            disabled={saving}
+            className="w-full bg-yellow-400 text-black font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-xl shadow-yellow-400/20 uppercase tracking-widest text-sm italic"
+          >
+            {saving ? <div className="size-5 border-2 border-black border-t-transparent rounded-full animate-spin" /> : 'Salvar Alterações'}
+          </button>
+        </form>
+      </main>
+    </div>
+  );
+};
+
 const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLogout: () => void }) => {
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
@@ -425,10 +574,21 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
       if (user) {
         setIsAdmin(user.app_metadata?.is_admin === true || user.user_metadata?.is_admin === true);
 
-        // Extract first name
-        const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuário';
-        const firstName = fullName.split(' ')[0];
-        setUserName(firstName);
+        // Try to fetch from profiles table first
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('first_name')
+          .eq('id', user.id)
+          .single();
+
+        if (profile?.first_name) {
+          setUserName(profile.first_name);
+        } else {
+          // Fallback to metadata
+          const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuário';
+          const firstName = fullName.split(' ')[0];
+          setUserName(firstName);
+        }
 
         if (user.user_metadata?.avatar_url) {
           setUserAvatar(user.user_metadata.avatar_url);
@@ -564,6 +724,20 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
                 <div className="text-left">
                   <span className="block font-bold text-base text-white">Histórico de Pedidos</span>
                   <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Acessar todas as compras</span>
+                </div>
+              </div>
+              <ChevronRight size={20} className="text-slate-600" />
+            </button>
+
+            {/* Edit Profile Button */}
+            <button onClick={() => navigate('/profile/edit')} className="w-full flex items-center justify-between p-5 active:bg-white/10 transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center justify-center size-12 rounded-2xl bg-indigo-600/10 text-indigo-400">
+                  <User size={22} />
+                </div>
+                <div className="text-left">
+                  <span className="block font-bold text-base text-white">Editar Dados Pessoais</span>
+                  <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Nome, e-mail e telefone</span>
                 </div>
               </div>
               <ChevronRight size={20} className="text-slate-600" />
@@ -819,6 +993,7 @@ export default function App() {
               />
             } />
             <Route path="/reset-password" element={<ResetPasswordScreen />} />
+            <Route path="/profile/edit" element={<EditProfileScreen />} />
             <Route path="/profile/purchases" element={<PurchaseHistoryScreen />} />
             <Route path="/exam/:id" element={<ExamExecutionScreen />} />
             <Route path="/exam/:id/answer-key" element={<AnswerKeyScreen />} />
