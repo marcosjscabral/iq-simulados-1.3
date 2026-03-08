@@ -341,6 +341,76 @@ const AnswerKeyScreen = () => {
   );
 };
 
+const ResetPasswordScreen = () => {
+  const navigate = useNavigate();
+  const { showAlert } = useModal();
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      showAlert('Erro', 'As senhas não coincidem.', 'error');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.updateUser({ password });
+      if (error) throw error;
+      showAlert('Sucesso', 'Sua senha foi atualizada!', 'success');
+      navigate('/profile');
+    } catch (error: any) {
+      showAlert('Erro', error.message || 'Erro ao atualizar senha.', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="bg-[#0f172a] min-h-screen flex flex-col items-center justify-center p-6 text-white">
+      <div className="w-full max-w-md bg-white/5 rounded-[2.5rem] p-8 border border-white/10 shadow-2xl">
+        <h1 className="text-2xl font-black italic uppercase italic tracking-tighter mb-2 text-yellow-400">Nova Senha</h1>
+        <p className="text-slate-500 text-xs mb-8 uppercase font-bold tracking-[0.2em]">Crie uma senha segura para sua conta</p>
+
+        <form onSubmit={handleUpdate} className="space-y-6">
+          <div className="space-y-2">
+            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Senha</label>
+            <input
+              type="password"
+              required
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Confirmar Senha</label>
+            <input
+              type="password"
+              required
+              placeholder="••••••••"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
+            />
+          </div>
+
+          <button
+            disabled={loading}
+            className="w-full bg-yellow-400 text-black font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-xl shadow-yellow-400/20 uppercase tracking-widest text-sm italic"
+          >
+            {loading ? <div className="size-5 border-2 border-black border-t-transparent rounded-full animate-spin" /> : 'Atualizar Senha'}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLogout: () => void }) => {
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
@@ -621,11 +691,10 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
             </button>
           ))}
         </div>
-      </main >
-    </div >
+      </main>
+    </div>
   );
 };
-
 
 const PurchaseHistoryScreen = () => {
   const navigate = useNavigate();
@@ -665,9 +734,17 @@ export default function App() {
       setLoading(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('Auth event:', event);
       setUser(session?.user ?? null);
       setLoading(false);
+
+      if (event === 'PASSWORD_RECOVERY') {
+        // Redirection should be handled via router after render if needed,
+        // but since this is inside a component, we can use a flag or navigate
+        // Actually, window is more reliable for immediate catch
+        window.location.href = '/reset-password';
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -741,6 +818,7 @@ export default function App() {
                 onLogout={handleLogout}
               />
             } />
+            <Route path="/reset-password" element={<ResetPasswordScreen />} />
             <Route path="/profile/purchases" element={<PurchaseHistoryScreen />} />
             <Route path="/exam/:id" element={<ExamExecutionScreen />} />
             <Route path="/exam/:id/answer-key" element={<AnswerKeyScreen />} />
