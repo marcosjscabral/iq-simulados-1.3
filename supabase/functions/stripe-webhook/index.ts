@@ -1,6 +1,7 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { stripe } from '../_shared/stripe.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import Stripe from 'npm:stripe@^14.18.0';
 
 const supabaseAdmin = createClient(
     Deno.env.get('SUPABASE_URL') ?? '',
@@ -17,7 +18,8 @@ serve(async (req) => {
 
     try {
         const body = await req.text();
-        const event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
+        const cryptoProvider = Stripe.createSubtleCryptoProvider();
+        const event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret, undefined, cryptoProvider);
 
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object;
