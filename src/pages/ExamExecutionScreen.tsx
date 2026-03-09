@@ -95,7 +95,7 @@ export const ExamExecutionScreen = () => {
     if (loading) {
         return (
             <div className="bg-[#0f172a] min-h-screen flex items-center justify-center">
-                <Loader2 size={40} className="text-[#ffd700] animate-spin" />
+                <Loader2 size={40} className="text-[#f3ec05] animate-spin" />
             </div>
         );
     }
@@ -126,16 +126,16 @@ export const ExamExecutionScreen = () => {
         };
 
         return (
-            <div className="bg-[#0f172a] min-h-screen flex flex-col text-white pb-10 font-sans selection:bg-[#ffd700] selection:text-black">
-                <header className="bg-[#ffd700] text-black pt-12 text-center shadow-lg">
+            <div className="bg-[#0f172a] min-h-screen flex flex-col text-white pb-10 font-sans selection:bg-[#f3ec05] selection:text-black">
+                <header className="bg-[#f3ec05] text-black pt-12 text-center shadow-lg">
                     <h1 className="text-3xl font-black uppercase italic tracking-tighter">RESULTADO FINAL</h1>
-                    <p className="text-[12px] uppercase tracking-widest text-[#a88d00] font-black pb-4 mt-2">{simulado.title}</p>
+                    <p className="text-[12px] uppercase tracking-widest text-black/40 font-black pb-4 mt-2">{simulado.title}</p>
                 </header>
 
                 <main className="flex-1 px-6 pb-6 pt-12 flex flex-col items-center">
                     <div className="flex items-center justify-center gap-10 mb-10 w-full max-w-sm">
                         {/* Score Circle */}
-                        <div className="size-[120px] shrink-0 rounded-full border-2 border-[#1c2438] bg-[#ffd700] text-black shadow-[0_0_40px_rgba(255,215,0,0.15)] flex flex-col items-center justify-center -ml-4">
+                        <div className="size-[120px] shrink-0 rounded-full border-2 border-[#1c2438] bg-[#f3ec05] text-black shadow-[0_0_40px_rgba(243,236,5,0.15)] flex flex-col items-center justify-center -ml-4">
                             <span className="text-4xl font-black italic mb-0">{scorePercentage.toFixed(0)}%</span>
                             <span className="text-[10px] font-black uppercase tracking-widest">Acertos</span>
                         </div>
@@ -179,15 +179,14 @@ export const ExamExecutionScreen = () => {
     const progressPercentage = (answeredQuestionsCount / questoes.length) * 100;
 
     return (
-        <div className="bg-[#0f172a] min-h-screen flex flex-col text-white font-sans selection:bg-[#ffd700] selection:text-black">
-            <header className="sticky top-0 z-40 bg-[#ffd700] text-black shadow-lg">
+        <div className="bg-[#0f172a] min-h-screen flex flex-col text-white font-sans selection:bg-[#f3ec05] selection:text-black">
+            <header className="sticky top-0 z-40 bg-[#f3ec05] text-black shadow-lg">
                 <div className="flex items-center p-4 pt-10 justify-between">
                     <button onClick={() => navigate('/my-exams')} className="p-2 -ml-2 rounded-full hover:bg-black/10 transition-colors">
                         <ArrowLeft size={24} strokeWidth={2.5} />
                     </button>
                     <div className="text-center flex-1 pr-6">
                         <h1 className="font-black text-lg uppercase italic tracking-tight leading-none truncate px-4">{simulado.title}</h1>
-                        <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold mt-0.5">{isReviewing ? 'Gabarito Comentado' : 'Execução Oficial'}</p>
                     </div>
                 </div>
 
@@ -270,8 +269,8 @@ export const ExamExecutionScreen = () => {
                                     idBadgeStyles = 'bg-[#181a17] text-slate-500 border-[#3c3d35]';
                                 }
                             } else if (isSelected) {
-                                styles = 'bg-[#2b2b1a] border-[#ffd700] shadow-[0_4px_20px_rgba(255,215,0,0.15)] text-white';
-                                idBadgeStyles = 'bg-[#ffd700] text-black border-[#ffd700]';
+                                styles = 'bg-[#2b2b1a] border-[#f3ec05] shadow-[0_4px_20px_rgba(243,236,5,0.15)] text-white';
+                                idBadgeStyles = 'bg-[#f3ec05] text-black border-[#f3ec05]';
                             }
 
                             return (
