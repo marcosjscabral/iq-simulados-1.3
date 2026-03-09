@@ -558,7 +558,7 @@ const EditProfileScreen = () => {
 
           <button
             disabled={saving}
-            className="w-full bg-yellow-400 text-black font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-xl shadow-yellow-400/20 uppercase tracking-widest text-sm italic"
+            className="w-full bg-[#f3ec05] text-black font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-xl shadow-[#f3ec05]/20 uppercase tracking-widest text-sm italic"
           >
             {saving ? <div className="size-5 border-2 border-black border-t-transparent rounded-full animate-spin" /> : 'Salvar Alterações'}
           </button>
@@ -664,7 +664,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
 
   return (
     <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
-      <header className="sticky top-0 z-50 bg-[#f2f20d] rounded-b-[2.5rem] shadow-2xl">
+      <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
         <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
@@ -810,7 +810,7 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
 
   return (
     <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
-      <header className="sticky top-0 z-50 bg-[#ffd700] rounded-b-[2.5rem] shadow-2xl">
+      <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
         <div className="flex items-center p-6 pt-12 justify-between">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />

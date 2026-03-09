@@ -148,7 +148,7 @@ export const AdminQuestoesScreen = () => {
 
     return (
         <div className="bg-[#0f172a] min-h-screen text-white font-sans">
-            <header className="sticky top-0 z-50 bg-[#ffd700] text-black">
+            <header className="sticky top-0 z-50 bg-[#f3ec05] text-black">
                 <div className="flex items-center p-4 pt-10 justify-between">
                     <button onClick={() => navigate('/admin')} className="p-2 -ml-2 rounded-full hover:bg-black/10 active:scale-95 transition-transform">
                         <ArrowLeft size={24} strokeWidth={2.5} />
@@ -168,7 +168,7 @@ export const AdminQuestoesScreen = () => {
                     <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2 px-1">Selecione o Simulado Alvo</label>
                     <div className="relative">
                         <select
-                            className="w-full bg-[#0f172a] border-2 border-[#334155] rounded-xl h-14 px-4 text-white font-bold outline-none focus:border-[#ffd700] transition-colors appearance-none"
+                            className="w-full bg-[#0f172a] border-2 border-[#334155] rounded-xl h-14 px-4 text-white font-bold outline-none focus:border-[#f3ec05] transition-colors appearance-none"
                             value={selectedSimuladoId}
                             onChange={(e) => setSelectedSimuladoId(e.target.value)}
                         >
@@ -218,7 +218,7 @@ export const AdminQuestoesScreen = () => {
                                         { id: 'E', val: opcaoE, set: setOpcaoE, optional: true },
                                     ].map(opt => (
                                         <div key={opt.id} className="flex items-center gap-3">
-                                            <div className={`shrink-0 flex items-center justify-center size-10 rounded-lg font-black text-lg border-2 cursor-pointer transition-colors ${respostaCorreta === opt.id ? 'bg-[#ffd700] border-[#ffd700] text-black shadow-[0_0_15px_rgba(255,215,0,0.3)]' : 'bg-[#0f172a] border-[#334155] text-slate-400 hover:border-slate-500'}`} onClick={() => setRespostaCorreta(opt.id as any)}>
+                                            <div className={`shrink-0 flex items-center justify-center size-10 rounded-lg font-black text-lg border-2 cursor-pointer transition-colors ${respostaCorreta === opt.id ? 'bg-[#f3ec05] border-[#f3ec05] text-black shadow-[0_0_15px_rgba(243,236,5,0.3)]' : 'bg-[#0f172a] border-[#334155] text-slate-400 hover:border-slate-500'}`} onClick={() => setRespostaCorreta(opt.id as any)}>
                                                 {opt.id}
                                             </div>
                                             <input

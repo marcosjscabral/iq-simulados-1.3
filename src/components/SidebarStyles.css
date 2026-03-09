@@ -92,14 +92,14 @@
 
 .sidebar-item:hover {
     background: rgba(255, 255, 255, 0.05);
-    color: #ffd700;
+    color: #f3ec05;
     transform: translateX(8px);
 }
 
 .sidebar-item.active {
-    background: #ffd700;
+    background: #f3ec05;
     color: #000;
-    box-shadow: 0 10px 20px -5px rgba(255, 215, 0, 0.2);
+    box-shadow: 0 10px 20px -5px rgba(243, 236, 5, 0.2);
 }
 
 .sidebar-footer {

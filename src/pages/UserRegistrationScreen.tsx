@@ -156,7 +156,7 @@ export const UserRegistrationScreen = () => {
 
     return (
         <div className="bg-[#0f172a] min-h-screen flex flex-col font-sans text-white">
-            <header className="sticky top-0 z-50 bg-[#ffd700] text-black p-4 pt-10 flex items-center justify-between shadow-md">
+            <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl text-black p-4 pt-10 flex items-center justify-between shadow-md">
                 <button onClick={() => navigate('/admin')} className="flex items-center justify-center size-10 rounded-full active:scale-95 transition-transform">
                     <ArrowLeft size={24} strokeWidth={2.5} />
                 </button>
