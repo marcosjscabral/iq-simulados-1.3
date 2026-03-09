@@ -126,17 +126,14 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
 
     setIsDeletingGlobal(true);
     try {
-      // Use the RPC function we created to remove from ALL simulations
       const { error } = await supabase.rpc('remove_category_from_all_simulados', {
         cat_text: categoryToDelete
       });
 
       if (error) throw error;
 
-      // Also remove from the current simulation being edited if selected
       setCategories(categories.filter(c => c !== categoryToDelete));
 
-      // Notify parent to refresh the global available categories list
       if (onPublishSuccess) onPublishSuccess();
 
       setIsDeleteDialogOpen(false);
@@ -190,7 +187,6 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
 
     setLoading(true);
     try {
-      // 1. Check if Stripe is enabled
       const { data: settings } = await supabase
         .from('app_settings')
         .select('value')
@@ -200,7 +196,6 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
       const stripeEnabled = settings?.value === 'true';
       const numericPrice = parseFloat(price.replace(',', '.'));
 
-      // 2. Load existing simulado data if editing
       let existingSimulado: Simulado | null = null;
       if (simuladoId) {
         const { data } = await supabase.from('simulados').select('*').eq('id', simuladoId).single();
@@ -210,25 +205,21 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
       let stripeProductId = existingSimulado?.stripe_product_id;
       let stripePriceId = existingSimulado?.stripe_price_id;
 
-      // 3. Sync with Stripe if enabled
       if (stripeEnabled) {
         try {
           if (stripeProductId) {
-            // Update product details
             await StripeService.updateProduct(stripeProductId, {
               name: title,
               description,
               images: imageUrl ? [imageUrl] : []
             });
 
-            // IF stripePriceId is missing OR price changed, create a new price
             if (!stripePriceId || (existingSimulado && existingSimulado.price !== numericPrice)) {
               const priceResult = await StripeService.createPrice(stripeProductId, numericPrice);
               if (priceResult.error) throw new Error(priceResult.error.message);
               stripePriceId = priceResult.id;
             }
           } else {
-            // Create new product
             const productResult = await StripeService.createProduct(
               title,
               description,
@@ -250,7 +241,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
           }
           showAlert('Erro Stripe', `Ocorreu um erro ao conectar com o Stripe: ${errorMsg}`, 'error');
           setLoading(false);
-          return; // Block save if Stripe fails
+          return;
         }
       }
 
@@ -298,13 +289,13 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
         <header className="sticky top-0 z-50 bg-[#ffd700] rounded-b-[3rem] shadow-2xl">
           <div className="flex items-center p-6 pt-12 gap-4">
             <button
-              onClick={() => navigate('/admin/list')} // Changed from /admin/simulados to /admin/list
+              onClick={() => navigate('/admin/list')}
               className="bg-yellow-100 p-2 rounded-full text-black shadow-lg"
             >
               <ArrowLeft size={24} />
             </button>
             <div>
-              <h1 className="text-xl font-black text-black leading-tight uppercase italic">{simuladoId ? 'Editar' : 'Novo'} Simulado</h1> {/* Changed id to simuladoId */}
+              <h1 className="text-xl font-black text-black leading-tight uppercase italic">{simuladoId ? 'Editar' : 'Novo'} Simulado</h1>
               <p className="text-black/60 text-[10px] font-bold uppercase tracking-widest">Painel Administrativo</p>
             </div>
           </div>
@@ -402,7 +393,6 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
               <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Gerenciar Categorias</label>
 
               <div className="flex flex-wrap gap-2 mb-2">
-                {/* Existing Categories as Selectable Chips */}
                 {Array.from(new Set([...availableCategories, ...categories])).sort().map((cat) => (
                   <div key={cat} className="relative group/cat">
                     <button
@@ -480,7 +470,6 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
             </div>
 
             <div className="space-y-3">
-              {/* Active Vitrine Toggle */}
               <div className="flex items-center justify-between p-5 bg-white/5 rounded-2xl border border-white/5">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-yellow-400/10 rounded-lg text-yellow-400">
@@ -496,7 +485,6 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                 </button>
               </div>
 
-              {/* Featured Toggle */}
               <div className="flex items-center justify-between p-5 bg-orange-400/5 rounded-2xl border border-orange-400/10">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-orange-500/10 rounded-lg text-orange-500">
@@ -512,7 +500,6 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                 </button>
               </div>
 
-              {/* Featured Label Input */}
               <div className="flex flex-col gap-2">
                 <label className="text-[10px] font-black text-orange-400 uppercase tracking-widest ml-1 text-center">Etiqueta de Destaque (Ex: MAIS PROCURADO)</label>
                 <input
@@ -545,7 +532,6 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
           </div>
         </main>
 
-        {/* Delete Category Confirmation Modal */}
         <AnimatePresence>
           {isDeleteDialogOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center px-6 p-4 perspective-1000">
