@@ -10,6 +10,15 @@ export const Auth: React.FC = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
+    const [capsLockActive, setCapsLockActive] = useState(false);
+
+    const handleKeyUp = (e: React.KeyboardEvent) => {
+        if (e.getModifierState('CapsLock')) {
+            setCapsLockActive(true);
+        } else {
+            setCapsLockActive(false);
+        }
+    };
 
     const handleAuth = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,12 +37,40 @@ export const Auth: React.FC = () => {
                 const { error } = await supabase.auth.signUp({
                     email,
                     password,
+                    options: {
+                        emailRedirectTo: `${window.location.origin}/auth-callback`,
+                    }
                 });
                 if (error) throw error;
-                setMessage('Check your email for the confirmation link!');
+                setMessage('Verifique seu e-mail para confirmar seu cadastro! O link expira em breve.');
             }
         } catch (err: any) {
-            setError(err.message || 'An error occurred during authentication');
+            const translatedError = err.message === 'User already registered'
+                ? 'Este e-mail já está cadastrado.'
+                : err.message === 'Invalid login credentials'
+                    ? 'E-mail ou senha incorretos.'
+                    : err.message;
+            setError(translatedError || 'Ocorreu um erro na autenticação');
+        } finally {
+            setLoading(false);
+        }
+    };
+    const handleResetPassword = async () => {
+        if (!email) {
+            setError('Digite seu e-mail para recuperar a senha.');
+            return;
+        }
+        setLoading(true);
+        setError(null);
+        setMessage(null);
+        try {
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: `${window.location.origin}/reset-password`,
+            });
+            if (error) throw error;
+            setMessage('Link de recuperação enviado para seu e-mail!');
+        } catch (err: any) {
+            setError(err.message || 'Erro ao enviar e-mail de recuperação');
         } finally {
             setLoading(false);
         }
@@ -90,9 +127,24 @@ export const Auth: React.FC = () => {
                             placeholder="••••••••"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            onKeyUp={handleKeyUp}
                             className="auth-input"
                             required
                         />
+                        {capsLockActive && (
+                            <span className="caps-lock-warning">
+                                Caps Lock Ativado
+                            </span>
+                        )}
+                        {isLogin && (
+                            <button
+                                type="button"
+                                onClick={handleResetPassword}
+                                className="forgot-password-link"
+                            >
+                                Esqueci a senha
+                            </button>
+                        )}
                     </div>
 
                     <AnimatePresence mode="wait">
