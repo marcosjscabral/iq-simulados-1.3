@@ -14,7 +14,6 @@ import {
   Settings,
   Edit,
   ShieldCheck,
-  CreditCard,
   Receipt,
   ArrowRight,
   ArrowLeft,
@@ -712,19 +711,6 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
         <section className="px-6 mb-8">
           <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-2">Configurações e Pagamento</h3>
           <div className="bg-white/5 rounded-3xl overflow-hidden divide-y divide-white/5 border border-white/5 shadow-sm">
-            <button onClick={() => navigate('/profile/purchases')} className="w-full flex items-center justify-between p-5 active:bg-white/10 transition-colors">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center size-12 rounded-2xl bg-blue-600/10 text-blue-400">
-                  <CreditCard size={22} />
-                </div>
-                <div className="text-left">
-                  <span className="block font-bold text-base text-white">Meus Cartões</span>
-                  <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Formas de Pagamento</span>
-                </div>
-              </div>
-              <ChevronRight size={20} className="text-slate-600" />
-            </button>
-
             <button
               onClick={() => navigate('/profile/purchases')}
               className="w-full flex items-center justify-between p-5 active:bg-white/10 transition-colors"
