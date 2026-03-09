@@ -212,9 +212,9 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 
               <div className="p-5 flex flex-col gap-4">
                 <div className="flex justify-between items-start gap-4">
-                  <h3 className="text-xl font-black text-white leading-tight">{featuredSimulado.title}</h3>
-                  <div className="flex flex-col items-end shrink-0 pt-1">
-                    <span className="text-[13px] font-black text-[#2c73eb] mb-[-4px]">R$</span>
+                  <h3 className="text-xl font-black text-white leading-tight truncate flex-1">{featuredSimulado.title}</h3>
+                  <div className="flex items-baseline gap-1 shrink-0 pt-1">
+                    <span className="text-[13px] font-black text-[#2c73eb]">R$</span>
                     <span className="text-[22px] font-black text-[#2c73eb] leading-none">{formatPrice(featuredSimulado.price)}</span>
                   </div>
                 </div>
