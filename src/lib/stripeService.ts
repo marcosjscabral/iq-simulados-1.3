@@ -83,4 +83,13 @@ export class StripeService {
         if (data && data.error) throw new Error(data.details || data.error);
         return data;
     }
+
+    static async syncCouponsScope() {
+        const { data, error } = await supabase.functions.invoke('stripe-sync', {
+            body: { action: 'syncCouponsScope' }
+        });
+        if (error) throw error;
+        if (data && data.error) throw new Error(data.details || data.error);
+        return data;
+    }
 }

@@ -271,6 +271,17 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
 
       if (error) throw error;
 
+      // Sync Coupon Restrictions in Stripe
+      if (stripeEnabled) {
+        try {
+          await StripeService.syncCouponsScope();
+        } catch (syncErr) {
+          console.error('Error syncing coupon scope:', syncErr);
+          // We don't block the UI for a sync error, just log it
+          // or alert if it's critical. Let's just log it for now.
+        }
+      }
+
       showAlert('Sucesso', simuladoId ? 'Simulado atualizado com sucesso!' : 'Simulado publicado com sucesso!', 'success');
       if (onPublishSuccess) onPublishSuccess();
       navigate('/admin/list');
