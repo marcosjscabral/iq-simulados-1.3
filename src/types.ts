@@ -30,6 +30,7 @@ export interface Simulado {
   featured_label?: string;
   stripe_product_id?: string;
   stripe_price_id?: string;
+  coupons?: string[];
   created_at?: string;
 }
 

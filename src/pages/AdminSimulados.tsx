@@ -7,6 +7,17 @@ import { useModal } from '../components/ModalContext';
 import { StripeService } from '../lib/stripeService';
 import { Simulado } from '../types';
 
+interface StripeCoupon {
+  id: string;
+  name: string;
+  percent_off: number | null;
+  amount_off: number | null;
+  currency: string | null;
+  duration: string;
+  valid: boolean;
+  times_redeemed: number;
+}
+
 interface AdminSimuladosProps {
   onPublishSuccess?: () => void;
   availableCategories?: string[];
@@ -25,6 +36,8 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
   const [isFeatured, setIsFeatured] = useState(false);
   const [featuredLabel, setFeaturedLabel] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [availableCoupons, setAvailableCoupons] = useState<StripeCoupon[]>([]);
+  const [selectedCoupons, setSelectedCoupons] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -54,6 +67,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
             setIsFeatured(data.is_featured);
             setFeaturedLabel(data.featured_label || '');
             setImageUrl(data.image_url || '');
+            setSelectedCoupons(data.coupons || []);
           }
         } catch (error) {
           console.error('Error fetching simulado:', error);
@@ -64,6 +78,18 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
       };
       fetchSimulado();
     }
+
+    const fetchAllCoupons = async () => {
+      try {
+        const data = await StripeService.listCoupons();
+        if (data.data) {
+          setAvailableCoupons(data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching all coupons:', error);
+      }
+    };
+    fetchAllCoupons();
   }, [simuladoId]);
 
   const addCategory = () => {
@@ -78,6 +104,14 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
       setCategories(categories.filter(c => c !== cat));
     } else {
       setCategories([...categories, cat]);
+    }
+  };
+
+  const toggleCoupon = (couponId: string) => {
+    if (selectedCoupons.includes(couponId)) {
+      setSelectedCoupons(selectedCoupons.filter(id => id !== couponId));
+    } else {
+      setSelectedCoupons([...selectedCoupons, couponId]);
     }
   };
 
@@ -231,7 +265,8 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
         featured_label: featuredLabel,
         image_url: imageUrl || 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800',
         stripe_product_id: stripeProductId,
-        stripe_price_id: stripePriceId
+        stripe_price_id: stripePriceId,
+        coupons: selectedCoupons
       };
 
       let result;
@@ -404,6 +439,34 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                   <Plus size={24} strokeWidth={3} />
                 </button>
               </div>
+            </div>
+
+            {/* Gerenciar Cupons */}
+            <div className="flex flex-col gap-4 bg-white/5 p-6 rounded-3xl border border-white/5">
+              <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Gerenciar Cupons</label>
+
+              {availableCoupons.length === 0 ? (
+                <p className="text-[10px] text-slate-500 font-bold uppercase text-center py-2">Nenhum cupom disponível no Stripe</p>
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  {availableCoupons.map((coupon) => (
+                    <button
+                      key={coupon.id}
+                      type="button"
+                      onClick={() => toggleCoupon(coupon.id)}
+                      className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border-2 ${selectedCoupons.includes(coupon.id)
+                        ? 'bg-[#ffd700] text-black border-[#ffd700] shadow-lg shadow-yellow-400/20 scale-105'
+                        : 'bg-white/5 text-slate-500 border-white/5 hover:border-yellow-400/30 hover:bg-white/10 active:scale-95'
+                        }`}
+                    >
+                      {coupon.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <p className="text-[9px] text-slate-600 font-medium px-1 leading-tight">
+                * Selecione os cupons que estarão disponíveis para este simulado específico.
+              </p>
             </div>
 
             <div className="flex flex-col gap-2">
