@@ -297,18 +297,19 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
     <div className="bg-[#0f172a] min-h-screen flex justify-center text-white">
       <div className="relative flex min-h-screen w-full flex-col max-w-[430px] bg-[#0f172a] overflow-x-hidden">
         {/* Header */}
-        <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[3rem] shadow-2xl">
-          <div className="flex items-center p-6 pt-12 gap-4">
+        <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
+          <div className="flex items-center p-4 justify-between pt-12 max-w-[430px] mx-auto w-full">
             <button
               onClick={() => navigate('/admin/list')}
-              className="bg-yellow-100 p-2 rounded-full text-black shadow-lg"
+              className="size-10 flex items-center justify-start text-black"
             >
               <ArrowLeft size={24} />
             </button>
-            <div>
-              <h1 className="text-xl font-black text-black leading-tight uppercase italic">{simuladoId ? 'Editar' : 'Novo'} Simulado</h1>
+            <div className="flex flex-col items-center">
+              <h1 className="text-xl font-black text-black leading-tight uppercase italic tracking-tighter">{simuladoId ? 'Editar' : 'Novo'} Simulado</h1>
               <p className="text-black/60 text-[10px] font-bold uppercase tracking-widest">Painel Administrativo</p>
             </div>
+            <div className="size-10" />
           </div>
         </header>
 

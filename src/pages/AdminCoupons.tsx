@@ -110,13 +110,13 @@ export default function AdminCoupons() {
     return (
         <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
             {/* HEADER */}
-            <header className="sticky top-0 z-50 bg-[#ffd700] rounded-b-[2.5rem] shadow-2xl">
-                <div className="flex items-center p-6 pt-12 justify-between">
+            <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
+                <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
                     <button onClick={() => navigate('/admin/list')} className="size-10 flex items-center justify-start text-black">
                         <ArrowLeft size={24} />
                     </button>
                     <div className="flex flex-col items-center">
-                        <h1 className="text-xl font-black leading-tight text-black italic uppercase italic tracking-tighter">CUPONS</h1>
+                        <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">CUPONS</h1>
                         <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Stripe Marketing</p>
                     </div>
                     <button

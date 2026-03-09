@@ -156,12 +156,17 @@ export const UserRegistrationScreen = () => {
 
     return (
         <div className="bg-[#0f172a] min-h-screen flex flex-col font-sans text-white">
-            <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl text-black p-4 pt-10 flex items-center justify-between shadow-md">
-                <button onClick={() => navigate('/admin')} className="flex items-center justify-center size-10 rounded-full active:scale-95 transition-transform">
-                    <ArrowLeft size={24} strokeWidth={2.5} />
-                </button>
-                <h1 className="text-xl font-black uppercase tracking-tight">Usuários e Acessos</h1>
-                <div className="size-10" />
+            <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl text-black">
+                <div className="flex items-center p-4 justify-between pt-12 max-w-lg mx-auto w-full">
+                    <button onClick={() => navigate('/admin')} className="size-10 flex items-center justify-start text-black">
+                        <ArrowLeft size={24} strokeWidth={2.5} />
+                    </button>
+                    <div className="flex flex-col items-center">
+                        <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter text-center">Usuários e Acessos</h1>
+                        <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Administração</p>
+                    </div>
+                    <div className="size-10" />
+                </div>
             </header>
 
             <main className="flex-1 p-4 pb-12 w-full max-w-lg mx-auto">

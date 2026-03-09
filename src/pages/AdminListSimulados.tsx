@@ -109,32 +109,31 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
 
                 {/* Header */}
                 <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
-                    <div className="flex items-center p-4 justify-between pt-12">
-                        <div className="flex items-center gap-4">
-                            <button
-                                onClick={() => navigate('/admin')}
-                                className="bg-yellow-100 p-2 rounded-full text-black shadow-lg"
-                            >
-                                <ArrowLeft size={22} />
-                            </button>
-                            <div>
-                                <h1 className="text-lg font-black text-black leading-tight uppercase">Gerenciar Vitrine</h1>
-                                <p className="text-black/60 text-[10px] font-bold uppercase tracking-widest">Administração</p>
-                            </div>
+                    <div className="flex items-center p-4 justify-between pt-12 max-w-[430px] mx-auto w-full">
+                        <button
+                            onClick={() => navigate('/admin')}
+                            className="size-10 flex items-center justify-start text-black"
+                        >
+                            <ArrowLeft size={24} />
+                        </button>
+                        <div className="flex flex-col items-center">
+                            <h1 className="text-xl font-black text-black leading-tight uppercase italic tracking-tighter">Gerenciar Vitrine</h1>
+                            <p className="text-black/60 text-[10px] font-bold uppercase tracking-widest">Administração</p>
                         </div>
                         <div className="flex gap-2">
                             <button
                                 onClick={() => navigate('/admin/coupons')}
-                                className="bg-black text-[#ffd700] p-2.5 rounded-xl shadow-lg active:scale-95 transition-all flex items-center gap-2"
+                                className="text-black p-2 rounded-xl active:scale-95 transition-all"
                                 title="Gerenciar Cupons"
                             >
-                                <Ticket size={18} />
+                                <Ticket size={24} />
                             </button>
                             <button
                                 onClick={() => navigate('/admin/simulados/new')}
-                                className="bg-black text-white px-4 py-2 rounded-xl flex items-center gap-2 text-[10px] font-black uppercase italic shadow-lg active:scale-95 transition-all"
+                                className="text-black p-2 rounded-xl active:scale-95 transition-all"
+                                title="Novo Simulado"
                             >
-                                <Plus size={16} strokeWidth={3} /> Novo
+                                <Plus size={24} strokeWidth={3} />
                             </button>
                         </div>
                     </div>

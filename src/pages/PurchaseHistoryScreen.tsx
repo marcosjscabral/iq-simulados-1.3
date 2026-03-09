@@ -63,13 +63,13 @@ export const PurchaseHistoryScreen = () => {
 
     return (
         <div className="bg-[#0f172a] min-h-screen text-white font-sans">
-            <header className="sticky top-0 z-50 bg-[#f2f20d] rounded-b-[2.5rem] shadow-2xl">
-                <div className="flex items-center p-6 pt-12 justify-between max-w-md mx-auto w-full">
+            <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
+                <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
                     <button onClick={() => navigate('/profile')} className="size-10 flex items-center justify-start text-black">
                         <ChevronLeft size={24} />
                     </button>
                     <div className="flex flex-col items-center">
-                        <h1 className="text-lg font-black leading-tight text-black uppercase italic tracking-tighter">Meus Pedidos</h1>
+                        <h1 className="text-xl font-black leading-tight text-black uppercase italic tracking-tighter">Meus Pedidos</h1>
                         <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Histórico de Compras</p>
                     </div>
                     <div className="size-10" />

@@ -127,9 +127,11 @@ export const ExamExecutionScreen = () => {
 
         return (
             <div className="bg-[#0f172a] min-h-screen flex flex-col text-white pb-10 font-sans selection:bg-[#f3ec05] selection:text-black">
-                <header className="bg-[#f3ec05] text-black pt-12 text-center shadow-lg">
-                    <h1 className="text-3xl font-black uppercase italic tracking-tighter">RESULTADO FINAL</h1>
-                    <p className="text-[12px] uppercase tracking-widest text-black/40 font-black pb-4 mt-2">{simulado.title}</p>
+                <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
+                    <div className="flex flex-col items-center pt-12 pb-5">
+                        <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">RESULTADO FINAL</h1>
+                        <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">{simulado.title}</p>
+                    </div>
                 </header>
 
                 <main className="flex-1 px-6 pb-6 pt-12 flex flex-col items-center">
@@ -180,13 +182,14 @@ export const ExamExecutionScreen = () => {
 
     return (
         <div className="bg-[#0f172a] min-h-screen flex flex-col text-white font-sans selection:bg-[#f3ec05] selection:text-black">
-            <header className="sticky top-0 z-40 bg-[#f3ec05] text-black shadow-lg">
-                <div className="flex items-center p-4 pt-10 justify-between">
-                    <button onClick={() => navigate('/my-exams')} className="p-2 -ml-2 rounded-full hover:bg-black/10 transition-colors">
+            <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl overflow-hidden">
+                <div className="flex items-center p-4 justify-between pt-12 max-w-2xl mx-auto w-full">
+                    <button onClick={() => navigate('/my-exams')} className="size-10 flex items-center justify-start text-black">
                         <ArrowLeft size={24} strokeWidth={2.5} />
                     </button>
-                    <div className="text-center flex-1 pr-6">
-                        <h1 className="font-black text-lg uppercase italic tracking-tight leading-none truncate px-4">{simulado.title}</h1>
+                    <div className="flex flex-col items-center flex-1 pr-10">
+                        <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter truncate w-full text-center">{simulado.title}</h1>
+                        <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Plataforma IQ</p>
                     </div>
                 </div>
 

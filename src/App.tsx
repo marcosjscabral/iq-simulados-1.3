@@ -139,25 +139,18 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
   return (
     <div className="bg-[#181a17] min-h-screen pb-24 text-white font-sans selection:bg-[#f3ec05] selection:text-black">
       {/* HEADER */}
-      <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-md">
-        <div className="flex items-center px-4 py-3 justify-between">
-          <div className="flex items-center gap-3 text-black">
-            <button onClick={onOpenMenu} className="p-1 active:scale-95 transition-transform">
-              <Menu size={26} strokeWidth={2.5} />
-            </button>
-            <h1 className="text-[22px] font-black tracking-tight text-black leading-none">IQ Simulados</h1>
+      <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
+        <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
+          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
+            <Menu size={24} />
+          </button>
+          <div className="flex flex-col items-center">
+            <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">Vitrine de Simulados</h1>
+            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Plataforma IQ</p>
           </div>
-          <div className="flex items-center gap-4 text-black">
-            <button className="p-1 active:scale-95 transition-transform"><Search size={22} strokeWidth={2.5} /></button>
-            <button
-              onClick={() => navigate(isAdmin ? '/admin' : '/profile')}
-              className="p-1.5 rounded-full border border-black/30 active:scale-95 transition-transform"
-            >
-              {isAdmin ? (
-                <Settings size={18} strokeWidth={2.5} />
-              ) : (
-                <User size={18} strokeWidth={2.5} />
-              )}
+          <div className="size-10 flex items-center justify-end text-black">
+            <button onClick={() => navigate(isAdmin ? '/admin' : '/profile')} className="rounded-full bg-black/10 p-2 text-black active:scale-95 transition-transform">
+              {isAdmin ? <Settings size={20} /> : <User size={20} />}
             </button>
           </div>
         </div>
@@ -310,13 +303,13 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 
 const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: any) => void }) => (
   <div className="bg-[#0f172a] min-h-screen flex flex-col text-white">
-    <header className="sticky top-0 z-50 bg-[#f2f20d] rounded-b-[2.5rem] shadow-2xl">
-      <div className="flex items-center p-4 justify-between pt-12">
+    <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
+      <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
         <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
           <Menu size={24} />
         </button>
         <div className="flex flex-col items-center">
-          <h1 className="text-lg font-bold leading-tight text-black">Materiais</h1>
+          <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">Materiais</h1>
           <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">IQ Simulados</p>
         </div>
         <div className="size-10" />
@@ -336,11 +329,17 @@ const AnswerKeyScreen = () => {
   const navigate = useNavigate();
   return (
     <div className="bg-[#0f172a] min-h-screen flex flex-col text-white">
-      <header className="p-6 pt-12 flex items-center gap-4 bg-[#f2f20d] rounded-b-[2.5rem] shadow-2xl">
-        <button onClick={() => navigate('/')} className="p-2 rounded-full hover:bg-black/5 text-black">
-          <ChevronLeft size={24} />
-        </button>
-        <h1 className="text-xl font-black uppercase italic tracking-tighter text-black">Gabarito</h1>
+      <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
+        <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
+          <button onClick={() => navigate('/')} className="size-10 flex items-center justify-start text-black">
+            <ChevronLeft size={24} />
+          </button>
+          <div className="flex flex-col items-center">
+            <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">Gabarito</h1>
+            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">IQ Simulados</p>
+          </div>
+          <div className="size-10" />
+        </div>
       </header>
       <main className="flex-1 flex items-center justify-center p-6 text-center">
         <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Selecione um simulado finalizado para ver o gabarito.</p>
@@ -497,13 +496,13 @@ const EditProfileScreen = () => {
 
   return (
     <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
-      <header className="sticky top-0 z-50 bg-[#f2f20d] rounded-b-[2.5rem] shadow-2xl">
-        <div className="flex items-center p-6 pt-12 justify-between max-w-md mx-auto w-full">
+      <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
+        <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
           <button onClick={() => navigate('/profile')} className="size-10 flex items-center justify-start text-black">
             <ChevronLeft size={24} />
           </button>
           <div className="flex flex-col items-center">
-            <h1 className="text-lg font-black leading-tight text-black uppercase italic tracking-tighter">Editar Perfil</h1>
+            <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">Editar Perfil</h1>
             <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Dados Pessoais</p>
           </div>
           <div className="size-10" />
@@ -670,7 +669,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
             <Menu size={24} />
           </button>
           <div className="flex flex-col items-center">
-            <h1 className="text-lg font-bold leading-tight text-black">Perfil</h1>
+            <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">Perfil</h1>
             <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Conta</p>
           </div>
           <div className="size-10 flex items-center justify-end">
@@ -811,12 +810,12 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   return (
     <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
       <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
-        <div className="flex items-center p-6 pt-12 justify-between">
+        <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
           </button>
           <div className="flex flex-col items-center">
-            <h1 className="text-xl font-black leading-tight text-black italic uppercase italic tracking-tighter">IQ ADMIN</h1>
+            <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">IQ ADMIN</h1>
             <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Gerenciamento</p>
           </div>
           <div className="size-10 flex items-center justify-end text-black" />

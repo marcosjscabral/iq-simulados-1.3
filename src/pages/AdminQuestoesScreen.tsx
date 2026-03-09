@@ -148,14 +148,14 @@ export const AdminQuestoesScreen = () => {
 
     return (
         <div className="bg-[#0f172a] min-h-screen text-white font-sans">
-            <header className="sticky top-0 z-50 bg-[#f3ec05] text-black">
-                <div className="flex items-center p-4 pt-10 justify-between">
-                    <button onClick={() => navigate('/admin')} className="p-2 -ml-2 rounded-full hover:bg-black/10 active:scale-95 transition-transform">
+            <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl text-black">
+                <div className="flex items-center p-4 justify-between pt-12 max-w-2xl mx-auto w-full">
+                    <button onClick={() => navigate('/admin')} className="size-10 flex items-center justify-start text-black">
                         <ArrowLeft size={24} strokeWidth={2.5} />
                     </button>
                     <div className="flex flex-col items-center">
-                        <h1 className="text-[19px] font-black tracking-tight uppercase italic leading-none">Questões</h1>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-black/60 pt-0.5">Banco de Dados</span>
+                        <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">Questões</h1>
+                        <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Banco de Dados</p>
                     </div>
                     <div className="size-10" />
                 </div>
