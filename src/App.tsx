@@ -183,7 +183,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 
       <main className="px-4 space-y-8 max-w-md mx-auto">
         {/* Destaques da Semana */}
-        {featuredSimulado && (
+        {featuredSimulado && (selectedCategory === 'Todos' || featuredSimulado.categories?.includes(selectedCategory)) && (
           <section>
             <div className="flex items-center gap-2.5 mb-5 px-1">
               <Flame size={22} className="text-[#f15a24]" strokeWidth={2.5} />
