@@ -30,14 +30,12 @@
 
 .sidebar-header {
     padding: 3rem 2rem 2.5rem;
-    background: #ffd700;
+    background: #f3ec05;
     border-bottom: 4px solid rgba(0, 0, 0, 0.1);
     border-radius: 0 0 2.5rem 0;
 }
 
-.dark .sidebar-header {
-    background: #2a2a12;
-}
+/* Removed dark sidebar-header to keep standard yellow */
 
 .sidebar-logo {
     font-size: 1.6rem;
@@ -50,13 +48,7 @@
     letter-spacing: -0.05em;
 }
 
-.sidebar-tagline {
-    font-size: 0.7rem;
-    font-weight: 800;
-    color: rgba(0, 0, 0, 0.5);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
+/* sidebar-tagline removed */
 
 .sidebar-content {
     flex: 1;

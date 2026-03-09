@@ -62,7 +62,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             <div className="flex justify-between items-start">
                                 <div>
                                     <span className="sidebar-logo !italic !font-black !uppercase !tracking-tighter">IQ Simulados</span>
-                                    <span className="sidebar-tagline">Sua evolução</span>
                                 </div>
                                 <button
                                     onClick={onClose}
