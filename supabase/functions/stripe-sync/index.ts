@@ -32,10 +32,8 @@ serve(async (req) => {
         } = await supabaseClient.auth.getUser(token);
 
         if (userError || !user) {
-            return jsonResponse({
-                error: 'Unauthorized',
-                details: userError?.message || 'No user found'
-            }, 200);
+            console.error('Auth error or user not found:', userError);
+            return jsonResponse({ error: 'Sessão inválida ou expirada. Por favor, faça login novamente.' }, 401);
         }
 
         // In our app, admin check is done via app_metadata.is_admin or user_metadata.is_admin (based on RLS)

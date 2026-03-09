@@ -18,14 +18,21 @@ serve(async (req) => {
             }
         );
 
-        const token = req.headers.get('Authorization')!.replace('Bearer ', '');
+        const authHeader = req.headers.get('Authorization');
+        if (!authHeader) {
+            console.error('Missing Authorization header');
+            return jsonResponse({ error: 'Autorização necessária. Por favor, faça login novamente.' }, 401);
+        }
+
+        const token = authHeader.replace('Bearer ', '');
         const {
             data: { user },
             error: userError,
         } = await supabaseClient.auth.getUser(token);
 
         if (userError || !user) {
-            return jsonResponse({ error: 'Unauthorized' }, 401);
+            console.error('Auth error or user not found:', userError);
+            return jsonResponse({ error: 'Sessão inválida ou expirada. Por favor, faça login novamente.' }, 401);
         }
 
         const { priceId, successUrl, cancelUrl, simuladoId } = await req.json();

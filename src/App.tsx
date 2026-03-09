@@ -87,6 +87,14 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 
     setBuyingId(sim.id);
     try {
+      // Check if user is logged in
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        alert('Por favor, faça login para continuar com a compra.');
+        // Optionally trigger login modal if exists, but for now alert is safer
+        return;
+      }
+
       // Check if Stripe enabled
       const { data: settings } = await supabase.from('app_settings').select('value').eq('key', 'stripe_enabled').single();
       if (settings?.value !== 'true') {
