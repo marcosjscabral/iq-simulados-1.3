@@ -42,6 +42,7 @@ import { MyExamsScreen } from './pages/MyExamsScreen';
 import { UserRegistrationScreen } from './pages/UserRegistrationScreen';
 import { AdminQuestoesScreen } from './pages/AdminQuestoesScreen';
 import { ExamExecutionScreen } from './pages/ExamExecutionScreen';
+import { PurchaseHistoryScreen } from './pages/PurchaseHistoryScreen';
 import { ModalProvider, useModal } from './components/ModalContext';
 
 // --- Utils ---
@@ -724,7 +725,10 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
               <ChevronRight size={20} className="text-slate-600" />
             </button>
 
-            <button className="w-full flex items-center justify-between p-5 active:bg-white/10 transition-colors">
+            <button
+              onClick={() => navigate('/profile/purchases')}
+              className="w-full flex items-center justify-between p-5 active:bg-white/10 transition-colors"
+            >
               <div className="flex items-center gap-4">
                 <div className="flex items-center justify-center size-12 rounded-2xl bg-yellow-400/10 text-yellow-400">
                   <Receipt size={22} />
@@ -878,31 +882,6 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   );
 };
 
-const PurchaseHistoryScreen = () => {
-  const navigate = useNavigate();
-  return (
-    <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
-      <header className="sticky top-0 z-50 bg-[#ffd700] rounded-b-[2.5rem] shadow-2xl">
-        <div className="flex items-center p-6 pt-12 justify-between max-w-md mx-auto w-full">
-          <button onClick={() => navigate('/profile')} className="size-10 flex items-center justify-start text-black">
-            <ChevronLeft size={24} />
-          </button>
-          <div className="flex flex-col items-center">
-            <h1 className="text-lg font-black leading-tight text-black uppercase italic tracking-tighter text-center">Histórico</h1>
-            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Vendas e Transações</p>
-          </div>
-          <div className="size-10" />
-        </div>
-      </header>
-      <main className="flex-1 p-8 flex flex-col items-center justify-center text-center">
-        <div className="size-20 rounded-2xl bg-white/5 flex items-center justify-center mb-6 border border-white/5 shadow-inner">
-          <Receipt size={32} className="text-slate-700" />
-        </div>
-        <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] leading-loose">Nenhuma transação encontrada.</p>
-      </main>
-    </div>
-  );
-};
 
 export default function App() {
   const [user, setUser] = useState<SupabaseUser | null>(null);
