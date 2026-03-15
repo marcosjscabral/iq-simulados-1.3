@@ -881,22 +881,28 @@ export default function App() {
   const [simulados, setSimulados] = useState<Simulado[]>([]);
 
   useEffect(() => {
+    const checkUser = async (user: SupabaseUser | null) => {
+      if (user && !user.email_confirmed_at) {
+        await supabase.auth.signOut();
+        setUser(null);
+      } else {
+        setUser(user);
+      }
+    };
+
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
+      checkUser(session?.user ?? null).finally(() => setLoading(false));
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       console.log('Auth event:', event);
-      setUser(session?.user ?? null);
-      setLoading(false);
 
       if (event === 'PASSWORD_RECOVERY') {
-        // Redirection should be handled via router after render if needed,
-        // but since this is inside a component, we can use a flag or navigate
-        // Actually, window is more reliable for immediate catch
         window.location.href = '/reset-password';
+        return;
       }
+
+      checkUser(session?.user ?? null).finally(() => setLoading(false));
     });
 
     return () => subscription.unsubscribe();

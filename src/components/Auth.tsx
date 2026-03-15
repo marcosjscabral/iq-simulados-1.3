@@ -28,13 +28,18 @@ export const Auth: React.FC = () => {
 
         try {
             if (isLogin) {
-                const { error } = await supabase.auth.signInWithPassword({
+                const { data, error } = await supabase.auth.signInWithPassword({
                     email,
                     password,
                 });
                 if (error) throw error;
+
+                if (data.user && !data.user.email_confirmed_at) {
+                    await supabase.auth.signOut();
+                    throw new Error('Email not confirmed');
+                }
             } else {
-                const { error } = await supabase.auth.signUp({
+                const { data, error } = await supabase.auth.signUp({
                     email,
                     password,
                     options: {
@@ -42,6 +47,11 @@ export const Auth: React.FC = () => {
                     }
                 });
                 if (error) throw error;
+
+                if (data.session) {
+                    await supabase.auth.signOut();
+                }
+
                 setMessage('Verifique seu e-mail para confirmar seu cadastro! O link expira em breve.');
             }
         } catch (err: any) {
