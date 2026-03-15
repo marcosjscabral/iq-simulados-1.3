@@ -148,8 +148,8 @@ export const AdminQuestoesScreen = () => {
 
     return (
         <div className="bg-[#0f172a] min-h-screen text-white font-sans">
-            <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl text-black">
-                <div className="flex items-center p-4 justify-between pt-12 max-w-2xl mx-auto w-full">
+            <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl text-black">
+                <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
                     <button onClick={() => navigate('/admin')} className="size-10 flex items-center justify-start text-black">
                         <ArrowLeft size={24} strokeWidth={2.5} />
                     </button>
@@ -161,7 +161,7 @@ export const AdminQuestoesScreen = () => {
                 </div>
             </header>
 
-            <main className="p-4 max-w-2xl mx-auto pb-24 space-y-8">
+            <main className="p-4 w-full mx-auto pb-24 space-y-8">
 
                 {/* Simulado Selector */}
                 <section className="bg-[#1e293b] p-5 rounded-3xl border border-[#334155] shadow-lg">

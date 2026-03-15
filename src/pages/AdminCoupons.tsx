@@ -110,8 +110,8 @@ export default function AdminCoupons() {
     return (
         <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
             {/* HEADER */}
-            <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
-                <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
+            <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
+                <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
                     <button onClick={() => navigate('/admin/list')} className="size-10 flex items-center justify-start text-black">
                         <ArrowLeft size={24} />
                     </button>
@@ -200,7 +200,7 @@ export default function AdminCoupons() {
             {showCreate && (
                 <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
                     <div
-                        className="w-full max-w-md bg-[#1e293b] rounded-[2.5rem] border border-white/10 shadow-2xl p-8 slide-in-from-bottom duration-500"
+                        className="w-full max-w-xl bg-[#1e293b] rounded-[2.5rem] border border-white/10 shadow-2xl p-8 slide-in-from-bottom duration-500"
                     >
                         <div className="flex justify-between items-center mb-8">
                             <div>

@@ -55,13 +55,28 @@ export const Auth: React.FC = () => {
                 setMessage('Verifique seu e-mail para confirmar seu cadastro! O link expira em breve.');
             }
         } catch (err: any) {
-            const translatedError = err.message === 'User already registered'
+            console.error('Auth error:', err);
+
+            let errMsg = err?.message || err?.error_description || (typeof err === 'string' ? err : 'Erro desconhecido');
+            if (typeof errMsg === 'object') {
+                errMsg = JSON.stringify(errMsg);
+            }
+            if (errMsg === '{}') {
+                errMsg = 'Serviço de e-mail temporariamente indisponível no servidor (limite excedido). Configure um SMTP customizado.';
+            }
+
+            const translatedError = errMsg === 'User already registered'
                 ? 'Este e-mail já está cadastrado.'
-                : err.message === 'Invalid login credentials'
+                : errMsg === 'Invalid login credentials'
                     ? 'E-mail ou senha incorretos.'
-                    : err.message === 'Email not confirmed'
+                    : errMsg === 'Email not confirmed'
                         ? 'Por favor, confirme seu e-mail antes de fazer login. Verifique sua caixa de entrada ou spam.'
-                        : err.message;
+                        : errMsg.includes('Password should be at least')
+                            ? 'A senha deve ter pelo menos 6 caracteres.'
+                            : errMsg.includes('rate_limit')
+                                ? 'Muitas tentativas. Tente novamente mais tarde.'
+                                : errMsg;
+
             setError(translatedError || 'Ocorreu um erro na autenticação');
         } finally {
             setLoading(false);

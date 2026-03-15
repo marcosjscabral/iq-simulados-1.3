@@ -103,13 +103,13 @@ export default function CheckoutSuccess() {
             </h1>
             <p className="text-[#f3ec05] font-black uppercase tracking-[0.2em] mb-8">Compra Realizada com Sucesso</p>
 
-            <div className="bg-white/5 p-8 rounded-[2.5rem] border border-white/10 mb-12 max-w-sm">
+            <div className="bg-white/5 p-8 rounded-[2.5rem] border border-white/10 mb-12 w-full max-w-md mx-auto">
                 <p className="text-slate-300 text-sm leading-relaxed">
                     Seu acesso ao simulado foi liberado. Agora você pode começar sua preparação rumo à aprovação!
                 </p>
             </div>
 
-            <div className="flex flex-col gap-4 w-full max-w-xs">
+            <div className="flex flex-col gap-4 w-full max-w-md">
                 <button
                     onClick={() => navigate(`/exam/${simuladoId}`)}
                     className="bg-[#f3ec05] text-black font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-xl shadow-yellow-400/20 uppercase tracking-widest italic"

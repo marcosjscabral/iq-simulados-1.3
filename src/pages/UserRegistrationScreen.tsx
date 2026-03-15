@@ -156,8 +156,8 @@ export const UserRegistrationScreen = () => {
 
     return (
         <div className="bg-[#0f172a] min-h-screen flex flex-col font-sans text-white">
-            <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl text-black">
-                <div className="flex items-center p-4 justify-between pt-12 max-w-lg mx-auto w-full">
+            <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl text-black">
+                <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
                     <button onClick={() => navigate('/admin')} className="size-10 flex items-center justify-start text-black">
                         <ArrowLeft size={24} strokeWidth={2.5} />
                     </button>
@@ -169,7 +169,7 @@ export const UserRegistrationScreen = () => {
                 </div>
             </header>
 
-            <main className="flex-1 p-4 pb-12 w-full max-w-lg mx-auto">
+            <main className="flex-1 p-4 pb-12 w-full max-w-7xl mx-auto">
                 {/* Search Bar */}
                 <div className="relative mb-6">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">

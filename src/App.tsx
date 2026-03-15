@@ -139,9 +139,9 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
   return (
     <div className="bg-[#181a17] min-h-screen pb-24 text-white font-sans selection:bg-[#f3ec05] selection:text-black">
       {/* HEADER */}
-      <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
-        <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
-          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
+      <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
+        <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
+          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black lg:hidden">
             <Menu size={24} />
           </button>
           <div className="flex flex-col items-center">
@@ -174,7 +174,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
         </div>
       </div>
 
-      <main className="px-4 space-y-8 max-w-md mx-auto">
+      <main className="px-4 space-y-8 w-full mx-auto">
         {/* Destaques da Semana */}
         {featuredSimulado && (selectedCategory === 'Todos' || featuredSimulado.categories?.includes(selectedCategory)) && (
           <section>
@@ -303,9 +303,9 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 
 const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: any) => void }) => (
   <div className="bg-[#0f172a] min-h-screen flex flex-col text-white">
-    <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
-      <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
-        <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
+    <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
+      <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
+        <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black lg:hidden">
           <Menu size={24} />
         </button>
         <div className="flex flex-col items-center">
@@ -329,8 +329,8 @@ const AnswerKeyScreen = () => {
   const navigate = useNavigate();
   return (
     <div className="bg-[#0f172a] min-h-screen flex flex-col text-white">
-      <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
-        <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
+      <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
+        <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
           <button onClick={() => navigate('/')} className="size-10 flex items-center justify-start text-black">
             <ChevronLeft size={24} />
           </button>
@@ -377,7 +377,7 @@ const ResetPasswordScreen = () => {
 
   return (
     <div className="bg-[#0f172a] min-h-screen flex flex-col items-center justify-center p-6 text-white">
-      <div className="w-full max-w-md bg-white/5 rounded-[2.5rem] p-8 border border-white/10 shadow-2xl">
+      <div className="w-full max-w-7xl bg-white/5 rounded-[2.5rem] p-8 border border-white/10 shadow-2xl">
         <h1 className="text-2xl font-black italic uppercase italic tracking-tighter mb-2 text-yellow-400">Nova Senha</h1>
         <p className="text-slate-500 text-xs mb-8 uppercase font-bold tracking-[0.2em]">Crie uma senha segura para sua conta</p>
 
@@ -496,8 +496,8 @@ const EditProfileScreen = () => {
 
   return (
     <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
-      <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
-        <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
+      <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
+        <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
           <button onClick={() => navigate('/profile')} className="size-10 flex items-center justify-start text-black">
             <ChevronLeft size={24} />
           </button>
@@ -509,7 +509,7 @@ const EditProfileScreen = () => {
         </div>
       </header>
 
-      <main className="flex-1 w-full max-w-md mx-auto p-8 overflow-y-auto">
+      <main className="flex-1 w-full mx-auto p-8 overflow-y-auto">
         <form onSubmit={handleSave} className="space-y-6">
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Nome</label>
@@ -663,8 +663,8 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
 
   return (
     <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
-      <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
-        <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
+      <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
+        <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
           </button>
@@ -682,7 +682,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
         </div>
       </header>
 
-      <main className="flex-1 w-full max-w-md mx-auto pb-24 overflow-y-auto">
+      <main className="flex-1 w-full mx-auto pb-24 overflow-y-auto">
         <section className="flex flex-col items-center py-10 px-4">
           <div className="relative group">
             <div className={`w-32 h-32 rounded-full border-4 border-yellow-400 p-1.5 bg-gradient-to-tr from-yellow-400 to-orange-500 shadow-2xl shadow-yellow-400/20 ${uploading ? 'opacity-50' : ''}`}>
@@ -815,9 +815,9 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
 
   return (
     <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
-      <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
-        <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
-          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
+      <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
+        <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
+          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black lg:hidden">
             <Menu size={24} />
           </button>
           <div className="flex flex-col items-center">
@@ -949,81 +949,83 @@ export default function App() {
   return (
     <ModalProvider>
       <Router>
-        <div className="relative flex min-h-screen w-full flex-col bg-[#0f172a]">
+        <div className="relative flex min-h-screen w-full flex-col lg:flex-row bg-[#0f172a]">
           <Sidebar
             isOpen={isSidebarOpen}
             onClose={() => setSidebarOpen(false)}
             onLogout={handleLogout}
           />
 
-          <Routes>
-            <Route path="/" element={
-              <HomeScreen
-                onOpenMenu={() => setSidebarOpen(true)}
-                setView={() => { }}
-                simulados={simulados}
-              />
-            } />
-            <Route path="/my-exams" element={
-              <MyExamsScreen onOpenMenu={() => setSidebarOpen(true)} />
-            } />
-            <Route path="/materials" element={
-              <MaterialsScreen onOpenMenu={() => setSidebarOpen(true)} setView={() => { }} />
-            } />
-            <Route path="/profile" element={
-              <ProfileScreen
-                onOpenMenu={() => setSidebarOpen(true)}
-                onLogout={handleLogout}
-              />
-            } />
-            <Route path="/reset-password" element={<ResetPasswordScreen />} />
-            <Route path="/profile/edit" element={<EditProfileScreen />} />
-            <Route path="/profile/purchases" element={<PurchaseHistoryScreen />} />
-            <Route path="/exam/:id" element={<ExamExecutionScreen />} />
-            <Route path="/exam/:id/answer-key" element={<AnswerKeyScreen />} />
-            <Route path="/checkout/success" element={<CheckoutSuccess />} />
-            <Route path="/checkout/cancel" element={<CheckoutCancel />} />
+          <div className="flex-1 min-w-0 flex flex-col relative w-full">
+            <Routes>
+              <Route path="/" element={
+                <HomeScreen
+                  onOpenMenu={() => setSidebarOpen(true)}
+                  setView={() => { }}
+                  simulados={simulados}
+                />
+              } />
+              <Route path="/my-exams" element={
+                <MyExamsScreen onOpenMenu={() => setSidebarOpen(true)} />
+              } />
+              <Route path="/materials" element={
+                <MaterialsScreen onOpenMenu={() => setSidebarOpen(true)} setView={() => { }} />
+              } />
+              <Route path="/profile" element={
+                <ProfileScreen
+                  onOpenMenu={() => setSidebarOpen(true)}
+                  onLogout={handleLogout}
+                />
+              } />
+              <Route path="/reset-password" element={<ResetPasswordScreen />} />
+              <Route path="/profile/edit" element={<EditProfileScreen />} />
+              <Route path="/profile/purchases" element={<PurchaseHistoryScreen />} />
+              <Route path="/exam/:id" element={<ExamExecutionScreen />} />
+              <Route path="/exam/:id/answer-key" element={<AnswerKeyScreen />} />
+              <Route path="/checkout/success" element={<CheckoutSuccess />} />
+              <Route path="/checkout/cancel" element={<CheckoutCancel />} />
 
-            {/* Admin Routes (Protected) */}
-            <Route path="/admin" element={
-              <ProtectedRoute requireAdmin>
-                <AdminDashboardScreen onOpenMenu={() => setSidebarOpen(true)} />
-              </ProtectedRoute>
-            } />
-            <Route path="/admin/list" element={
-              <ProtectedRoute requireAdmin>
-                <AdminListSimulados onPublishSuccess={fetchSimulados} />
-              </ProtectedRoute>
-            } />
-            <Route path="/admin/simulados/new" element={
-              <ProtectedRoute requireAdmin>
-                <AdminSimulados onPublishSuccess={fetchSimulados} availableCategories={uniqueCategories} />
-              </ProtectedRoute>
-            } />
-            <Route path="/admin/simulados/:id" element={
-              <ProtectedRoute requireAdmin>
-                <AdminSimulados onPublishSuccess={fetchSimulados} availableCategories={uniqueCategories} />
-              </ProtectedRoute>
-            } />
-            <Route path="/admin/users" element={
-              <ProtectedRoute requireAdmin>
-                <UserRegistrationScreen />
-              </ProtectedRoute>
-            } />
-            <Route path="/admin/questoes" element={
-              <ProtectedRoute requireAdmin>
-                <AdminQuestoesScreen />
-              </ProtectedRoute>
-            } />
-            <Route path="/admin/coupons" element={
-              <ProtectedRoute requireAdmin>
-                <AdminCoupons />
-              </ProtectedRoute>
-            } />
+              {/* Admin Routes (Protected) */}
+              <Route path="/admin" element={
+                <ProtectedRoute requireAdmin>
+                  <AdminDashboardScreen onOpenMenu={() => setSidebarOpen(true)} />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/list" element={
+                <ProtectedRoute requireAdmin>
+                  <AdminListSimulados onPublishSuccess={fetchSimulados} />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/simulados/new" element={
+                <ProtectedRoute requireAdmin>
+                  <AdminSimulados onPublishSuccess={fetchSimulados} availableCategories={uniqueCategories} />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/simulados/:id" element={
+                <ProtectedRoute requireAdmin>
+                  <AdminSimulados onPublishSuccess={fetchSimulados} availableCategories={uniqueCategories} />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/users" element={
+                <ProtectedRoute requireAdmin>
+                  <UserRegistrationScreen />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/questoes" element={
+                <ProtectedRoute requireAdmin>
+                  <AdminQuestoesScreen />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin/coupons" element={
+                <ProtectedRoute requireAdmin>
+                  <AdminCoupons />
+                </ProtectedRoute>
+              } />
 
-            {/* Catch-all fallback */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+              {/* Catch-all fallback */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </div>
         </div>
       </Router>
     </ModalProvider>

@@ -127,15 +127,15 @@ export const ExamExecutionScreen = () => {
 
         return (
             <div className="bg-[#0f172a] min-h-screen flex flex-col text-white pb-10 font-sans selection:bg-[#f3ec05] selection:text-black">
-                <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
-                    <div className="flex flex-col items-center pt-12 pb-5">
+                <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
+                    <div className="flex flex-col items-center pt-12 pb-5 w-full mx-auto">
                         <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">RESULTADO FINAL</h1>
                         <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">{simulado.title}</p>
                     </div>
                 </header>
 
-                <main className="flex-1 px-6 pb-6 pt-12 flex flex-col items-center">
-                    <div className="flex items-center justify-center gap-10 mb-10 w-full max-w-sm">
+                <main className="flex-1 px-6 pb-6 pt-12 flex flex-col items-center w-full mx-auto">
+                    <div className="flex items-center justify-center gap-10 mb-10 w-full max-w-md">
                         {/* Score Circle */}
                         <div className="size-[120px] shrink-0 rounded-full border-2 border-[#1c2438] bg-[#f3ec05] text-black shadow-[0_0_40px_rgba(243,236,5,0.15)] flex flex-col items-center justify-center -ml-4">
                             <span className="text-4xl font-black italic mb-0">{scorePercentage.toFixed(0)}%</span>
@@ -149,12 +149,12 @@ export const ExamExecutionScreen = () => {
                         </div>
                     </div>
 
-                    <div className="bg-[#1e293b] w-full max-w-sm rounded-[2rem] p-8 border border-[#334155] mb-8 text-center space-y-3 shadow-xl">
+                    <div className="bg-[#1e293b] w-full max-w-md rounded-[2rem] p-8 border border-[#334155] mb-8 text-center space-y-3 shadow-xl">
                         <p className="font-bold text-lg text-white">Resumo do Desempenho</p>
                         <p className="text-emerald-400 font-bold text-base">Você acertou {correctCount} de {questoes.length} questões.</p>
                     </div>
 
-                    <div className="w-full max-w-sm space-y-4">
+                    <div className="w-full max-w-md space-y-4">
                         <button
                             onClick={() => {
                                 setIsReviewing(true);
@@ -182,8 +182,8 @@ export const ExamExecutionScreen = () => {
 
     return (
         <div className="bg-[#0f172a] min-h-screen flex flex-col text-white font-sans selection:bg-[#f3ec05] selection:text-black">
-            <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl overflow-hidden">
-                <div className="flex items-center p-4 justify-between pt-12 max-w-2xl mx-auto w-full">
+            <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl overflow-hidden">
+                <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
                     <button onClick={() => navigate('/my-exams')} className="size-10 flex items-center justify-start text-black">
                         <ArrowLeft size={24} strokeWidth={2.5} />
                     </button>
@@ -199,9 +199,9 @@ export const ExamExecutionScreen = () => {
                 </div>
             </header>
 
-            <main className="flex-1 p-5 pb-32 max-w-2xl mx-auto w-full flex flex-col pt-8">
+            <main className="flex-1 p-5 pb-32 w-full mx-auto flex flex-col pt-8">
                 {/* Question Header */}
-                <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center justify-between mb-8 w-full max-w-7xl mx-auto">
                     <div className="flex items-center gap-3">
                         <div className="size-12 rounded-xl bg-[#272a24] border border-[#f15a24]/30 flex items-center justify-center shadow-inner">
                             <span className="text-[#f15a24] font-black italic text-xl">{currentQuestionIndex + 1}</span>
@@ -234,7 +234,7 @@ export const ExamExecutionScreen = () => {
                 </div>
 
                 {/* Question Body */}
-                <div className="flex-1 flex flex-col">
+                <div className="flex-1 flex flex-col w-full max-w-7xl mx-auto">
                     <div className="bg-[#1e293b] p-6 rounded-[2rem] border border-[#334155] shadow-2xl mb-8 relative">
                         <div className="absolute -top-3 left-8 bg-[#334155] text-[10px] font-black text-white uppercase px-3 py-1 rounded-full tracking-widest shadow-sm">
                             Enunciado
@@ -324,7 +324,7 @@ export const ExamExecutionScreen = () => {
 
             {/* Footer Navigation */}
             <footer className="fixed bottom-0 left-0 right-0 p-4 pb-8 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/95 to-transparent backdrop-blur-sm">
-                <div className="max-w-2xl mx-auto flex items-center gap-3">
+                <div className="w-full max-w-7xl mx-auto flex items-center gap-3">
                     <button
                         onClick={handlePrev}
                         disabled={currentQuestionIndex === 0}

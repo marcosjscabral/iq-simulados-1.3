@@ -12,11 +12,11 @@ export default function CheckoutCancel() {
             </div>
 
             <h2 className="text-2xl font-black italic uppercase tracking-tighter">Compra Cancelada</h2>
-            <p className="text-slate-500 mt-2 mb-8 max-w-xs mx-auto">
+            <p className="text-slate-500 mt-2 mb-8 w-full max-w-md mx-auto">
                 O processo de pagamento foi interrompido. Nenhuma cobrança foi realizada.
             </p>
 
-            <div className="flex flex-col gap-4 w-full max-w-xs">
+            <div className="flex flex-col gap-4 w-full max-w-md">
                 <button
                     onClick={() => navigate('/')}
                     className="bg-[#2c73eb] text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-xl shadow-blue-500/20 uppercase tracking-widest text-sm italic"

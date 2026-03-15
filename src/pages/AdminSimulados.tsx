@@ -297,7 +297,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
     <div className="bg-[#0f172a] min-h-screen flex justify-center text-white">
       <div className="relative flex min-h-screen w-full flex-col max-w-[430px] bg-[#0f172a] overflow-x-hidden">
         {/* Header */}
-        <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
+        <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
           <div className="flex items-center p-4 justify-between pt-12 max-w-[430px] mx-auto w-full">
             <button
               onClick={() => navigate('/admin/list')}

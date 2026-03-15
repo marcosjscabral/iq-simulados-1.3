@@ -105,11 +105,11 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
 
     return (
         <div className="bg-[#0f172a] min-h-screen flex justify-center text-white">
-            <div className="relative flex min-h-screen w-full flex-col max-w-[430px] bg-[#0f172a] overflow-x-hidden">
+            <div className="relative flex min-h-screen w-full flex-col bg-[#0f172a] overflow-x-hidden">
 
                 {/* Header */}
-                <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
-                    <div className="flex items-center p-4 justify-between pt-12 max-w-[430px] mx-auto w-full">
+                <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
+                    <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
                         <button
                             onClick={() => navigate('/admin')}
                             className="size-10 flex items-center justify-start text-black"
@@ -139,8 +139,8 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
                     </div>
                 </header>
 
-                <main className="flex-1 px-5 pt-6 space-y-6 pb-24">
-                    <StripeToggle />
+                <main className="flex-1 px-5 pt-6 space-y-6 pb-24 w-full mx-auto">
+                    {/* Search Bar */} <StripeToggle />
 
                     {/* Search Bar */}
                     <div className="relative">

@@ -63,8 +63,8 @@ export const PurchaseHistoryScreen = () => {
 
     return (
         <div className="bg-[#0f172a] min-h-screen text-white font-sans">
-            <header className="sticky top-0 z-50 bg-[#f3ec05] rounded-b-[2.5rem] shadow-2xl">
-                <div className="flex items-center p-4 justify-between pt-12 max-w-md mx-auto w-full">
+            <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
+                <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
                     <button onClick={() => navigate('/profile')} className="size-10 flex items-center justify-start text-black">
                         <ChevronLeft size={24} />
                     </button>
@@ -76,7 +76,7 @@ export const PurchaseHistoryScreen = () => {
                 </div>
             </header>
 
-            <main className="p-6 space-y-4 max-w-md mx-auto pt-8">
+            <main className="p-6 space-y-4 w-full mx-auto pt-8">
                 {loading ? (
                     <div className="flex justify-center items-center py-20">
                         <Loader2 size={40} className="text-[#f2f20d] animate-spin" />
