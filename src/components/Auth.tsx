@@ -49,7 +49,9 @@ export const Auth: React.FC = () => {
                 ? 'Este e-mail já está cadastrado.'
                 : err.message === 'Invalid login credentials'
                     ? 'E-mail ou senha incorretos.'
-                    : err.message;
+                    : err.message === 'Email not confirmed'
+                        ? 'Por favor, confirme seu e-mail antes de fazer login. Verifique sua caixa de entrada ou spam.'
+                        : err.message;
             setError(translatedError || 'Ocorreu um erro na autenticação');
         } finally {
             setLoading(false);
