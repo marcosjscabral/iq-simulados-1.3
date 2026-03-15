@@ -571,7 +571,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
   const [userName, setUserName] = useState('Usuário');
-  const [userAvatar, setUserAvatar] = useState('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200');
+  const [userAvatar, setUserAvatar] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const { showAlert } = useModal();
 
@@ -686,12 +686,18 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
         <section className="flex flex-col items-center py-10 px-4">
           <div className="relative group">
             <div className={`w-32 h-32 rounded-full border-4 border-yellow-400 p-1.5 bg-gradient-to-tr from-yellow-400 to-orange-500 shadow-2xl shadow-yellow-400/20 ${uploading ? 'opacity-50' : ''}`}>
-              <img
-                src={userAvatar}
-                alt="Profile"
-                className="w-full h-full rounded-full object-cover"
-                referrerPolicy="no-referrer"
-              />
+              {userAvatar ? (
+                <img
+                  src={userAvatar}
+                  alt="Profile"
+                  className="w-full h-full rounded-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <div className="w-full h-full rounded-full bg-[#1e293b] flex items-center justify-center">
+                  <User size={64} className="text-slate-400" />
+                </div>
+              )}
             </div>
             <label className="absolute bottom-1 right-1 bg-blue-600 text-white p-2.5 rounded-full shadow-lg border-2 border-white cursor-pointer hover:scale-110 transition-transform">
               {uploading ? (
