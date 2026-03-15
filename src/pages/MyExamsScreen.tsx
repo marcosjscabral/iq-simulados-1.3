@@ -49,7 +49,7 @@ export const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
         <div className="bg-[#181a17] min-h-screen text-white font-sans selection:bg-[#f3ec05] selection:text-black">
             <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
                 <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
-                    <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black lg:hidden">
+                    <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
                         <Menu size={24} />
                     </button>
                     <div className="flex flex-col items-center">

@@ -141,7 +141,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
         <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
-          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black lg:hidden">
+          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
           </button>
           <div className="flex flex-col items-center">
@@ -305,7 +305,7 @@ const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: 
   <div className="bg-[#0f172a] min-h-screen flex flex-col text-white">
     <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
       <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
-        <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black lg:hidden">
+        <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
           <Menu size={24} />
         </button>
         <div className="flex flex-col items-center">
@@ -817,7 +817,7 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
     <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
       <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
         <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
-          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black lg:hidden">
+          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
           </button>
           <div className="flex flex-col items-center">
