@@ -56,12 +56,23 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [ownedIds, setOwnedIds] = useState<string[]>([]);
   const [buyingId, setBuyingId] = useState<string | null>(null);
-
-  const categories = ['Todos', ...Array.from(new Set(simulados.flatMap(s => s.categories || [])))];
+  const [premiumCategories, setPremiumCategories] = useState<string[]>([]);
 
   useEffect(() => {
     fetchOwnedSimulados();
+    fetchPremiumCategories();
   }, []);
+
+  const fetchPremiumCategories = async () => {
+    try {
+      const { data } = await supabase.from('app_settings').select('value').eq('key', 'premium_categories').single();
+      if (data && data.value) {
+        setPremiumCategories(JSON.parse(data.value));
+      }
+    } catch (error) {
+      console.error('Error fetching premium categories:', error);
+    }
+  };
 
   const fetchOwnedSimulados = async () => {
     try {
@@ -132,9 +143,24 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
   const featuredSimulado = simulados.find(s => s.is_featured);
   const activeSimulados = simulados.filter(s => s.is_active && !s.is_featured);
 
+  // Unlocked premium categories are those for which the user owns at least one simulado
+  const unlockedPremiumCategories = premiumCategories.filter(cat => {
+    return simulados.some(sim => ownedIds.includes(sim.id) && sim.categories?.includes(cat));
+  });
+
+  const visibleCategories = Array.from(new Set(simulados.flatMap(s => s.categories || [])))
+    .filter(cat => !premiumCategories.includes(cat) || unlockedPremiumCategories.includes(cat));
+
+  const categories = ['Todos', ...visibleCategories];
+
   const filteredSimulados = selectedCategory === 'Todos'
-    ? activeSimulados
+    ? activeSimulados.filter(s => !s.categories?.some(c => premiumCategories.includes(c)))
     : activeSimulados.filter(s => s.categories?.includes(selectedCategory));
+
+  const showFeatured = featuredSimulado && (
+    (selectedCategory === 'Todos' && !featuredSimulado.categories?.some(c => premiumCategories.includes(c))) ||
+    featuredSimulado.categories?.includes(selectedCategory)
+  );
 
   return (
     <div className="bg-[#181a17] min-h-screen pb-24 text-white font-sans selection:bg-[#f3ec05] selection:text-black">
@@ -176,7 +202,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 
       <main className="px-4 space-y-8 w-full mx-auto">
         {/* Destaques da Semana */}
-        {featuredSimulado && (selectedCategory === 'Todos' || featuredSimulado.categories?.includes(selectedCategory)) && (
+        {showFeatured && featuredSimulado && (
           <section>
             <div className="flex items-center gap-2.5 mb-5 px-1">
               <Flame size={22} className="text-[#f15a24]" strokeWidth={2.5} />

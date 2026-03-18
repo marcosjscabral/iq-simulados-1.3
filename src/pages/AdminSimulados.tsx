@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Plus, Camera, Image as ImageIcon, MinusCircle, Eye, Star, AlertCircle, Trash2, X } from 'lucide-react';
+import { ArrowLeft, Plus, Camera, Image as ImageIcon, MinusCircle, Eye, Star, AlertCircle, Trash2, X, Crown } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useModal } from '../components/ModalContext';
 import { StripeService } from '../lib/stripeService';
@@ -43,6 +43,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState<string | null>(null);
   const [isDeletingGlobal, setIsDeletingGlobal] = useState(false);
+  const [globalPremiumCategories, setGlobalPremiumCategories] = useState<string[]>([]);
   const { showAlert } = useModal();
 
   useEffect(() => {
@@ -90,6 +91,18 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
       }
     };
     fetchAllCoupons();
+
+    const fetchPremiumCategories = async () => {
+      try {
+        const { data } = await supabase.from('app_settings').select('value').eq('key', 'premium_categories').single();
+        if (data && data.value) {
+          setGlobalPremiumCategories(JSON.parse(data.value));
+        }
+      } catch (error) {
+        console.error('Error fetching premium categories:', error);
+      }
+    };
+    fetchPremiumCategories();
   }, [simuladoId]);
 
   const addCategory = () => {
@@ -112,6 +125,15 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
       setSelectedCoupons(selectedCoupons.filter(id => id !== couponId));
     } else {
       setSelectedCoupons([...selectedCoupons, couponId]);
+    }
+  };
+
+  const togglePremiumCategory = (cat: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (globalPremiumCategories.includes(cat)) {
+      setGlobalPremiumCategories(globalPremiumCategories.filter(c => c !== cat));
+    } else {
+      setGlobalPremiumCategories([...globalPremiumCategories, cat]);
     }
   };
 
@@ -271,6 +293,17 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
 
       if (error) throw error;
 
+      // Save global premium categories
+      try {
+        await supabase.from('app_settings').upsert({
+          key: 'premium_categories',
+          value: JSON.stringify(globalPremiumCategories),
+          updated_at: new Date().toISOString()
+        }, { onConflict: 'key' });
+      } catch (err) {
+        console.error('Error saving premium categories:', err);
+      }
+
       // Sync Coupon Restrictions in Stripe
       if (stripeEnabled) {
         try {
@@ -406,8 +439,9 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
 
               <div className="flex flex-wrap gap-2 mb-2">
                 {Array.from(new Set([...availableCategories, ...categories])).sort().map((cat) => (
-                  <div key={cat} className="relative group/cat">
+                  <div key={cat} className="relative group/cat mt-2 ml-2">
                     <button
+                      type="button"
                       onClick={() => toggleCategory(cat)}
                       className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border-2 ${categories.includes(cat)
                         ? 'bg-[#ffd700] text-black border-[#ffd700] shadow-lg shadow-yellow-400/20 scale-105'
@@ -417,10 +451,19 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                       {cat}
                     </button>
                     <button
+                      type="button"
                       onClick={(e) => handleDeleteCategoryClick(cat, e)}
                       className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center transition-all shadow-xl shadow-red-600/40 active:scale-90 z-10 border-2 border-[#0f172a]"
                     >
                       <X size={14} strokeWidth={4} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => togglePremiumCategory(cat, e)}
+                      title={globalPremiumCategories.includes(cat) ? "Remover Aba Premium" : "Tornar Aba Premium"}
+                      className={`absolute -top-2 -left-2 rounded-full w-6 h-6 flex items-center justify-center transition-all shadow-xl active:scale-90 z-10 border-2 border-[#0f172a] ${globalPremiumCategories.includes(cat) ? 'bg-indigo-500 text-white shadow-indigo-500/40' : 'bg-slate-700 text-slate-400 hover:bg-slate-600'}`}
+                    >
+                      <Crown size={12} strokeWidth={3} />
                     </button>
                   </div>
                 ))}
