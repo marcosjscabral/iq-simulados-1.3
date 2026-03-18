@@ -43,7 +43,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState<string | null>(null);
   const [isDeletingGlobal, setIsDeletingGlobal] = useState(false);
-  const [globalPremiumCategories, setGlobalPremiumCategories] = useState<string[]>([]);
+  const [parentCategories, setParentCategories] = useState<string[]>([]);
   const { showAlert } = useModal();
 
   useEffect(() => {
@@ -64,6 +64,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
             setQuestionsCount(data.questions_count.toString());
             setDescription(data.description || '');
             setCategories(data.categories || []);
+            setParentCategories(data.parent_categories || []);
             setIsActive(data.is_active);
             setIsFeatured(data.is_featured);
             setFeaturedLabel(data.featured_label || '');
@@ -91,18 +92,6 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
       }
     };
     fetchAllCoupons();
-
-    const fetchPremiumCategories = async () => {
-      try {
-        const { data } = await supabase.from('app_settings').select('value').eq('key', 'premium_categories').single();
-        if (data && data.value) {
-          setGlobalPremiumCategories(JSON.parse(data.value));
-        }
-      } catch (error) {
-        console.error('Error fetching premium categories:', error);
-      }
-    };
-    fetchPremiumCategories();
   }, [simuladoId]);
 
   const addCategory = () => {
@@ -130,10 +119,10 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
 
   const togglePremiumCategory = (cat: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (globalPremiumCategories.includes(cat)) {
-      setGlobalPremiumCategories(globalPremiumCategories.filter(c => c !== cat));
+    if (parentCategories.includes(cat)) {
+      setParentCategories(parentCategories.filter(c => c !== cat));
     } else {
-      setGlobalPremiumCategories([...globalPremiumCategories, cat]);
+      setParentCategories([...parentCategories, cat]);
     }
   };
 
@@ -273,6 +262,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
         questions_count: parseInt(questionsCount),
         description,
         categories,
+        parent_categories: parentCategories,
         is_active: isActive,
         is_featured: isFeatured,
         featured_label: featuredLabel,
@@ -292,17 +282,6 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
       const { error } = result;
 
       if (error) throw error;
-
-      // Save global premium categories
-      try {
-        await supabase.from('app_settings').upsert({
-          key: 'premium_categories',
-          value: JSON.stringify(globalPremiumCategories),
-          updated_at: new Date().toISOString()
-        }, { onConflict: 'key' });
-      } catch (err) {
-        console.error('Error saving premium categories:', err);
-      }
 
       // Sync Coupon Restrictions in Stripe
       if (stripeEnabled) {
@@ -460,8 +439,8 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                     <button
                       type="button"
                       onClick={(e) => togglePremiumCategory(cat, e)}
-                      title={globalPremiumCategories.includes(cat) ? "Remover Aba Premium" : "Tornar Aba Premium"}
-                      className={`absolute -top-2 -left-2 rounded-full w-6 h-6 flex items-center justify-center transition-all shadow-xl active:scale-90 z-10 border-2 border-[#0f172a] ${globalPremiumCategories.includes(cat) ? 'bg-indigo-500 text-white shadow-indigo-500/40' : 'bg-slate-700 text-slate-400 hover:bg-slate-600'}`}
+                      title={parentCategories.includes(cat) ? "Remover de Simulado Pai" : "Tornar Simulado Pai"}
+                      className={`absolute -top-2 -left-2 rounded-full w-6 h-6 flex items-center justify-center transition-all shadow-xl active:scale-90 z-10 border-2 border-[#0f172a] ${parentCategories.includes(cat) ? 'bg-indigo-500 text-white shadow-indigo-500/40' : 'bg-slate-700 text-slate-400 hover:bg-slate-600'}`}
                     >
                       <Crown size={12} strokeWidth={3} />
                     </button>

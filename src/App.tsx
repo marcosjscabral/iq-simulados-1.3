@@ -56,23 +56,9 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [ownedIds, setOwnedIds] = useState<string[]>([]);
   const [buyingId, setBuyingId] = useState<string | null>(null);
-  const [premiumCategories, setPremiumCategories] = useState<string[]>([]);
-
   useEffect(() => {
     fetchOwnedSimulados();
-    fetchPremiumCategories();
   }, []);
-
-  const fetchPremiumCategories = async () => {
-    try {
-      const { data } = await supabase.from('app_settings').select('value').eq('key', 'premium_categories').single();
-      if (data && data.value) {
-        setPremiumCategories(JSON.parse(data.value));
-      }
-    } catch (error) {
-      console.error('Error fetching premium categories:', error);
-    }
-  };
 
   const fetchOwnedSimulados = async () => {
     try {
@@ -143,22 +129,29 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
   const featuredSimulado = simulados.find(s => s.is_featured);
   const activeSimulados = simulados.filter(s => s.is_active && !s.is_featured);
 
-  // Unlocked premium categories are those for which the user owns at least one simulado
-  const unlockedPremiumCategories = premiumCategories.filter(cat => {
-    return simulados.some(sim => ownedIds.includes(sim.id) && sim.categories?.includes(cat));
+  const premiumTabs = Array.from(new Set(simulados.flatMap(s => s.parent_categories || [])));
+
+  // Unlocked premium categories are those for which the user owns the "Pai" simulado
+  const unlockedPremiumCategories = premiumTabs.filter(cat => {
+    return simulados.some(sim => ownedIds.includes(sim.id) && sim.parent_categories?.includes(cat));
   });
 
   const visibleCategories = Array.from(new Set(simulados.flatMap(s => s.categories || [])))
-    .filter(cat => !premiumCategories.includes(cat) || unlockedPremiumCategories.includes(cat));
+    .filter(cat => !premiumTabs.includes(cat) || unlockedPremiumCategories.includes(cat));
 
   const categories = ['Todos', ...visibleCategories];
 
+  // A simulado is considered a child if it belongs to a premium tab BUT is NOT the parent of that premium tab.
+  const isChild = (s: Simulado) => {
+    return s.categories?.some(cat => premiumTabs.includes(cat) && !s.parent_categories?.includes(cat));
+  };
+
   const filteredSimulados = selectedCategory === 'Todos'
-    ? activeSimulados.filter(s => !s.categories?.some(c => premiumCategories.includes(c)))
+    ? activeSimulados.filter(s => !isChild(s))
     : activeSimulados.filter(s => s.categories?.includes(selectedCategory));
 
   const showFeatured = featuredSimulado && (
-    (selectedCategory === 'Todos' && !featuredSimulado.categories?.some(c => premiumCategories.includes(c))) ||
+    (selectedCategory === 'Todos' && !isChild(featuredSimulado)) ||
     featuredSimulado.categories?.includes(selectedCategory)
   );
 

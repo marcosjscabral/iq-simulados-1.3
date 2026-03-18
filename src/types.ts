@@ -21,6 +21,7 @@ export interface Simulado {
   id: string;
   title: string;
   categories: string[];
+  parent_categories?: string[];
   price: number;
   questions_count: number;
   description: string;
