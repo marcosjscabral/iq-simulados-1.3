@@ -76,7 +76,8 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 
   const handleBuy = async (sim: Simulado) => {
     if (ownedIds.includes(sim.id)) {
-      navigate(`/exam/${sim.id}`);
+      const isParent = sim.parent_categories && sim.parent_categories.length > 0;
+      navigate(isParent ? `/premium/${sim.id}` : `/exam/${sim.id}`);
       return;
     }
 
@@ -205,7 +206,10 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
             </div>
 
             <div
-              onClick={() => navigate(`/exam/${featuredSimulado.id}`)}
+              onClick={() => {
+                const isParent = featuredSimulado.parent_categories && featuredSimulado.parent_categories.length > 0;
+                navigate(isParent ? `/premium/${featuredSimulado.id}` : `/exam/${featuredSimulado.id}`);
+              }}
               className="group relative w-full rounded-2xl overflow-hidden cursor-pointer border-2 border-[#f15a24] bg-[#272a24] shadow-2xl flex flex-col transition-transform active:scale-[0.98]"
             >
               <div className="relative h-[200px] w-full bg-[#a3c2b8]">
@@ -268,7 +272,10 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
               filteredSimulados.map((simulado) => (
                 <div
                   key={simulado.id}
-                  onClick={() => navigate(`/exam/${simulado.id}`)}
+                  onClick={() => {
+                    const isParent = simulado.parent_categories && simulado.parent_categories.length > 0;
+                    navigate(isParent ? `/premium/${simulado.id}` : `/exam/${simulado.id}`);
+                  }}
                   className="bg-[#272a24] rounded-[1.25rem] p-4 flex gap-4 cursor-pointer hover:bg-[#2c2f29] transition-all border border-[#3c3d35] hover:border-[#f15a24]/30 shadow-md active:scale-[0.98]"
                 >
                   <div className="size-[88px] shrink-0 rounded-xl bg-[#2a4e4d] border border-white/5 overflow-hidden flex items-center justify-center shadow-inner">
