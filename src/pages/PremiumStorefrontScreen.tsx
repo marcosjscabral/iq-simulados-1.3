@@ -234,7 +234,7 @@ export const PremiumStorefrontScreen = () => {
                                                         }
                                                     `}
                                                 >
-                                                    {buyingId === simulado.id ? <Loader2 size={18} className="animate-spin" /> : isOwned ? <><CheckCircle2 size={18} /> Acessar</> : 'Comprar Agora'}
+                                                    {buyingId === simulado.id ? <Loader2 size={18} className="animate-spin" /> : isOwned ? <><CheckCircle2 size={18} /> Acessar</> : 'Iniciar'}
                                                 </button>
                                             </div>
                                         </div>
