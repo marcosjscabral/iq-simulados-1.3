@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, Receipt, Loader2, Calendar, CreditCard } from 'lucide-react';
+import { ChevronLeft, Receipt, Loader2, Calendar, CreditCard, ShoppingBag } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 const formatPrice = (price: number) => {
-    return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    return price.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 };
 
 const formatDate = (dateString: string) => {
@@ -12,7 +12,13 @@ const formatDate = (dateString: string) => {
     return date.toLocaleDateString('pt-BR', {
         day: '2-digit',
         month: '2-digit',
-        year: 'numeric',
+        year: 'numeric'
+    });
+};
+
+const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('pt-BR', {
         hour: '2-digit',
         minute: '2-digit'
     });
@@ -24,6 +30,7 @@ interface Purchase {
     price_paid: number;
     simulados: {
         title: string;
+        image_url?: string;
     };
 }
 
@@ -47,7 +54,7 @@ export const PurchaseHistoryScreen = () => {
                     id,
                     created_at,
                     price_paid,
-                    simulados (title)
+                    simulados (title, image_url)
                 `)
                 .eq('user_id', user.id)
                 .order('created_at', { ascending: false });
@@ -62,9 +69,9 @@ export const PurchaseHistoryScreen = () => {
     };
 
     return (
-        <div className="bg-[#0f172a] min-h-screen text-white font-sans">
+        <div className="bg-[#181a17] min-h-screen text-white font-sans">
             <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
-                <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
+                <div className="flex items-center p-4 justify-between pt-12 max-w-5xl mx-auto">
                     <button onClick={() => navigate('/profile')} className="size-10 flex items-center justify-start text-black">
                         <ChevronLeft size={24} />
                     </button>
@@ -76,57 +83,79 @@ export const PurchaseHistoryScreen = () => {
                 </div>
             </header>
 
-            <main className="p-6 space-y-4 w-full mx-auto pt-8">
+            <main className="p-6 space-y-6 w-full max-w-5xl mx-auto pt-8 pb-24">
                 {loading ? (
                     <div className="flex justify-center items-center py-20">
-                        <Loader2 size={40} className="text-[#f2f20d] animate-spin" />
+                        <Loader2 size={40} className="text-[#f3ec05] animate-spin" />
                     </div>
                 ) : purchases.length === 0 ? (
-                    <div className="bg-white/5 p-12 rounded-[2.5rem] border border-white/10 text-center shadow-md">
-                        <Receipt size={40} className="mx-auto text-slate-500 mb-4" />
-                        <p className="text-slate-400 font-bold">Você ainda não realizou nenhuma compra.</p>
+                    <div className="bg-[#20221e] p-12 rounded-[2.5rem] border border-white/5 text-center shadow-lg">
+                        <div className="size-20 bg-yellow-400/10 rounded-3xl flex items-center justify-center text-yellow-500 mx-auto mb-6">
+                            <ShoppingBag size={40} />
+                        </div>
+                        <h2 className="text-xl font-black italic mb-2">SEM PEDIDOS</h2>
+                        <p className="text-slate-500 text-sm mb-8 uppercase font-bold tracking-widest">Você ainda não realizou nenhuma compra.</p>
                         <button
                             onClick={() => navigate('/')}
-                            className="mt-6 bg-[#2c73eb] text-white px-6 py-3 rounded-xl font-black uppercase text-[13px] shadow-lg active:scale-95 transition-transform"
+                            className="bg-[#2c73eb] text-white px-10 py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl shadow-blue-600/20 active:scale-95 transition-all"
                         >
-                            Ver Simulados
+                            Explorar Simulados
                         </button>
                     </div>
                 ) : (
-                    <div className="space-y-4">
+                    <div className="flex flex-col gap-6">
                         {purchases.map((purchase) => (
                             <div
                                 key={purchase.id}
-                                className="bg-white/5 p-5 rounded-3xl border border-white/10 hover:border-yellow-400/30 transition-all shadow-sm group"
+                                className="group flex flex-col sm:flex-row bg-[#20221e] border border-white/5 rounded-[2rem] overflow-hidden hover:bg-[#252822] transition-colors shadow-lg"
                             >
-                                <div className="flex justify-between items-start mb-4">
-                                    <div className="flex-1 min-w-0">
-                                        <h4 className="font-black text-base text-white leading-tight uppercase italic group-hover:text-yellow-400 transition-colors">
-                                            {purchase.simulados?.title || 'Simulado Excluído'}
-                                        </h4>
-                                    </div>
-                                    <div className="bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-emerald-500/20 shrink-0">
-                                        Concluído
+                                <div className="w-full sm:w-48 h-32 sm:h-auto shrink-0 bg-[#2a4e4d] relative overflow-hidden">
+                                    {purchase.simulados?.image_url ? (
+                                        <img src={purchase.simulados.image_url} alt={purchase.simulados.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center text-white/20 italic font-black text-2xl">IQ</div>
+                                    )}
+                                    <div className="absolute top-4 left-4 bg-emerald-500 text-white text-[9px] font-black uppercase tracking-widest px-2.5 py-1.5 rounded-full shadow-lg">
+                                        Pedido Concluído
                                     </div>
                                 </div>
-
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="flex items-center gap-3">
-                                        <div className="size-8 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400">
-                                            <Calendar size={14} />
+                                
+                                <div className="p-6 flex flex-col justify-between flex-1">
+                                    <div>
+                                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                                            <h3 className="text-lg font-black text-white leading-tight uppercase tracking-tight italic">
+                                                {purchase.simulados?.title || 'Simulado Excluído'}
+                                            </h3>
+                                            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest bg-white/5 px-3 py-1 rounded-lg">
+                                                ID: {purchase.id.slice(0, 8)}...
+                                            </span>
                                         </div>
-                                        <div>
-                                            <span className="block text-[9px] text-slate-500 uppercase font-bold tracking-widest">Data</span>
-                                            <span className="text-xs font-bold text-slate-300">{formatDate(purchase.created_at)}</span>
+                                        
+                                        <div className="flex items-center gap-6 mb-6">
+                                            <div className="flex items-center gap-2">
+                                                <Calendar size={14} className="text-slate-500" />
+                                                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                                                    {formatDate(purchase.created_at)}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center gap-2 text-slate-500">
+                                                <div className="size-1 rounded-full bg-slate-700" />
+                                                <span className="text-[11px] font-bold uppercase tracking-widest">
+                                                    {formatTime(purchase.created_at)}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-3">
-                                        <div className="size-8 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400">
-                                            <CreditCard size={14} />
+
+                                    <div className="flex items-center justify-between mt-auto">
+                                        <div className="flex flex-col">
+                                            <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Valor do Investimento</span>
+                                            <span className="text-2xl font-black italic text-[#f3ec05] tracking-tighter">
+                                                R$ {formatPrice(purchase.price_paid || 0)}
+                                            </span>
                                         </div>
-                                        <div>
-                                            <span className="block text-[9px] text-slate-500 uppercase font-bold tracking-widest">Valor Pago</span>
-                                            <span className="text-sm font-black text-white">{formatPrice(purchase.price_paid || 0)}</span>
+                                        <div className="bg-white/5 p-3 rounded-xl">
+                                            <Receipt size={20} className="text-slate-400" />
                                         </div>
                                     </div>
                                 </div>
