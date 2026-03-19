@@ -90,10 +90,10 @@ export const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
                                 <div
                                     key={item.id}
                                     onClick={() => navigate(isParent ? `/premium/${simulado.id}` : `/exam/${simulado.id}`)}
-                                    className={`group flex flex-col sm:flex-row border border-white/5 rounded-[2rem] overflow-hidden transition-all cursor-pointer shadow-lg active:scale-[0.99]
+                                    className={`group flex flex-col sm:flex-row border border-white/5 rounded-[2rem] overflow-hidden transition-all cursor-pointer shadow-lg active:scale-[0.99] sm:h-48
                                         ${isParent ? 'bg-[#1e1b4b] hover:bg-[#2e2a7a]' : 'bg-[#20221e] hover:bg-[#252822]'}`}
                                 >
-                                    <div className="w-full sm:w-56 h-40 sm:h-auto shrink-0 bg-[#2a4e4d] relative overflow-hidden">
+                                    <div className="w-full sm:w-56 h-48 sm:h-full shrink-0 bg-[#2a4e4d] relative overflow-hidden">
                                         {simulado.image_url ? (
                                             <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                         ) : (
