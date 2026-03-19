@@ -48,7 +48,7 @@ export const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
     return (
         <div className="bg-[#181a17] min-h-screen text-white font-sans selection:bg-[#f3ec05] selection:text-black">
             <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
-                <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
+                <div className="flex items-center p-4 justify-between pt-12 max-w-5xl mx-auto">
                     <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
                         <Menu size={24} />
                     </button>
@@ -64,7 +64,7 @@ export const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
                 </div>
             </header>
 
-            <main className="p-4 space-y-6 w-full mx-auto pt-8">
+            <main className="p-4 space-y-6 max-w-5xl mx-auto pt-8 pb-24">
                 {loading ? (
                     <div className="flex justify-center items-center py-20">
                         <Loader2 size={40} className="text-[#f3ec05] animate-spin" />
