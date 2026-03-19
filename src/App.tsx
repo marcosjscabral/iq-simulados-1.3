@@ -328,9 +328,9 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 
 
 const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: any) => void }) => (
-  <div className="bg-[#0f172a] min-h-screen flex flex-col text-white">
+  <div className="bg-[#181a17] min-h-screen flex flex-col text-white">
     <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
-      <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
+      <div className="flex items-center p-4 justify-between pt-12 max-w-5xl mx-auto">
         <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
           <Menu size={24} />
         </button>
@@ -341,7 +341,7 @@ const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: 
         <div className="size-10" />
       </div>
     </header>
-    <main className="flex-1 p-6 flex flex-col items-center justify-center text-center">
+    <main className="flex-1 p-6 flex flex-col items-center justify-center text-center max-w-5xl mx-auto">
       <div className="size-24 rounded-3xl bg-yellow-400/10 flex items-center justify-center text-yellow-400 mb-6 border border-yellow-400/20">
         <Rocket size={48} />
       </div>
@@ -541,9 +541,9 @@ const EditProfileScreen = () => {
   }
 
   return (
-    <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
+    <div className="bg-[#181a17] min-h-screen flex flex-col font-display text-white">
       <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
-        <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
+        <div className="flex items-center p-4 justify-between pt-12 max-w-5xl mx-auto">
           <button onClick={() => navigate('/profile')} className="size-10 flex items-center justify-start text-black">
             <ChevronLeft size={24} />
           </button>
@@ -555,7 +555,7 @@ const EditProfileScreen = () => {
         </div>
       </header>
 
-      <main className="flex-1 w-full mx-auto p-8 overflow-y-auto">
+      <main className="flex-1 w-full max-w-5xl mx-auto p-8 overflow-y-auto">
         <form onSubmit={handleSave} className="space-y-6">
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Nome</label>
@@ -708,9 +708,9 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
   };
 
   return (
-    <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
+    <div className="bg-[#181a17] min-h-screen flex flex-col font-display text-white">
       <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
-        <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
+        <div className="flex items-center p-4 justify-between pt-12 max-w-5xl mx-auto">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
           </button>
@@ -728,7 +728,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
         </div>
       </header>
 
-      <main className="flex-1 w-full mx-auto pb-24 overflow-y-auto">
+      <main className="flex-1 w-full max-w-5xl mx-auto pb-24 overflow-y-auto">
         <section className="flex flex-col items-center py-10 px-4">
           <div className="relative group">
             <div className={`w-32 h-32 rounded-full border-4 border-yellow-400 p-1.5 bg-gradient-to-tr from-yellow-400 to-orange-500 shadow-2xl shadow-yellow-400/20 ${uploading ? 'opacity-50' : ''}`}>
