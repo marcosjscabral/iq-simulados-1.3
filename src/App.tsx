@@ -132,13 +132,10 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 
   const premiumTabs = Array.from(new Set(simulados.flatMap(s => s.parent_categories || [])));
 
-  // Unlocked premium categories are those for which the user owns the "Pai" simulado
-  const unlockedPremiumCategories = premiumTabs.filter(cat => {
-    return simulados.some(sim => ownedIds.includes(sim.id) && sim.parent_categories?.includes(cat));
-  });
+
 
   const visibleCategories = Array.from(new Set(simulados.flatMap(s => s.categories || [])))
-    .filter(cat => !premiumTabs.includes(cat) || unlockedPremiumCategories.includes(cat));
+    .filter(cat => !premiumTabs.includes(cat));
 
   const categories = ['Todos', ...visibleCategories];
 
