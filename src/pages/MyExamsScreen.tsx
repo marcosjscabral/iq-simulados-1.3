@@ -81,54 +81,52 @@ export const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
                         </button>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 gap-4">
-                        {purchasedExams.map((exam) => {
-                            const isParent = exam.simulados.parent_categories && exam.simulados.parent_categories.length > 0;
+                    <div className="flex flex-col gap-6">
+                        {purchasedExams.map((item) => {
+                            const simulado = item.simulados;
+                            const isParent = simulado.parent_categories && simulado.parent_categories.length > 0;
+                            
                             return (
                                 <div
-                                    key={exam.id}
-                                    onClick={() => navigate(isParent ? `/premium/${exam.simulados.id}` : `/exam/${exam.simulados.id}`)}
-                                    className={`group p-4 rounded-[1.25rem] border flex items-center gap-4 active:scale-[0.98] transition-all shadow-md cursor-pointer
-                                        ${isParent ? 'bg-indigo-900/30 border-indigo-500/30 hover:bg-indigo-900/40 hover:border-indigo-400' : 'bg-[#272a24] border-[#3c3d35] hover:bg-[#2c2f29] hover:border-[#f3ec05]/30'}`}
+                                    key={item.id}
+                                    onClick={() => navigate(isParent ? `/premium/${simulado.id}` : `/exam/${simulado.id}`)}
+                                    className={`group flex flex-col sm:flex-row border border-white/5 rounded-[2rem] overflow-hidden transition-all cursor-pointer shadow-lg active:scale-[0.99]
+                                        ${isParent ? 'bg-[#1e1b4b] hover:bg-[#2e2a7a]' : 'bg-[#20221e] hover:bg-[#252822]'}`}
                                 >
-                                    <div className="size-20 shrink-0 rounded-xl bg-[#2a4e4d] overflow-hidden border border-white/5 shadow-inner">
-                                        {exam.simulados.image_url ? (
-                                            <img src={exam.simulados.image_url} alt={exam.simulados.title} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                                    <div className="w-full sm:w-56 h-40 sm:h-auto shrink-0 bg-[#2a4e4d] relative overflow-hidden">
+                                        {simulado.image_url ? (
+                                            <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                         ) : (
-                                            <div className="w-full h-full flex items-center justify-center text-slate-400 italic font-black text-xl">IQ</div>
+                                            <div className="w-full h-full flex items-center justify-center text-white/20 italic font-black text-2xl">IQ</div>
                                         )}
                                     </div>
-                                    <div className="flex-1 min-w-0">
-                                        {isParent ? (
-                                            <>
-                                                <h4 className="font-bold text-[15px] text-indigo-300 leading-snug mb-1 truncate">
-                                                    Vitrine Premium: {exam.simulados.title}
-                                                </h4>
-                                                <div className="flex items-center gap-2 mt-1.5">
-                                                    <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Acesso VIP Liberado</span>
-                                                </div>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <h4 className="font-bold text-[15px] text-white leading-snug mb-1 truncate">{exam.simulados.title}</h4>
-                                                <div className="flex items-center gap-2 mt-1.5">
-                                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{exam.simulados.questions_count} Questões</span>
-                                                    <span className="size-1 rounded-full bg-emerald-400" />
-                                                    <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Liberado</span>
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
-                                    <div className="flex flex-col items-end justify-center">
-                                        {isParent ? (
-                                            <div className="bg-indigo-600 px-4 py-2 rounded-xl text-white font-black text-xs uppercase tracking-wider group-hover:bg-indigo-500 transition-colors shadow-sm">
+                                    <div className="p-6 flex flex-col justify-between flex-1">
+                                        <div>
+                                            <h3 className={`text-lg font-black leading-tight mb-2 uppercase tracking-tight ${isParent ? 'text-indigo-300' : 'text-white'}`}>
+                                                {isParent ? `Vitrine Premium: ${simulado.title}` : simulado.title}
+                                            </h3>
+                                            <p className="text-[#64748b] text-xs font-semibold line-clamp-2 mb-4 leading-relaxed uppercase pr-4">
+                                                {simulado.description || 'Simulado disponível para estudo imediato.'}
+                                            </p>
+                                            <div className="flex flex-wrap items-center gap-4 text-[10px] font-black uppercase tracking-widest mb-6">
+                                                <span className={isParent ? 'text-indigo-400' : 'text-slate-500'}>
+                                                    {isParent ? 'Acesso VIP Liberado' : `${simulado.questions_count} Questões Obj.`}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between mt-auto">
+                                            <div className="flex items-center gap-1">
+                                                <span className="text-2xl font-black italic text-emerald-400 tracking-tighter">
+                                                    LIBERADO
+                                                </span>
+                                            </div>
+                                            <button
+                                                className={`px-10 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all shadow-lg active:scale-95 flex items-center gap-2 text-white
+                                                    ${isParent ? 'bg-indigo-600 shadow-indigo-600/20' : 'bg-emerald-600 shadow-emerald-600/20'}`}
+                                            >
                                                 Acessar
-                                            </div>
-                                        ) : (
-                                            <div className="bg-[#1e293b] p-3 rounded-xl text-[#f3ec05] group-hover:bg-[#f3ec05] group-hover:text-black transition-colors shadow-sm">
-                                                <ChevronRight size={18} strokeWidth={3} />
-                                            </div>
-                                        )}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             );

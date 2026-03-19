@@ -180,61 +180,54 @@ export const PremiumStorefrontScreen = () => {
                             <Flame size={22} className="text-[#f15a24]" strokeWidth={2.5} />
                             <h2 className="text-xl font-black italic tracking-tight text-white">Conteúdo Exclusivo</h2>
                         </div>
-                        <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-6">
                             {childSimulados.map((simulado) => {
                                 const isOwned = ownedIds.includes(simulado.id);
                                 return (
-                                    <div key={simulado.id} className="group flex flex-col sm:flex-row bg-[#20221e] border border-white/5 rounded-3xl overflow-hidden hover:bg-[#252822] transition-colors">
-                                        <div className="w-full sm:w-64 h-48 sm:h-auto shrink-0 bg-[#2a4e4d] relative overflow-hidden">
+                                    <div
+                                        key={simulado.id}
+                                        onClick={() => handleBuy(simulado)}
+                                        className="group flex flex-col sm:flex-row bg-[#20221e] border border-white/5 rounded-[2rem] overflow-hidden hover:bg-[#252822] transition-colors cursor-pointer shadow-lg active:scale-[0.99]"
+                                    >
+                                        <div className="w-full sm:w-56 h-40 sm:h-auto shrink-0 bg-[#2a4e4d] relative overflow-hidden">
                                             {simulado.image_url ? (
                                                 <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                             ) : (
-                                                <div className="w-full h-full flex items-center justify-center text-white/50 italic font-black text-2xl">IQ</div>
-                                            )}
-                                            {simulado.is_featured && (
-                                                <div className="absolute top-4 left-4 bg-[#f15a24] text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg">
-                                                    {simulado.featured_label || 'Destaque'}
-                                                </div>
+                                                <div className="w-full h-full flex items-center justify-center text-white/20 italic font-black text-2xl">IQ</div>
                                             )}
                                         </div>
-                                        <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
+                                        <div className="p-6 flex flex-col justify-between flex-1">
                                             <div>
-                                                <h3 className="text-xl font-black text-white leading-tight mb-2">{simulado.title}</h3>
-                                                <p className="text-slate-400 text-sm font-medium line-clamp-2 leading-relaxed mb-4">{simulado.description}</p>
-                                                <div className="flex flex-wrap items-center gap-4 text-xs font-bold text-slate-500 uppercase tracking-widest mb-6">
+                                                <h3 className="text-lg font-black text-white leading-tight mb-2 uppercase tracking-tight">{simulado.title}</h3>
+                                                <p className="text-[#64748b] text-xs font-semibold line-clamp-2 mb-4 leading-relaxed uppercase pr-4">
+                                                    {simulado.description || 'Simulado disponível para estudo imediato.'}
+                                                </p>
+                                                <div className="flex flex-wrap items-center gap-4 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">
                                                     <span>{simulado.questions_count} Questões Obj.</span>
                                                 </div>
                                             </div>
                                             <div className="flex items-center justify-between mt-auto">
-                                                <div className="flex items-center gap-3">
+                                                <div className="flex items-center gap-1">
                                                     {isOwned ? (
-                                                        <span className="text-lg font-black italic text-emerald-400">LIBERADO</span>
+                                                        <span className="text-2xl font-black italic text-emerald-400 tracking-tighter">LIBERADO</span>
                                                     ) : (
-                                                        <>
-                                                            {simulado.price > 0 && simulado.price < 1000 && (
-                                                                <span className="text-sm font-bold text-slate-500 line-through">
-                                                                    R$ {(simulado.price * 1.5).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                                                                </span>
-                                                            )}
-                                                            <span className="text-2xl sm:text-3xl font-black italic text-[#f3ec05] tracking-tighter">
-                                                                R$ {formatPrice(simulado.price)}
-                                                            </span>
-                                                        </>
+                                                        <span className="text-2xl font-black italic text-[#f3ec05] tracking-tighter">
+                                                            R$ {formatPrice(simulado.price)}
+                                                        </span>
                                                     )}
                                                 </div>
                                                 <button
-                                                    onClick={() => handleBuy(simulado)}
                                                     disabled={buyingId === simulado.id}
-                                                    className={`
-                                                        px-8 py-3.5 rounded-xl font-black uppercase tracking-widest text-[13px] 
-                                                        transition-all shadow-lg active:scale-95 flex items-center gap-2 mt-4 sm:mt-0
-                                                        ${isOwned 
-                                                            ? 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/20' 
-                                                            : 'bg-[#2c73eb] hover:bg-[#1a5ecd] text-white shadow-blue-500/20'
-                                                        }
-                                                    `}
+                                                    className={`px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all shadow-lg active:scale-95 flex items-center gap-2
+                                                        ${isOwned ? 'bg-emerald-600' : 'bg-[#2c73eb]'} text-white`}
                                                 >
-                                                    {buyingId === simulado.id ? <Loader2 size={18} className="animate-spin" /> : isOwned ? <><CheckCircle2 size={18} /> Acessar</> : 'Iniciar'}
+                                                    {buyingId === simulado.id ? (
+                                                        <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                                    ) : isOwned ? (
+                                                        'Acessar'
+                                                    ) : (
+                                                        'Iniciar'
+                                                    )}
                                                 </button>
                                             </div>
                                         </div>
