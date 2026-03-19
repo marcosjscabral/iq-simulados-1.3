@@ -3,7 +3,7 @@ import { CustomModal, ModalType } from './CustomModal';
 
 type ModalContextType = {
     showAlert: (title: string, message: string, type?: ModalType) => void;
-    showConfirm: (title: string, message: string, onConfirm: () => void) => void;
+    showConfirm: (title: string, message: string, onConfirm: () => void, confirmText?: string, cancelText?: string) => void;
 };
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -17,6 +17,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         onConfirm: () => void;
         onCancel?: () => void;
         confirmText?: string;
+        cancelText?: string;
     }>({
         type: 'alert',
         title: '',
@@ -35,7 +36,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         setIsOpen(true);
     };
 
-    const showConfirm = (title: string, message: string, onConfirmAction: () => void) => {
+    const showConfirm = (title: string, message: string, onConfirmAction: () => void, confirmText: string = 'Confirmar', cancelText: string = 'Cancelar') => {
         setModalConfig({
             type: 'confirm',
             title,
@@ -45,7 +46,8 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
                 onConfirmAction();
             },
             onCancel: () => setIsOpen(false),
-            confirmText: 'Confirmar'
+            confirmText,
+            cancelText
         });
         setIsOpen(true);
     };
@@ -61,6 +63,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
                 onConfirm={modalConfig.onConfirm}
                 onCancel={modalConfig.onCancel}
                 confirmText={modalConfig.confirmText}
+                cancelText={modalConfig.cancelText}
             />
         </ModalContext.Provider>
     );

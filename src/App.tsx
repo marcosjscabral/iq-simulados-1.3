@@ -633,7 +633,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
   const [userName, setUserName] = useState('Usuário');
   const [userAvatar, setUserAvatar] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
-  const { showAlert } = useModal();
+  const { showAlert, showConfirm } = useModal();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -706,19 +706,27 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
   };
 
   const handlePasswordChange = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user?.email) return;
+    showConfirm(
+      'Alterar Senha?',
+      'Tem certeza que deseja alterar sua senha atual?',
+      async () => {
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (!user?.email) return;
 
-      const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
-        redirectTo: `${window.location.origin}/reset-password`,
-      });
+          const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
+            redirectTo: `${window.location.origin}/reset-password`,
+          });
 
-      if (error) throw error;
-      showAlert('Sucesso', 'E-mail de redefinição enviado para ' + user.email, 'success');
-    } catch (error: any) {
-      showAlert('Erro', 'Erro ao solicitar troca: ' + error.message, 'error');
-    }
+          if (error) throw error;
+          showAlert('Sucesso', 'E-mail de redefinição enviado para ' + user.email, 'success');
+        } catch (error: any) {
+          showAlert('Erro', 'Erro ao solicitar troca: ' + error.message, 'error');
+        }
+      },
+      'Alterar',
+      'Cancelar'
+    );
   };
 
   return (
