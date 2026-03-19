@@ -160,7 +160,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
     <div className="bg-[#181a17] min-h-screen pb-24 text-white font-sans selection:bg-[#f3ec05] selection:text-black">
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
-        <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
+        <div className="flex items-center p-4 justify-between pt-12 max-w-5xl mx-auto">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
             <Menu size={24} />
           </button>
@@ -177,8 +177,8 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
       </header>
 
       {/* CATEGORIES */}
-      <div className="bg-[#181a17] px-4 py-4 border-b border-[#2b2d26] shadow-sm mb-6">
-        <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1">
+      <div className="bg-[#181a17] py-4 border-b border-[#2b2d26] shadow-sm mb-6">
+        <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1 px-4 max-w-5xl mx-auto">
           {categories.map(cat => (
             <button
               key={cat}
@@ -194,7 +194,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
         </div>
       </div>
 
-      <main className="px-4 space-y-8 w-full mx-auto">
+      <main className="px-4 space-y-8 max-w-5xl mx-auto pt-4">
         {/* Destaques da Semana */}
         {showFeatured && featuredSimulado && (
           <section>
