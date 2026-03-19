@@ -210,51 +210,60 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                 const isParent = featuredSimulado.parent_categories && featuredSimulado.parent_categories.length > 0;
                 navigate(isParent ? `/premium/${featuredSimulado.id}` : `/exam/${featuredSimulado.id}`);
               }}
-              className="group relative w-full rounded-2xl overflow-hidden cursor-pointer border-2 border-[#f15a24] bg-[#272a24] shadow-2xl flex flex-col transition-transform active:scale-[0.98]"
+              className="group relative flex flex-col sm:flex-row w-full rounded-[2.5rem] overflow-hidden cursor-pointer border-2 border-[#f15a24] bg-[#20221e] shadow-2xl flex flex-col transition-all active:scale-[0.99] hover:bg-[#252822]"
             >
-              <div className="relative h-[200px] w-full bg-[#a3c2b8]">
+              <div className="relative h-56 sm:h-auto sm:w-80 shrink-0 bg-[#a3c2b8] overflow-hidden">
                 {/* Banner */}
                 {featuredSimulado.featured_label && (
-                  <span className="absolute top-4 left-4 z-10 px-2.5 py-1 bg-[#f15a24] text-white text-[10px] font-black uppercase tracking-wider rounded-sm shadow-md">
+                  <span className="absolute top-6 left-6 z-10 px-3 py-1.5 bg-[#f15a24] text-white text-[10px] font-black uppercase tracking-wider rounded-full shadow-lg">
                     {featuredSimulado.featured_label}
                   </span>
                 )}
                 {featuredSimulado.image_url ? (
-                  <img src={featuredSimulado.image_url} alt={featuredSimulado.title} className="w-full h-full object-cover" />
+                  <img src={featuredSimulado.image_url} alt={featuredSimulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-black/10">IMG</div>
+                  <div className="w-full h-full flex items-center justify-center text-black/10 italic font-black text-3xl">IQ</div>
                 )}
               </div>
 
-              <div className="p-5 flex flex-col gap-4">
-                <div className="flex justify-between items-start gap-4">
-                  <h3 className="text-xl font-black text-white leading-tight truncate flex-1">{featuredSimulado.title}</h3>
-                  <div className="flex items-baseline gap-1 shrink-0 pt-1">
-                    <span className="text-[13px] font-black text-[#2c73eb]">R$</span>
-                    <span className="text-[22px] font-black text-[#2c73eb] leading-none">{formatPrice(featuredSimulado.price)}</span>
+              <div className="p-8 sm:p-10 flex flex-col justify-between flex-1">
+                <div>
+                  <div className="flex justify-between items-start gap-4 mb-2">
+                    <h3 className="text-2xl font-black text-white leading-tight uppercase tracking-tight">{featuredSimulado.title}</h3>
+                  </div>
+
+                  <p className="text-[#64748b] text-sm font-semibold leading-relaxed mb-6 line-clamp-3 uppercase">
+                    {featuredSimulado.description || 'Descrição não informada.'}
+                  </p>
+
+                  <div className="flex flex-wrap items-center gap-4 text-xs font-black text-slate-500 uppercase tracking-widest mb-8">
+                    <span>{featuredSimulado.questions_count} Questões Obj.</span>
                   </div>
                 </div>
 
-                <p className="text-[14px] text-[#7aa2a9] font-medium leading-snug pr-2 line-clamp-3">
-                  {featuredSimulado.description || 'Descrição não informada.'}
-                </p>
-
-                <button
-                  disabled={buyingId === featuredSimulado.id}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleBuy(featuredSimulado);
-                  }}
-                  className={`w-full mt-1 ${ownedIds.includes(featuredSimulado.id) ? 'bg-emerald-600' : 'bg-[#2c73eb]'} text-white py-3.5 rounded-xl text-[15px] font-black flex items-center justify-center gap-2.5 hover:opacity-90 transition-colors shadow-lg`}
-                >
-                  {buyingId === featuredSimulado.id ? (
-                    <div className="size-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  ) : ownedIds.includes(featuredSimulado.id) ? (
-                    <>Acessar Simulado</>
-                  ) : (
-                    <><ShoppingCart size={18} strokeWidth={2.5} /> Comprar Agora</>
-                  )}
-                </button>
+                <div className="flex items-center justify-between mt-auto">
+                  <div className="flex items-center gap-1">
+                    <span className="text-3xl sm:text-4xl font-black italic text-[#f3ec05] tracking-tighter">
+                      R$ {formatPrice(featuredSimulado.price)}
+                    </span>
+                  </div>
+                  <button
+                    disabled={buyingId === featuredSimulado.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleBuy(featuredSimulado);
+                    }}
+                    className={`px-10 py-4 ${ownedIds.includes(featuredSimulado.id) ? 'bg-emerald-600 shadow-emerald-600/20' : 'bg-[#2c73eb] shadow-blue-600/20'} text-white rounded-2xl text-[13px] font-black uppercase tracking-widest flex items-center justify-center gap-2.5 hover:opacity-90 transition-all shadow-xl active:scale-95`}
+                  >
+                    {buyingId === featuredSimulado.id ? (
+                      <div className="size-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    ) : ownedIds.includes(featuredSimulado.id) ? (
+                      <>Acessar</>
+                    ) : (
+                      <>Iniciar</>
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           </section>
@@ -263,63 +272,68 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
         {/* Simulados Disponíveis */}
         <section className="pb-8">
           <h2 className="text-[19px] font-black text-white mb-5 px-1 tracking-tight">Simulados Disponíveis</h2>
-          <div className="grid grid-cols-1 gap-4">
             {filteredSimulados.length === 0 ? (
-              <div className="p-8 text-center bg-[#272a24] rounded-[1.25rem] border border-[#3c3d35]">
+              <div className="p-8 text-center bg-[#272a24] rounded-[2.5rem] border border-[#3c3d35]">
                 <p className="text-slate-400 font-bold text-sm">Nenhum simulado disponível nesta categoria.</p>
               </div>
             ) : (
-              filteredSimulados.map((simulado) => (
-                <div
-                  key={simulado.id}
-                  onClick={() => {
-                    const isParent = simulado.parent_categories && simulado.parent_categories.length > 0;
-                    navigate(isParent ? `/premium/${simulado.id}` : `/exam/${simulado.id}`);
-                  }}
-                  className="bg-[#272a24] rounded-[1.25rem] p-4 flex gap-4 cursor-pointer hover:bg-[#2c2f29] transition-all border border-[#3c3d35] hover:border-[#f15a24]/30 shadow-md active:scale-[0.98]"
-                >
-                  <div className="size-[88px] shrink-0 rounded-xl bg-[#2a4e4d] border border-white/5 overflow-hidden flex items-center justify-center shadow-inner">
-                    {simulado.image_url ? (
-                      <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover" />
-                    ) : (
-                      <span className="text-white/20 text-3xl font-light italic">IQ</span>
-                    )}
-                  </div>
-
-                  <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
-                    <div>
-                      <h4 className="font-bold text-[15px] text-white leading-snug mb-1 truncate">
-                        {simulado.title}
-                      </h4>
-                      <p className="text-[12px] text-[#686868] font-semibold">
-                        80 Questões Objetivas
-                      </p>
-                    </div>
-
-                    <div className="flex items-center justify-between mt-2">
-                      <span className="text-[15px] font-black text-[#2c73eb]">R$ {formatPrice(simulado.price)}</span>
-                      <button
-                        disabled={buyingId === simulado.id}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleBuy(simulado);
-                        }}
-                        className={`${ownedIds.includes(simulado.id) ? 'bg-emerald-600' : 'bg-[#2c73eb]'} text-white px-5 py-2 rounded-xl text-[13px] font-black hover:opacity-90 transition-colors shadow-md`}
-                      >
-                        {buyingId === simulado.id ? (
-                          <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                        ) : ownedIds.includes(simulado.id) ? (
-                          'Acessar'
+              <div className="flex flex-col gap-6">
+                {filteredSimulados.map((simulado) => {
+                  const isOwned = ownedIds.includes(simulado.id);
+                  const isParent = simulado.parent_categories && simulado.parent_categories.length > 0;
+                  
+                  return (
+                    <div
+                      key={simulado.id}
+                      onClick={() => navigate(isParent ? `/premium/${simulado.id}` : `/exam/${simulado.id}`)}
+                      className="group flex flex-col sm:flex-row bg-[#20221e] border border-white/5 rounded-[2rem] overflow-hidden hover:bg-[#252822] transition-colors cursor-pointer shadow-lg active:scale-[0.99]"
+                    >
+                      <div className="w-full sm:w-56 h-40 sm:h-auto shrink-0 bg-[#2a4e4d] relative overflow-hidden">
+                        {simulado.image_url ? (
+                          <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                         ) : (
-                          'Comprar'
+                          <div className="w-full h-full flex items-center justify-center text-white/20 italic font-black text-2xl">IQ</div>
                         )}
-                      </button>
+                      </div>
+                      <div className="p-6 flex flex-col justify-between flex-1">
+                        <div>
+                          <h3 className="text-lg font-black text-white leading-tight mb-2 uppercase tracking-tight">{simulado.title}</h3>
+                          <p className="text-[#64748b] text-xs font-semibold line-clamp-2 mb-4 leading-relaxed uppercase pr-4">{simulado.description}</p>
+                          <div className="flex flex-wrap items-center gap-4 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">
+                            <span>{simulado.questions_count} Questões Obj.</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between mt-auto">
+                          <div className="flex items-center gap-1">
+                            <span className="text-2xl font-black italic text-[#f3ec05] tracking-tighter">
+                              R$ {formatPrice(simulado.price)}
+                            </span>
+                          </div>
+                          <button
+                            disabled={buyingId === simulado.id}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleBuy(simulado);
+                            }}
+                            className={`px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all shadow-lg active:scale-95 flex items-center gap-2
+                              ${isOwned ? 'bg-emerald-600' : 'bg-[#2c73eb]'} text-white`}
+                          >
+                            {buyingId === simulado.id ? (
+                              <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            ) : isOwned ? (
+                              'Acessar'
+                            ) : (
+                              'Iniciar'
+                            )}
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))
+                  );
+                })}
+              </div>
             )}
-          </div>
+
         </section>
       </main>
     </div>
