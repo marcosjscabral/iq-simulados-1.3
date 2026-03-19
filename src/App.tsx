@@ -42,6 +42,7 @@ import { UserRegistrationScreen } from './pages/UserRegistrationScreen';
 import { AdminQuestoesScreen } from './pages/AdminQuestoesScreen';
 import { ExamExecutionScreen } from './pages/ExamExecutionScreen';
 import { PurchaseHistoryScreen } from './pages/PurchaseHistoryScreen';
+import { PremiumStorefrontScreen } from './pages/PremiumStorefrontScreen';
 import { ModalProvider, useModal } from './components/ModalContext';
 
 // --- Utils ---
@@ -1038,6 +1039,12 @@ export default function App() {
               <Route path="/admin/coupons" element={
                 <ProtectedRoute requireAdmin>
                   <AdminCoupons />
+                </ProtectedRoute>
+              } />
+
+              <Route path="/premium/:id" element={
+                <ProtectedRoute>
+                  <PremiumStorefrontScreen />
                 </ProtectedRoute>
               } />
 
