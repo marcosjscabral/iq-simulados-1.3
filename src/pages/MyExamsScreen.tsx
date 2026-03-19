@@ -110,7 +110,9 @@ export const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
                                             </p>
                                             <div className="flex flex-wrap items-center gap-4 text-[10px] font-black uppercase tracking-widest mb-6">
                                                 <span className={isParent ? 'text-indigo-400' : 'text-slate-500'}>
-                                                    {isParent ? 'Acesso VIP Liberado' : `${simulado.questions_count} Questões Obj.`}
+                                                    {isParent ? 'Acesso VIP Liberado' : (
+                                                        simulado.questions_count > 0 && `${simulado.questions_count} Questões Objetivas`
+                                                    )}
                                                 </span>
                                             </div>
                                         </div>

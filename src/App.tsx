@@ -237,7 +237,9 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                   </p>
 
                   <div className="flex flex-wrap items-center gap-4 text-xs font-black text-slate-500 uppercase tracking-widest mb-8">
-                    <span>{featuredSimulado.questions_count} Questões Obj.</span>
+                    {featuredSimulado.questions_count > 0 && (
+                      <span>{featuredSimulado.questions_count} Questões Objetivas</span>
+                    )}
                   </div>
                 </div>
 
@@ -300,7 +302,9 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                           <h3 className="text-lg font-black text-white leading-tight mb-2 uppercase tracking-tight">{simulado.title}</h3>
                           <p className="text-[#64748b] text-xs font-semibold line-clamp-2 mb-4 leading-relaxed uppercase pr-4">{simulado.description}</p>
                           <div className="flex flex-wrap items-center gap-4 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">
-                            <span>{simulado.questions_count} Questões Obj.</span>
+                            {simulado.questions_count > 0 && (
+                              <span>{simulado.questions_count} Questões Objetivas</span>
+                            )}
                           </div>
                         </div>
                         <div className="flex items-center justify-between mt-auto">

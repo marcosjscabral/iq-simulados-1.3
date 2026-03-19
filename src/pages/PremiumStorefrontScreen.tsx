@@ -203,7 +203,9 @@ export const PremiumStorefrontScreen = () => {
                                                     {simulado.description || 'Simulado disponível para estudo imediato.'}
                                                 </p>
                                                 <div className="flex flex-wrap items-center gap-4 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">
-                                                    <span>{simulado.questions_count} Questões Obj.</span>
+                                                    {simulado.questions_count > 0 && (
+                                                        <span>{simulado.questions_count} Questões Objetivas</span>
+                                                    )}
                                                 </div>
                                             </div>
                                             <div className="flex items-center justify-between mt-auto">
