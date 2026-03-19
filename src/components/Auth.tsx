@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Eye, EyeOff } from 'lucide-react';
 import './AuthStyles.css';
 
 export const Auth: React.FC = () => {
@@ -11,6 +12,7 @@ export const Auth: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
     const [capsLockActive, setCapsLockActive] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleKeyUp = (e: React.KeyboardEvent) => {
         if (e.getModifierState('CapsLock')) {
@@ -148,16 +150,26 @@ export const Auth: React.FC = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Senha</label>
-                        <input
-                            id="password"
-                            type="password"
-                            placeholder="••••••••"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            onKeyUp={handleKeyUp}
-                            className="auth-input"
-                            required
-                        />
+                        <div className="password-input-wrapper">
+                            <input
+                                id="password"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="••••••••"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                onKeyUp={handleKeyUp}
+                                className="auth-input password-input"
+                                required
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="password-toggle-button"
+                                aria-label={showPassword ? "Ocultar senha" : "Ver senha"}
+                            >
+                                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </button>
+                        </div>
                         {capsLockActive && (
                             <span className="caps-lock-warning">
                                 Caps Lock Ativado

@@ -22,7 +22,9 @@ import {
   Flame,
   ShoppingCart,
   List,
-  Ticket
+  Ticket,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { Simulado } from './types';
@@ -370,6 +372,8 @@ const ResetPasswordScreen = () => {
   const { showAlert } = useModal();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleUpdate = async (e: React.FormEvent) => {
@@ -401,26 +405,44 @@ const ResetPasswordScreen = () => {
         <form onSubmit={handleUpdate} className="space-y-6">
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Senha</label>
-            <input
-              type="password"
-              required
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 pr-12 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-yellow-400 transition-colors"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Confirmar Senha</label>
-            <input
-              type="password"
-              required
-              placeholder="••••••••"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
-            />
+            <div className="relative">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                required
+                placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 pr-12 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-yellow-400 transition-colors"
+              >
+                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           <button

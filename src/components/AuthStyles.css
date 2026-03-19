@@ -197,3 +197,34 @@
 .forgot-password-link:hover {
   color: #ffd700;
 }
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.password-toggle-button {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  z-index: 10;
+}
+
+.password-toggle-button:hover {
+  color: #ffd700;
+}
+
+.auth-input.password-input {
+  padding-right: 3.5rem;
+}
