@@ -218,19 +218,32 @@ export const PremiumStorefrontScreen = () => {
                                                         </span>
                                                     )}
                                                 </div>
-                                                <button
-                                                    disabled={buyingId === simulado.id}
-                                                    className={`px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all shadow-lg active:scale-95 flex items-center gap-2
-                                                        ${isOwned ? 'bg-emerald-600' : 'bg-[#2c73eb]'} text-white`}
-                                                >
-                                                    {buyingId === simulado.id ? (
-                                                        <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                                    ) : isOwned ? (
-                                                        'Acessar'
-                                                    ) : (
-                                                        'Iniciar'
+                                                <div className="flex flex-col items-center gap-2">
+                                                    {!isOwned && (
+                                                        <button 
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                navigate(`/simulado/${simulado.id}`);
+                                                            }}
+                                                            className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white transition-colors"
+                                                        >
+                                                            + Detalhes
+                                                        </button>
                                                     )}
-                                                </button>
+                                                    <button
+                                                        disabled={buyingId === simulado.id}
+                                                        className={`px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all shadow-lg active:scale-95 flex items-center gap-2
+                                                            ${isOwned ? 'bg-emerald-600' : 'bg-[#2c73eb]'} text-white`}
+                                                    >
+                                                        {buyingId === simulado.id ? (
+                                                            <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                                        ) : isOwned ? (
+                                                            'Acessar'
+                                                        ) : (
+                                                            'Comprar'
+                                                        )}
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

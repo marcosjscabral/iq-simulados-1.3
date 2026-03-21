@@ -243,28 +243,41 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between mt-auto">
+                <div className="flex items-end justify-between mt-auto">
                   <div className="flex items-center gap-1">
                     <span className="text-3xl sm:text-4xl font-black italic text-[#f3ec05] tracking-tighter">
                       R$ {formatPrice(featuredSimulado.price)}
                     </span>
                   </div>
-                  <button
-                    disabled={buyingId === featuredSimulado.id}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleBuy(featuredSimulado);
-                    }}
-                    className={`px-10 py-4 ${ownedIds.includes(featuredSimulado.id) ? 'bg-emerald-600 shadow-emerald-600/20' : 'bg-[#2c73eb] shadow-blue-600/20'} text-white rounded-2xl text-[13px] font-black uppercase tracking-widest flex items-center justify-center gap-2.5 hover:opacity-90 transition-all shadow-xl active:scale-95`}
-                  >
-                    {buyingId === featuredSimulado.id ? (
-                      <div className="size-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    ) : ownedIds.includes(featuredSimulado.id) ? (
-                      <>Acessar</>
-                    ) : (
-                      <>Iniciar</>
+                  <div className="flex flex-col items-center gap-2">
+                    {!ownedIds.includes(featuredSimulado.id) && (
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/simulado/${featuredSimulado.id}`);
+                        }}
+                        className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white transition-colors"
+                      >
+                        + Detalhes
+                      </button>
                     )}
-                  </button>
+                    <button
+                      disabled={buyingId === featuredSimulado.id}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleBuy(featuredSimulado);
+                      }}
+                      className={`px-10 py-4 ${ownedIds.includes(featuredSimulado.id) ? 'bg-emerald-600 shadow-emerald-600/20' : 'bg-[#2c73eb] shadow-blue-600/20'} text-white rounded-2xl text-[13px] font-black uppercase tracking-widest flex items-center justify-center gap-2.5 hover:opacity-90 transition-all shadow-xl active:scale-95`}
+                    >
+                      {buyingId === featuredSimulado.id ? (
+                        <div className="size-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      ) : ownedIds.includes(featuredSimulado.id) ? (
+                        <>Acessar</>
+                      ) : (
+                        <>Comprar</>
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -307,29 +320,42 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                             )}
                           </div>
                         </div>
-                        <div className="flex items-center justify-between mt-auto">
+                        <div className="flex items-end justify-between mt-auto">
                           <div className="flex items-center gap-1">
                             <span className="text-2xl font-black italic text-[#f3ec05] tracking-tighter">
                               R$ {formatPrice(simulado.price)}
                             </span>
                           </div>
-                          <button
-                            disabled={buyingId === simulado.id}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleBuy(simulado);
-                            }}
-                            className={`px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all shadow-lg active:scale-95 flex items-center gap-2
-                              ${isOwned ? 'bg-emerald-600' : 'bg-[#2c73eb]'} text-white`}
-                          >
-                            {buyingId === simulado.id ? (
-                              <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                            ) : isOwned ? (
-                              'Acessar'
-                            ) : (
-                              'Iniciar'
+                          <div className="flex flex-col items-center gap-2">
+                            {!isOwned && (
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigate(`/simulado/${simulado.id}`);
+                                }}
+                                className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white transition-colors"
+                              >
+                                + Detalhes
+                              </button>
                             )}
-                          </button>
+                            <button
+                              disabled={buyingId === simulado.id}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleBuy(simulado);
+                              }}
+                              className={`px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all shadow-lg active:scale-95 flex items-center gap-2
+                                ${isOwned ? 'bg-emerald-600' : 'bg-[#2c73eb]'} text-white`}
+                            >
+                              {buyingId === simulado.id ? (
+                                <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                              ) : isOwned ? (
+                                'Acessar'
+                              ) : (
+                                'Comprar'
+                              )}
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
