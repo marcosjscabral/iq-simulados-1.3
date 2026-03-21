@@ -236,22 +236,9 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                     {featuredSimulado.description || 'Descrição não informada.'}
                   </p>
 
-                  <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-black uppercase tracking-widest mb-8 border-b border-white/5 pb-4">
-                    <div className="text-slate-500">
-                      {featuredSimulado.questions_count > 0 && (
-                        <span>{featuredSimulado.questions_count} Questões Objetivas</span>
-                      )}
-                    </div>
-                    {!ownedIds.includes(featuredSimulado.id) && (
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/simulado/${featuredSimulado.id}`);
-                        }}
-                        className="text-[10px] text-slate-400 hover:text-[#f3ec05] transition-colors flex items-center gap-1.5"
-                      >
-                        <ChevronRight size={14} /> + Detalhes
-                      </button>
+                  <div className="flex flex-wrap items-center gap-4 text-xs font-black text-slate-500 uppercase tracking-widest mb-8">
+                    {featuredSimulado.questions_count > 0 && (
+                      <span>{featuredSimulado.questions_count} Questões Objetivas</span>
                     )}
                   </div>
                 </div>
@@ -301,7 +288,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                     <div
                       key={simulado.id}
                       onClick={() => navigate(isParent ? `/premium/${simulado.id}` : `/exam/${simulado.id}`)}
-                      className="group flex flex-col sm:flex-row bg-[#20221e] border border-white/5 rounded-[2rem] overflow-hidden hover:bg-[#252822] transition-colors cursor-pointer shadow-lg active:scale-[0.99] sm:min-h-[12rem] h-auto"
+                      className="group flex flex-col sm:flex-row bg-[#20221e] border border-white/5 rounded-[2rem] overflow-hidden hover:bg-[#252822] transition-colors cursor-pointer shadow-lg active:scale-[0.99] sm:h-48"
                     >
                       <div className="w-full sm:w-56 h-48 sm:h-full shrink-0 bg-[#2a4e4d] relative overflow-hidden">
                         {simulado.image_url ? (
@@ -314,22 +301,9 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                         <div>
                           <h3 className="text-lg font-black text-white leading-tight mb-2 uppercase tracking-tight">{simulado.title}</h3>
                           <p className="text-[#64748b] text-xs font-semibold line-clamp-2 mb-4 leading-relaxed uppercase pr-4">{simulado.description}</p>
-                          <div className="flex flex-wrap items-center justify-between gap-4 text-[10px] font-black uppercase tracking-widest mb-6 border-b border-white/5 pb-2">
-                            <div className="text-slate-500">
-                              {simulado.questions_count > 0 && (
-                                <span>{simulado.questions_count} Questões Objetivas</span>
-                              )}
-                            </div>
-                            {!isOwned && (
-                              <button 
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  navigate(`/simulado/${simulado.id}`);
-                                }}
-                                className="text-slate-400 hover:text-[#f3ec05] transition-colors flex items-center gap-1"
-                              >
-                                <ChevronRight size={12} /> + Detalhes
-                              </button>
+                          <div className="flex flex-wrap items-center gap-4 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">
+                            {simulado.questions_count > 0 && (
+                              <span>{simulado.questions_count} Questões Objetivas</span>
                             )}
                           </div>
                         </div>

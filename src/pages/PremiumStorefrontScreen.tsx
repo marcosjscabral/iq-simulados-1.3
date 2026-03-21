@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Flame, Loader2, Search, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { ChevronLeft, Flame, Loader2, Search, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Simulado } from '../types';
 import { StripeService } from '../lib/stripeService';
@@ -202,22 +202,9 @@ export const PremiumStorefrontScreen = () => {
                                                 <p className="text-[#64748b] text-xs font-semibold line-clamp-2 mb-4 leading-relaxed uppercase pr-4">
                                                     {simulado.description || 'Simulado disponível para estudo imediato.'}
                                                 </p>
-                                                <div className="flex flex-wrap items-center justify-between gap-4 text-[10px] font-black uppercase tracking-widest mb-6 border-b border-white/5 pb-2">
-                                                    <div className="text-slate-500">
-                                                        {simulado.questions_count > 0 && (
-                                                            <span>{simulado.questions_count} Questões Objetivas</span>
-                                                        )}
-                                                    </div>
-                                                    {!isOwned && (
-                                                        <button 
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                navigate(`/simulado/${simulado.id}`);
-                                                            }}
-                                                            className="text-slate-400 hover:text-[#f3ec05] transition-colors flex items-center gap-1"
-                                                        >
-                                                            <ChevronRight size={12} /> + Detalhes
-                                                        </button>
+                                                <div className="flex flex-wrap items-center gap-4 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">
+                                                    {simulado.questions_count > 0 && (
+                                                        <span>{simulado.questions_count} Questões Objetivas</span>
                                                     )}
                                                 </div>
                                             </div>
