@@ -207,8 +207,14 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 
             <div
               onClick={() => {
+                const isOwned = ownedIds.includes(featuredSimulado.id);
                 const isParent = featuredSimulado.parent_categories && featuredSimulado.parent_categories.length > 0;
-                navigate(isParent ? `/premium/${featuredSimulado.id}` : `/exam/${featuredSimulado.id}`);
+                
+                if (isOwned) {
+                  navigate(isParent ? `/premium/${featuredSimulado.id}` : `/exam/${featuredSimulado.id}`);
+                } else {
+                  handleBuy(featuredSimulado);
+                }
               }}
               className="group relative flex flex-col sm:flex-row w-full rounded-[2.5rem] overflow-hidden cursor-pointer border-2 border-[#f15a24] bg-[#20221e] shadow-2xl flex flex-col transition-all active:scale-[0.99] hover:bg-[#252822]"
             >
@@ -287,7 +293,13 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                   return (
                     <div
                       key={simulado.id}
-                      onClick={() => navigate(isParent ? `/premium/${simulado.id}` : `/exam/${simulado.id}`)}
+                      onClick={() => {
+                        if (isOwned) {
+                          navigate(isParent ? `/premium/${simulado.id}` : `/exam/${simulado.id}`);
+                        } else {
+                          handleBuy(simulado);
+                        }
+                      }}
                       className="group flex flex-col sm:flex-row bg-[#20221e] border border-white/5 rounded-[2rem] overflow-hidden hover:bg-[#252822] transition-colors cursor-pointer shadow-lg active:scale-[0.99] sm:h-48"
                     >
                       <div className="w-full sm:w-56 h-48 sm:h-full shrink-0 bg-[#2a4e4d] relative overflow-hidden">
