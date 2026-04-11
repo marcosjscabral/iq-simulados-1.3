@@ -209,7 +209,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
               onClick={() => {
                 const isOwned = ownedIds.includes(featuredSimulado.id);
                 const isParent = featuredSimulado.parent_categories && featuredSimulado.parent_categories.length > 0;
-                
+
                 if (isOwned) {
                   navigate(isParent ? `/premium/${featuredSimulado.id}` : `/exam/${featuredSimulado.id}`);
                 } else {
@@ -280,75 +280,75 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
         {/* Simulados Disponíveis */}
         <section className="pb-8">
           <h2 className="text-[19px] font-black text-white mb-5 px-1 tracking-tight">Simulados Disponíveis</h2>
-            {filteredSimulados.length === 0 ? (
-              <div className="p-8 text-center bg-[#272a24] rounded-[2.5rem] border border-[#3c3d35]">
-                <p className="text-slate-400 font-bold text-sm">Nenhum simulado disponível nesta categoria.</p>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-6">
-                {filteredSimulados.map((simulado) => {
-                  const isOwned = ownedIds.includes(simulado.id);
-                  const isParent = simulado.parent_categories && simulado.parent_categories.length > 0;
-                  
-                  return (
-                    <div
-                      key={simulado.id}
-                      onClick={() => {
-                        if (isOwned) {
-                          navigate(isParent ? `/premium/${simulado.id}` : `/exam/${simulado.id}`);
-                        } else {
-                          handleBuy(simulado);
-                        }
-                      }}
-                      className="group flex flex-col sm:flex-row bg-[#20221e] border border-white/5 rounded-[2rem] overflow-hidden hover:bg-[#252822] transition-colors cursor-pointer shadow-lg active:scale-[0.99] sm:h-48"
-                    >
-                      <div className="w-full sm:w-56 h-48 sm:h-full shrink-0 bg-[#2a4e4d] relative overflow-hidden">
-                        {simulado.image_url ? (
-                          <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-white/20 italic font-black text-2xl">IQ</div>
-                        )}
+          {filteredSimulados.length === 0 ? (
+            <div className="p-8 text-center bg-[#272a24] rounded-[2.5rem] border border-[#3c3d35]">
+              <p className="text-slate-400 font-bold text-sm">Nenhum simulado disponível nesta categoria.</p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-6">
+              {filteredSimulados.map((simulado) => {
+                const isOwned = ownedIds.includes(simulado.id);
+                const isParent = simulado.parent_categories && simulado.parent_categories.length > 0;
+
+                return (
+                  <div
+                    key={simulado.id}
+                    onClick={() => {
+                      if (isOwned) {
+                        navigate(isParent ? `/premium/${simulado.id}` : `/exam/${simulado.id}`);
+                      } else {
+                        handleBuy(simulado);
+                      }
+                    }}
+                    className="group flex flex-col sm:flex-row bg-[#20221e] border border-white/5 rounded-[2rem] overflow-hidden hover:bg-[#252822] transition-colors cursor-pointer shadow-lg active:scale-[0.99] sm:h-48"
+                  >
+                    <div className="w-full sm:w-56 h-48 sm:h-full shrink-0 bg-[#2a4e4d] relative overflow-hidden">
+                      {simulado.image_url ? (
+                        <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-white/20 italic font-black text-2xl">IQ</div>
+                      )}
+                    </div>
+                    <div className="p-6 flex flex-col justify-between flex-1">
+                      <div>
+                        <h3 className="text-lg font-black text-white leading-tight mb-2 uppercase tracking-tight">{simulado.title}</h3>
+                        <p className="text-[#64748b] text-xs font-semibold line-clamp-2 mb-4 leading-relaxed uppercase pr-4">{simulado.description}</p>
+                        <div className="flex flex-wrap items-center gap-4 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">
+                          {simulado.questions_count > 0 && (
+                            <span>{simulado.questions_count} Questões Objetivas</span>
+                          )}
+                        </div>
                       </div>
-                      <div className="p-6 flex flex-col justify-between flex-1">
-                        <div>
-                          <h3 className="text-lg font-black text-white leading-tight mb-2 uppercase tracking-tight">{simulado.title}</h3>
-                          <p className="text-[#64748b] text-xs font-semibold line-clamp-2 mb-4 leading-relaxed uppercase pr-4">{simulado.description}</p>
-                          <div className="flex flex-wrap items-center gap-4 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">
-                            {simulado.questions_count > 0 && (
-                              <span>{simulado.questions_count} Questões Objetivas</span>
-                            )}
-                          </div>
+                      <div className="flex items-center justify-between mt-auto">
+                        <div className="flex items-center gap-1">
+                          <span className="text-2xl font-black italic text-[#f3ec05] tracking-tighter">
+                            R$ {formatPrice(simulado.price)}
+                          </span>
                         </div>
-                        <div className="flex items-center justify-between mt-auto">
-                          <div className="flex items-center gap-1">
-                            <span className="text-2xl font-black italic text-[#f3ec05] tracking-tighter">
-                              R$ {formatPrice(simulado.price)}
-                            </span>
-                          </div>
-                          <button
-                            disabled={buyingId === simulado.id}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleBuy(simulado);
-                            }}
-                            className={`px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all shadow-lg active:scale-95 flex items-center gap-2
+                        <button
+                          disabled={buyingId === simulado.id}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleBuy(simulado);
+                          }}
+                          className={`px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all shadow-lg active:scale-95 flex items-center gap-2
                               ${isOwned ? 'bg-emerald-600' : 'bg-[#2c73eb]'} text-white`}
-                          >
-                            {buyingId === simulado.id ? (
-                              <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                            ) : isOwned ? (
-                              'Acessar'
-                            ) : (
-                              'Comprar'
-                            )}
-                          </button>
-                        </div>
+                        >
+                          {buyingId === simulado.id ? (
+                            <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          ) : isOwned ? (
+                            'Acessar'
+                          ) : (
+                            'Comprar'
+                          )}
+                        </button>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-            )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
         </section>
       </main>
@@ -898,59 +898,117 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   }, []);
 
   return (
-    <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
-      <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
-        <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
-          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
+    <div className="bg-slate-950 min-h-screen flex flex-col font-display text-slate-50">
+      <header className="sticky top-0 z-50 bg-slate-100 shadow-sm shadow-black/10">
+        <div className="flex items-center p-4 justify-between pt-12 w-full max-w-6xl mx-auto">
+          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-slate-900">
             <Menu size={24} />
           </button>
           <div className="flex flex-col items-center">
-            <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">IQ ADMIN</h1>
-            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Gerenciamento</p>
+            <h1 className="text-xl font-black leading-tight text-slate-900 italic uppercase tracking-tighter">IQ ADMIN</h1>
+            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Gerenciamento</p>
           </div>
-          <div className="size-10 flex items-center justify-end text-black" />
+          <div className="size-10 flex items-center justify-end text-slate-900" />
         </div>
       </header>
 
       <main className="flex-1 overflow-y-auto pb-32 pt-8">
-        <div className="flex gap-4 p-6 overflow-x-auto no-scrollbar">
-          {[
-            { label: 'Usuários', value: userCount.toString(), trend: '+12%', color: '#ffd700' },
-            { label: 'Simulados', value: simuladosCount.toString(), trend: '+5%', color: '#f97316' },
-            { label: 'Disponível (Stripe)', value: stripeBalance, trend: 'Real-time', color: '#3b82f6' }
-          ].map((stat) => (
-            <div key={stat.label} className="flex min-w-[140px] flex-col gap-2 rounded-3xl p-6 bg-white/5 border border-white/5 shadow-2xl">
-              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{stat.label}</p>
-              <p className="text-2xl font-black italic text-white">{stat.value}</p>
-              <div className="flex items-center gap-1 text-[10px] text-emerald-400 font-black">
-                <BarChart3 size={10} /> {stat.trend}
+        <div className="max-w-6xl mx-auto px-4 space-y-8">
+          <section className="grid gap-6 lg:grid-cols-[1.45fr_1fr]">
+            <div className="rounded-3xl border border-white/10 bg-slate-900/90 p-6 shadow-sm shadow-black/20 backdrop-blur-sm">
+              <div className="flex flex-col gap-4">
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Painel</p>
+                  <h2 className="mt-3 text-3xl font-black uppercase tracking-tight text-white">Visão Geral do Admin</h2>
+                  <p className="mt-2 text-sm text-slate-400 leading-relaxed">Resumo rápido dos principais números e acesso instantâneo às áreas administrativas mais usadas.</p>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-3">
+                  {[
+                    { label: 'Usuários', value: userCount.toString(), trend: '+12%', color: '#f97316' },
+                    { label: 'Simulados', value: simuladosCount.toString(), trend: '+5%', color: '#38bdf8' },
+                    { label: 'Disponível (Stripe)', value: stripeBalance, trend: 'Real-time', color: '#22c55e' }
+                  ].map((stat) => (
+                    <div key={stat.label} className="min-w-0 rounded-2xl border border-white/10 bg-slate-950/90 p-5 shadow-sm shadow-black/20">
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{stat.label}</p>
+                      <p className="mt-4 text-3xl font-black leading-tight text-white">{stat.value}</p>
+                      <div className="mt-3 flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-slate-400 font-semibold">
+                        <BarChart3 size={12} /> {stat.trend}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          ))}
-        </div>
-        <div className="px-6 space-y-4">
-          <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-6 px-2">Atalhos Administrativos</h2>
-          {[
-            { icon: FileText, label: 'Gerenciar Simulados', sub: 'Lista completa e edições rápidas', color: '#f97316', onClick: () => navigate('/admin/list') },
-            { icon: Ticket, label: 'Cupons e Descontos', sub: 'Criar códigos promocionais Stripe', color: '#ffd700', onClick: () => navigate('/admin/coupons') },
-            { icon: List, label: 'Banco de Questões', sub: 'Cadastrar perguntas e respostas', color: '#10b981', onClick: () => navigate('/admin/questoes') },
-            { icon: Users, label: 'Usuários e Acessos', sub: 'Status de assinaturas e permissões', color: '#3b82f6', onClick: () => navigate('/admin/users') }
-          ].map((item) => (
-            <button
-              key={item.label}
-              onClick={item.onClick}
-              className="w-full flex items-center gap-5 bg-white/5 p-6 rounded-[2.5rem] border border-white/5 active:scale-[0.98] transition-all group hover:bg-white/10"
-            >
-              <div className="flex items-center justify-center rounded-2xl text-white shrink-0 size-16 shadow-2xl transition-transform group-hover:scale-110" style={{ backgroundColor: item.color }}>
-                <item.icon size={32} />
+
+            <div className="rounded-3xl border border-white/10 bg-slate-900/90 p-6 shadow-sm shadow-black/20">
+              <div className="flex flex-col justify-between h-full gap-6">
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Ação Rápida</p>
+                  <h3 className="mt-3 text-2xl font-black uppercase tracking-tight text-white">Acesse o que importa</h3>
+                  <p className="mt-2 text-sm text-slate-400 leading-relaxed">Mantenha o controle sobre cupons, simulados, questões e usuários a partir desta visão centralizada.</p>
+                </div>
+                <div className="grid gap-4">
+                  {[
+                    { icon: FileText, label: 'Simulados', value: simuladosCount.toString(), color: '#f97316', onClick: () => navigate('/admin/list') },
+                    { icon: Ticket, label: 'Cupons', value: 'Stripe', color: '#facc15', onClick: () => navigate('/admin/coupons') }
+                  ].map((item) => (
+                    <button
+                      key={item.label}
+                      onClick={item.onClick}
+                      className="w-full rounded-2xl border border-white/10 bg-slate-950/90 px-5 py-5 text-left transition duration-200 ease-out hover:bg-slate-800/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30 active:scale-[0.98]"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl text-white" style={{ backgroundColor: item.color }}>
+                          <item.icon size={22} />
+                        </div>
+                        <div>
+                          <p className="text-base font-black uppercase tracking-tight text-white">{item.label}</p>
+                          <p className="text-sm text-slate-400">{item.value} registrado</p>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className="flex-1 text-left">
-                <p className="font-black text-lg italic leading-tight uppercase text-white">{item.label}</p>
-                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">{item.sub}</p>
+            </div>
+          </section>
+
+          <section className="space-y-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Atalhos Administrativos</p>
+                <h3 className="mt-2 text-2xl font-black uppercase tracking-tight text-white">Acesso rápido</h3>
               </div>
-              <ChevronRight size={20} className="text-slate-600" />
-            </button>
-          ))}
+              <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Tudo em um só lugar</span>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[
+                { icon: FileText, label: 'Gerenciar Simulados', sub: 'Lista completa e edições rápidas', color: '#f97316', onClick: () => navigate('/admin/list') },
+                { icon: Ticket, label: 'Cupons e Descontos', sub: 'Criar códigos promocionais Stripe', color: '#facc15', onClick: () => navigate('/admin/coupons') },
+                { icon: List, label: 'Banco de Questões', sub: 'Cadastrar perguntas e respostas', color: '#38bdf8', onClick: () => navigate('/admin/questoes') },
+                { icon: Users, label: 'Usuários e Acessos', sub: 'Status de assinaturas e permissões', color: '#22c55e', onClick: () => navigate('/admin/users') }
+              ].map((item) => (
+                <button
+                  key={item.label}
+                  onClick={item.onClick}
+                  className="flex w-full flex-col gap-4 rounded-2xl border border-white/10 bg-slate-950/90 p-6 text-left transition duration-200 ease-out hover:bg-slate-800/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30 active:scale-[0.98]"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl text-white" style={{ backgroundColor: item.color }}>
+                      <item.icon size={24} />
+                    </div>
+                    <div>
+                      <p className="font-black text-lg uppercase tracking-tight text-white">{item.label}</p>
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-slate-400">{item.sub}</p>
+                    </div>
+                  </div>
+                  <ChevronRight size={20} className="text-slate-500" />
+                </button>
+              ))}
+            </div>
+          </section>
         </div>
       </main>
     </div>
