@@ -898,15 +898,15 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   }, []);
 
   return (
-    <div className="bg-slate-950 min-h-screen flex flex-col font-display text-slate-50">
-      <header className="sticky top-0 z-50 bg-slate-100 shadow-sm shadow-black/10">
+    <div className="bg-slate-50 min-h-screen flex flex-col font-display text-slate-900">
+      <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white shadow-sm shadow-slate-200">
         <div className="flex items-center p-4 justify-between pt-12 w-full max-w-6xl mx-auto">
-          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-slate-900">
+          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50">
             <Menu size={24} />
           </button>
           <div className="flex flex-col items-center">
-            <h1 className="text-xl font-black leading-tight text-slate-900 italic uppercase tracking-tighter">IQ ADMIN</h1>
-            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Gerenciamento</p>
+            <h1 className="text-xl font-black leading-tight text-slate-900 italic tracking-tight">IQ ADMIN</h1>
+            <p className="text-[10px] uppercase tracking-[0.28em] text-slate-500 font-semibold">Gerenciamento</p>
           </div>
           <div className="size-10 flex items-center justify-end text-slate-900" />
         </div>
@@ -914,99 +914,95 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
 
       <main className="flex-1 overflow-y-auto pb-32 pt-8">
         <div className="max-w-6xl mx-auto px-4 space-y-8">
-          <section className="grid gap-6 lg:grid-cols-[1.45fr_1fr]">
-            <div className="rounded-3xl border border-white/10 bg-slate-900/90 p-6 shadow-sm shadow-black/20 backdrop-blur-sm">
-              <div className="flex flex-col gap-4">
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Painel</p>
-                  <h2 className="mt-3 text-3xl font-black uppercase tracking-tight text-white">Visão Geral do Admin</h2>
-                  <p className="mt-2 text-sm text-slate-400 leading-relaxed">Resumo rápido dos principais números e acesso instantâneo às áreas administrativas mais usadas.</p>
-                </div>
-
-                <div className="grid gap-4 sm:grid-cols-3">
-                  {[
-                    { label: 'Usuários', value: userCount.toString(), trend: '+12%', color: '#f97316' },
-                    { label: 'Simulados', value: simuladosCount.toString(), trend: '+5%', color: '#38bdf8' },
-                    { label: 'Disponível (Stripe)', value: stripeBalance, trend: 'Real-time', color: '#22c55e' }
-                  ].map((stat) => (
-                    <div key={stat.label} className="min-w-0 rounded-2xl border border-white/10 bg-slate-950/90 p-5 shadow-sm shadow-black/20">
-                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{stat.label}</p>
-                      <p className="mt-4 text-3xl font-black leading-tight text-white">{stat.value}</p>
-                      <div className="mt-3 flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-slate-400 font-semibold">
-                        <BarChart3 size={12} /> {stat.trend}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+          <section className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-sm shadow-slate-200">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.28em] text-slate-500 font-semibold">Painel</p>
+                <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900">Painel administrativo</h2>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">Acompanhe seus principais indicadores de forma clara e acesse rapidamente as áreas mais importantes do sistema.</p>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700">
+                Visão geral do dashboard
               </div>
             </div>
 
-            <div className="rounded-3xl border border-white/10 bg-slate-900/90 p-6 shadow-sm shadow-black/20">
-              <div className="flex flex-col justify-between h-full gap-6">
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Ação Rápida</p>
-                  <h3 className="mt-3 text-2xl font-black uppercase tracking-tight text-white">Acesse o que importa</h3>
-                  <p className="mt-2 text-sm text-slate-400 leading-relaxed">Mantenha o controle sobre cupons, simulados, questões e usuários a partir desta visão centralizada.</p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {[
+                { label: 'Usuários', value: userCount.toString(), trend: '+12%' },
+                { label: 'Simulados', value: simuladosCount.toString(), trend: '+5%' },
+                { label: 'Saldo Stripe', value: stripeBalance, trend: 'Real-time' }
+              ].map((stat) => (
+                <div key={stat.label} className="rounded-3xl border border-slate-200/70 bg-slate-50 p-5 shadow-sm shadow-slate-200/50">
+                  <p className="text-[10px] uppercase tracking-[0.28em] text-slate-500 font-semibold">{stat.label}</p>
+                  <p className="mt-4 text-3xl font-black leading-tight text-slate-900">{stat.value}</p>
+                  <div className="mt-3 flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-slate-600 font-semibold">
+                    <BarChart3 size={14} /> {stat.trend}
+                  </div>
                 </div>
-                <div className="grid gap-4">
-                  {[
-                    { icon: FileText, label: 'Simulados', value: simuladosCount.toString(), color: '#f97316', onClick: () => navigate('/admin/list') },
-                    { icon: Ticket, label: 'Cupons', value: 'Stripe', color: '#facc15', onClick: () => navigate('/admin/coupons') }
-                  ].map((item) => (
-                    <button
-                      key={item.label}
-                      onClick={item.onClick}
-                      className="w-full rounded-2xl border border-white/10 bg-slate-950/90 px-5 py-5 text-left transition duration-200 ease-out hover:bg-slate-800/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30 active:scale-[0.98]"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl text-white" style={{ backgroundColor: item.color }}>
-                          <item.icon size={22} />
-                        </div>
-                        <div>
-                          <p className="text-base font-black uppercase tracking-tight text-white">{item.label}</p>
-                          <p className="text-sm text-slate-400">{item.value} registrado</p>
-                        </div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
           </section>
 
-          <section className="space-y-4">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <section className="grid gap-6 xl:grid-cols-[1.5fr_1fr]">
+            <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-sm shadow-slate-200">
               <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Atalhos Administrativos</p>
-                <h3 className="mt-2 text-2xl font-black uppercase tracking-tight text-white">Acesso rápido</h3>
+                <p className="text-[10px] uppercase tracking-[0.28em] text-slate-500 font-semibold">Ações</p>
+                <h3 className="mt-3 text-2xl font-black tracking-tight text-slate-900">Principais acessos</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">Abra as áreas mais importantes do painel com um único clique.</p>
               </div>
-              <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Tudo em um só lugar</span>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              {[
-                { icon: FileText, label: 'Gerenciar Simulados', sub: 'Lista completa e edições rápidas', color: '#f97316', onClick: () => navigate('/admin/list') },
-                { icon: Ticket, label: 'Cupons e Descontos', sub: 'Criar códigos promocionais Stripe', color: '#facc15', onClick: () => navigate('/admin/coupons') },
-                { icon: List, label: 'Banco de Questões', sub: 'Cadastrar perguntas e respostas', color: '#38bdf8', onClick: () => navigate('/admin/questoes') },
-                { icon: Users, label: 'Usuários e Acessos', sub: 'Status de assinaturas e permissões', color: '#22c55e', onClick: () => navigate('/admin/users') }
-              ].map((item) => (
-                <button
-                  key={item.label}
-                  onClick={item.onClick}
-                  className="flex w-full flex-col gap-4 rounded-2xl border border-white/10 bg-slate-950/90 p-6 text-left transition duration-200 ease-out hover:bg-slate-800/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30 active:scale-[0.98]"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl text-white" style={{ backgroundColor: item.color }}>
-                      <item.icon size={24} />
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                {[
+                  { icon: FileText, label: 'Gerenciar Simulados', sub: 'Editar catálogo completo', color: '#f97316', onClick: () => navigate('/admin/list') },
+                  { icon: Ticket, label: 'Cupons', sub: 'Promoções Stripe', color: '#facc15', onClick: () => navigate('/admin/coupons') }
+                ].map((item) => (
+                  <button
+                    key={item.label}
+                    onClick={item.onClick}
+                    className="flex w-full items-center gap-4 rounded-2xl border border-slate-200/70 bg-slate-50 px-5 py-5 text-left transition duration-200 ease-out hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 active:scale-[0.98]"
+                  >
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl text-white" style={{ backgroundColor: item.color }}>
+                      <item.icon size={22} />
                     </div>
                     <div>
-                      <p className="font-black text-lg uppercase tracking-tight text-white">{item.label}</p>
-                      <p className="text-[10px] uppercase tracking-[0.2em] text-slate-400">{item.sub}</p>
+                      <p className="text-base font-black tracking-tight text-slate-900">{item.label}</p>
+                      <p className="mt-1 text-sm text-slate-600">{item.sub}</p>
                     </div>
-                  </div>
-                  <ChevronRight size={20} className="text-slate-500" />
-                </button>
-              ))}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-sm shadow-slate-200">
+              <div className="flex flex-col gap-3">
+                <p className="text-[10px] uppercase tracking-[0.28em] text-slate-500 font-semibold">Atalhos</p>
+                <h3 className="text-2xl font-black tracking-tight text-slate-900">Navegação rápida</h3>
+                <p className="text-sm leading-relaxed text-slate-600">Acesse as áreas de administração mais utilizadas com cartões claros e diretos.</p>
+              </div>
+              <div className="mt-6 grid gap-4">
+                {[
+                  { icon: FileText, label: 'Gerenciar Simulados', sub: 'Lista completa e edições rápidas', color: '#f97316', onClick: () => navigate('/admin/list') },
+                  { icon: Ticket, label: 'Cupons e Descontos', sub: 'Criar códigos promocionais Stripe', color: '#facc15', onClick: () => navigate('/admin/coupons') },
+                  { icon: List, label: 'Banco de Questões', sub: 'Cadastrar perguntas e respostas', color: '#38bdf8', onClick: () => navigate('/admin/questoes') },
+                  { icon: Users, label: 'Usuários e Acessos', sub: 'Status de assinaturas e permissões', color: '#22c55e', onClick: () => navigate('/admin/users') }
+                ].map((item) => (
+                  <button
+                    key={item.label}
+                    onClick={item.onClick}
+                    className="flex w-full flex-col gap-4 rounded-2xl border border-slate-200/70 bg-slate-50 p-5 text-left transition duration-200 ease-out hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 active:scale-[0.98]"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl text-white" style={{ backgroundColor: item.color }}>
+                        <item.icon size={24} />
+                      </div>
+                      <div>
+                        <p className="text-lg font-black tracking-tight text-slate-900">{item.label}</p>
+                        <p className="mt-1 text-sm text-slate-600">{item.sub}</p>
+                      </div>
+                    </div>
+                    <ChevronRight size={20} className="text-slate-500" />
+                  </button>
+                ))}
+              </div>
             </div>
           </section>
         </div>
