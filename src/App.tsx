@@ -1084,7 +1084,10 @@ export default function App() {
     <ModalProvider>
       <Router>
         <div className="relative flex min-h-screen w-full flex-col lg:flex-row bg-slate-50">
-          onLogout={handleLogout}
+          <Sidebar
+            isOpen={isSidebarOpen}
+            onClose={() => setSidebarOpen(false)}
+            onLogout={handleLogout}
           />
 
           <div className="flex-1 min-w-0 flex flex-col relative w-full">
