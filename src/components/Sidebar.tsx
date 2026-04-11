@@ -59,15 +59,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         className="sidebar-menu"
                     >
                         <div className="sidebar-header">
-                            <div className="flex justify-between items-start">
+                            <div className="flex justify-between items-center gap-4">
                                 <div>
-                                    <span className="sidebar-logo !italic !font-black !uppercase !tracking-tighter">IQ Simulados</span>
+                                    <span className="sidebar-logo">IQ Simulados</span>
+                                    <p className="mt-2 text-[11px] uppercase tracking-[0.25em] text-slate-500 font-semibold">Menu principal</p>
                                 </div>
                                 <button
                                     onClick={onClose}
-                                    className="p-1 rounded-full hover:bg-black/10 transition-colors"
+                                    className="p-2 rounded-md hover:bg-slate-100 transition-colors text-slate-700"
                                 >
-                                    <X size={24} />
+                                    <X size={20} />
                                 </button>
                             </div>
                         </div>

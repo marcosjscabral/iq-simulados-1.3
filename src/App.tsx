@@ -216,7 +216,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                   handleBuy(featuredSimulado);
                 }
               }}
-              className="group relative flex flex-col sm:flex-row w-full rounded-[2rem] overflow-hidden cursor-pointer border border-slate-200 bg-white shadow-sm transition-all active:scale-[0.99] hover:bg-slate-50"
+              className="group relative flex flex-col sm:flex-row w-full rounded-xl overflow-hidden cursor-pointer border border-slate-200 bg-white shadow-sm transition-all active:scale-[0.99] hover:bg-slate-50"
             >
               <div className="relative h-56 sm:h-auto sm:w-80 shrink-0 bg-slate-100 overflow-hidden">
                 {/* Banner */}
@@ -261,7 +261,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                       e.stopPropagation();
                       handleBuy(featuredSimulado);
                     }}
-                    className={`px-10 py-4 ${ownedIds.includes(featuredSimulado.id) ? 'bg-emerald-600 shadow-emerald-600/20' : 'bg-slate-900 shadow-slate-900/20'} text-white rounded-2xl text-[13px] font-black uppercase tracking-widest flex items-center justify-center gap-2.5 hover:opacity-90 transition-all shadow-xl active:scale-95`}
+                    className={`px-10 py-4 ${ownedIds.includes(featuredSimulado.id) ? 'bg-emerald-600 shadow-emerald-600/20' : 'bg-slate-900 shadow-slate-900/20'} text-white rounded-lg text-[13px] font-black uppercase tracking-widest flex items-center justify-center gap-2.5 hover:opacity-90 transition-all shadow-xl active:scale-95`}
                   >
                     {buyingId === featuredSimulado.id ? (
                       <div className="size-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -281,7 +281,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
         <section className="pb-8">
           <h2 className="text-[19px] font-black text-slate-900 mb-5 px-1 tracking-tight">Simulados Disponíveis</h2>
           {filteredSimulados.length === 0 ? (
-            <div className="p-8 text-center bg-white rounded-[2rem] border border-slate-200 shadow-sm">
+            <div className="p-8 text-center bg-white rounded-xl border border-slate-200 shadow-sm">
               <p className="text-slate-600 font-semibold text-sm">Nenhum simulado disponível nesta categoria.</p>
             </div>
           ) : (
@@ -300,7 +300,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                         handleBuy(simulado);
                       }
                     }}
-                    className="group flex flex-col sm:flex-row bg-white border border-slate-200 rounded-[2rem] overflow-hidden hover:bg-slate-50 transition-colors cursor-pointer shadow-sm active:scale-[0.99] sm:h-48"
+                    className="group flex flex-col sm:flex-row bg-white border border-slate-200 rounded-xl overflow-hidden hover:bg-slate-50 transition-colors cursor-pointer shadow-sm active:scale-[0.99] sm:h-48"
                   >
                     <div className="w-full sm:w-56 h-48 sm:h-full shrink-0 bg-slate-100 relative overflow-hidden">
                       {simulado.image_url ? (
@@ -371,7 +371,7 @@ const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: 
       </div>
     </header>
     <main className="flex-1 p-6 flex flex-col items-center justify-center text-center max-w-5xl mx-auto">
-      <div className="size-24 rounded-3xl bg-slate-100 flex items-center justify-center text-slate-700 mb-6 border border-slate-200">
+      <div className="size-24 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700 mb-6 border border-slate-200">
         <Rocket size={48} />
       </div>
       <h2 className="text-2xl font-black mb-2 italic text-slate-900">EM BREVE!</h2>
@@ -397,7 +397,7 @@ const AnswerKeyScreen = () => {
         </div>
       </header>
       <main className="flex-1 flex items-center justify-center p-6 text-center">
-        <div className="bg-white rounded-[2rem] border border-slate-200 shadow-sm p-10 max-w-lg w-full">
+        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-10 max-w-lg w-full">
           <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Selecione um simulado finalizado para ver o gabarito.</p>
         </div>
       </main>
@@ -436,7 +436,7 @@ const ResetPasswordScreen = () => {
 
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col items-center justify-center p-6 text-slate-900">
-      <div className="w-full max-w-2xl bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm">
+      <div className="w-full max-w-2xl bg-white rounded-xl p-8 border border-slate-200 shadow-sm">
         <h1 className="text-2xl font-black uppercase tracking-tighter mb-2">Nova Senha</h1>
         <p className="text-slate-500 text-sm mb-8 uppercase tracking-[0.2em] font-bold">Crie uma senha segura para sua conta</p>
 
@@ -450,7 +450,7 @@ const ResetPasswordScreen = () => {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 pr-12 text-sm font-medium focus:border-slate-400 outline-none transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-4 pr-12 text-sm font-medium focus:border-slate-400 outline-none transition-all"
               />
               <button
                 type="button"
@@ -471,7 +471,7 @@ const ResetPasswordScreen = () => {
                 placeholder="••••••••"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 pr-12 text-sm font-medium focus:border-slate-400 outline-none transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-4 pr-12 text-sm font-medium focus:border-slate-400 outline-none transition-all"
               />
               <button
                 type="button"
@@ -485,7 +485,7 @@ const ResetPasswordScreen = () => {
 
           <button
             disabled={loading}
-            className="w-full bg-slate-900 text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-sm uppercase tracking-widest text-sm"
+            className="w-full bg-slate-900 text-white font-black py-5 rounded-lg flex items-center justify-center gap-3 active:scale-95 transition-all shadow-sm uppercase tracking-widest text-sm"
           >
             {loading ? <div className="size-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : 'Atualizar Senha'}
           </button>
@@ -587,7 +587,7 @@ const EditProfileScreen = () => {
       </header>
 
       <main className="flex-1 w-full max-w-5xl mx-auto p-8 overflow-y-auto">
-        <form onSubmit={handleSave} className="space-y-6 bg-white rounded-[2rem] border border-slate-200 p-8 shadow-sm">
+        <form onSubmit={handleSave} className="space-y-6 bg-white rounded-xl border border-slate-200 p-8 shadow-sm">
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Nome</label>
             <input
@@ -595,7 +595,7 @@ const EditProfileScreen = () => {
               required
               value={formData.first_name}
               onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:border-slate-400 outline-none transition-all"
+              className="w-full bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm font-medium focus:border-slate-400 outline-none transition-all"
             />
           </div>
 
@@ -606,7 +606,7 @@ const EditProfileScreen = () => {
               required
               value={formData.last_name}
               onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:border-slate-400 outline-none transition-all"
+              className="w-full bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm font-medium focus:border-slate-400 outline-none transition-all"
             />
           </div>
 
@@ -617,7 +617,7 @@ const EditProfileScreen = () => {
               required
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:border-slate-400 outline-none transition-all"
+              className="w-full bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm font-medium focus:border-slate-400 outline-none transition-all"
             />
           </div>
 
@@ -627,14 +627,14 @@ const EditProfileScreen = () => {
               type="text"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:border-slate-400 outline-none transition-all"
+              className="w-full bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm font-medium focus:border-slate-400 outline-none transition-all"
               placeholder="(00) 00000-0000"
             />
           </div>
 
           <button
             disabled={saving}
-            className="w-full bg-slate-900 text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-sm uppercase tracking-widest text-sm"
+            className="w-full bg-slate-900 text-white font-black py-5 rounded-lg flex items-center justify-center gap-3 active:scale-95 transition-all shadow-sm uppercase tracking-widest text-sm"
           >
             {saving ? <div className="size-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : 'Salvar Alterações'}
           </button>
@@ -797,13 +797,13 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
 
         <section className="px-6 mb-8">
           <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-2">Configurações e Pagamento</h3>
-          <div className="bg-white rounded-3xl overflow-hidden divide-y divide-slate-200 border border-slate-200 shadow-sm">
+          <div className="bg-white rounded-xl overflow-hidden divide-y divide-slate-200 border border-slate-200 shadow-sm">
             <button
               onClick={() => navigate('/profile/purchases')}
               className="w-full flex items-center justify-between p-5 active:bg-slate-50 transition-colors"
             >
               <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center size-12 rounded-2xl bg-slate-100 text-slate-700">
+                <div className="flex items-center justify-center size-12 rounded-lg bg-slate-100 text-slate-700">
                   <Receipt size={22} />
                 </div>
                 <div className="text-left">
@@ -816,7 +816,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
 
             <button onClick={() => navigate('/profile/edit')} className="w-full flex items-center justify-between p-5 active:bg-slate-50 transition-colors">
               <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center size-12 rounded-2xl bg-slate-100 text-slate-700">
+                <div className="flex items-center justify-center size-12 rounded-lg bg-slate-100 text-slate-700">
                   <User size={22} />
                 </div>
                 <div className="text-left">
@@ -829,7 +829,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
 
             <button onClick={handlePasswordChange} className="w-full flex items-center justify-between p-5 active:bg-slate-50 transition-colors">
               <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center size-12 rounded-2xl bg-slate-100 text-slate-700">
+                <div className="flex items-center justify-center size-12 rounded-lg bg-slate-100 text-slate-700">
                   <ShieldCheck size={22} />
                 </div>
                 <div className="text-left">
@@ -845,7 +845,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
         <section className="px-6 mt-12 pb-12">
           <button
             onClick={onLogout}
-            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 transition-all active:scale-95 shadow-sm uppercase tracking-widest text-sm"
+            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-5 rounded-lg flex items-center justify-center gap-3 transition-all active:scale-95 shadow-sm uppercase tracking-widest text-sm"
           >
             <LogOut size={20} /> Sair da Conta
           </button>
@@ -910,7 +910,7 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
 
       <main className="flex-1 overflow-y-auto pb-32 pt-8">
         <div className="max-w-6xl mx-auto px-4 space-y-8">
-          <section className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-sm shadow-slate-200">
+          <section className="rounded-xl border border-slate-200/70 bg-white p-6 shadow-sm shadow-slate-200">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
                 <p className="text-[10px] uppercase tracking-[0.28em] text-slate-500 font-semibold">Painel</p>
@@ -928,7 +928,7 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
                 { label: 'Simulados', value: simuladosCount.toString(), trend: '+5%' },
                 { label: 'Saldo Stripe', value: stripeBalance, trend: 'Real-time' }
               ].map((stat) => (
-                <div key={stat.label} className="rounded-3xl border border-slate-200/70 bg-slate-50 p-5 shadow-sm shadow-slate-200/50">
+                <div key={stat.label} className="rounded-xl border border-slate-200/70 bg-slate-50 p-5 shadow-sm shadow-slate-200/50">
                   <p className="text-[10px] uppercase tracking-[0.28em] text-slate-500 font-semibold">{stat.label}</p>
                   <p className="mt-4 text-3xl font-black leading-tight text-slate-900">{stat.value}</p>
                   <div className="mt-3 flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-slate-600 font-semibold">
@@ -940,7 +940,7 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
           </section>
 
           <section className="grid gap-6 xl:grid-cols-[1.5fr_1fr]">
-            <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-sm shadow-slate-200">
+            <div className="rounded-xl border border-slate-200/70 bg-white p-6 shadow-sm shadow-slate-200">
               <div>
                 <p className="text-[10px] uppercase tracking-[0.28em] text-slate-500 font-semibold">Ações</p>
                 <h3 className="mt-3 text-2xl font-black tracking-tight text-slate-900">Principais acessos</h3>
@@ -954,9 +954,9 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
                   <button
                     key={item.label}
                     onClick={item.onClick}
-                    className="flex w-full items-center gap-4 rounded-2xl border border-slate-200/70 bg-slate-50 px-5 py-5 text-left transition duration-200 ease-out hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 active:scale-[0.98]"
+                    className="flex w-full items-center gap-4 rounded-lg border border-slate-200/70 bg-slate-50 px-5 py-5 text-left transition duration-200 ease-out hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 active:scale-[0.98]"
                   >
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl text-white" style={{ backgroundColor: item.color }}>
+                    <div className="flex h-12 w-12 items-center justify-center rounded-lg text-white" style={{ backgroundColor: item.color }}>
                       <item.icon size={22} />
                     </div>
                     <div>
@@ -968,7 +968,7 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
               </div>
             </div>
 
-            <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-sm shadow-slate-200">
+            <div className="rounded-xl border border-slate-200/70 bg-white p-6 shadow-sm shadow-slate-200">
               <div className="flex flex-col gap-3">
                 <p className="text-[10px] uppercase tracking-[0.28em] text-slate-500 font-semibold">Atalhos</p>
                 <h3 className="text-2xl font-black tracking-tight text-slate-900">Navegação rápida</h3>
@@ -984,10 +984,10 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
                   <button
                     key={item.label}
                     onClick={item.onClick}
-                    className="flex w-full flex-col gap-4 rounded-2xl border border-slate-200/70 bg-slate-50 p-5 text-left transition duration-200 ease-out hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 active:scale-[0.98]"
+                    className="flex w-full flex-col gap-4 rounded-lg border border-slate-200/70 bg-slate-50 p-5 text-left transition duration-200 ease-out hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 active:scale-[0.98]"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl text-white" style={{ backgroundColor: item.color }}>
+                      <div className="flex h-14 w-14 items-center justify-center rounded-lg text-white" style={{ backgroundColor: item.color }}>
                         <item.icon size={24} />
                       </div>
                       <div>

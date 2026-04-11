@@ -7,7 +7,7 @@ export default function CheckoutCancel() {
 
     return (
         <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6 text-slate-900 text-center">
-            <div className="size-20 bg-orange-100 text-orange-600 rounded-3xl flex items-center justify-center mb-6 shadow-sm">
+            <div className="size-20 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center mb-6 shadow-sm">
                 <XCircle size={40} />
             </div>
 
@@ -19,7 +19,7 @@ export default function CheckoutCancel() {
             <div className="flex flex-col gap-4 w-full max-w-md">
                 <button
                     onClick={() => navigate('/')}
-                    className="bg-slate-900 text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-sm uppercase tracking-widest text-sm italic"
+                    className="bg-slate-900 text-white font-black py-5 rounded-lg flex items-center justify-center gap-3 active:scale-95 transition-all shadow-sm uppercase tracking-widest text-sm italic"
                 >
                     <ShoppingCart size={18} /> Voltar para Vitrine
                 </button>

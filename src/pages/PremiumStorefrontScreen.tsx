@@ -136,7 +136,7 @@ export const PremiumStorefrontScreen = () => {
 
             <main className="p-4 space-y-8 max-w-5xl mx-auto pt-8 pb-24">
                 {childSimulados.length === 0 ? (
-                    <div className="bg-white p-12 rounded-[2rem] border border-slate-200 text-center shadow-sm">
+                    <div className="bg-white p-12 rounded-xl border border-slate-200 text-center shadow-sm">
                         <p className="text-slate-600 font-bold">Nenhum conteúdo exclusivo encontrado para esta vitrine.</p>
                     </div>
                 ) : (
@@ -152,7 +152,7 @@ export const PremiumStorefrontScreen = () => {
                                     <div
                                         key={simulado.id}
                                         onClick={() => handleBuy(simulado)}
-                                        className="group flex flex-col sm:flex-row bg-white border border-slate-200 rounded-[2rem] overflow-hidden hover:bg-slate-50 transition-colors cursor-pointer shadow-sm active:scale-[0.99] sm:h-48"
+                                        className="group flex flex-col sm:flex-row bg-white border border-slate-200 rounded-xl overflow-hidden hover:bg-slate-50 transition-colors cursor-pointer shadow-sm active:scale-[0.99] sm:h-48"
                                     >
                                         <div className="w-full sm:w-56 h-48 sm:h-full shrink-0 bg-slate-100 relative overflow-hidden">
                                             {simulado.image_url ? (

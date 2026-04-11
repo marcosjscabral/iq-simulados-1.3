@@ -327,7 +327,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
 
         <main className="flex-1 px-5 pt-8 space-y-6 pb-24 max-w-6xl mx-auto">
           {/* Upload Section */}
-          <section className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm overflow-hidden min-h-[220px] flex items-center justify-center group hover:shadow-md transition-all">
+          <section className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm overflow-hidden min-h-[220px] flex items-center justify-center group hover:shadow-md transition-all">
             {imageUrl ? (
               <div className="relative w-full aspect-video rounded-xl overflow-hidden group">
                 <img src={imageUrl} alt="Capa" className="w-full h-full object-cover" />
@@ -365,7 +365,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
           </section>
 
           {/* Image Size Observations */}
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 flex items-start gap-3">
+          <div className="bg-white p-4 rounded-lg border border-slate-200 flex items-start gap-3">
             <AlertCircle size={18} className="text-amber-500 shrink-0 mt-0.5" />
             <div className="text-[11px] leading-relaxed text-slate-600 font-medium">
               <p><strong className="text-slate-900">Obs:</strong> Tamanho ideal para as capas: <span className="text-amber-500 font-bold">800x450px</span>.</p>
@@ -381,7 +381,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-amber-100 font-bold text-slate-900 placeholder:text-slate-400 uppercase italic"
+                className="w-full h-14 bg-slate-50 border border-slate-200 rounded-lg px-5 outline-none focus:ring-2 focus:ring-amber-100 font-bold text-slate-900 placeholder:text-slate-400 uppercase italic"
                 placeholder="Ex: Simulado Completo OAB 2024"
               />
             </div>
@@ -395,7 +395,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                     type="text"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-5 outline-none focus:ring-2 focus:ring-amber-100 font-bold text-slate-900"
+                    className="w-full h-14 bg-slate-50 border border-slate-200 rounded-lg pl-12 pr-5 outline-none focus:ring-2 focus:ring-amber-100 font-bold text-slate-900"
                     placeholder="0,00"
                   />
                 </div>
@@ -406,14 +406,14 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                   type="number"
                   value={questionsCount}
                   onChange={(e) => setQuestionsCount(e.target.value)}
-                  className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-amber-100 font-bold text-slate-900"
+                  className="w-full h-14 bg-slate-50 border border-slate-200 rounded-lg px-5 outline-none focus:ring-2 focus:ring-amber-100 font-bold text-slate-900"
                   placeholder="0"
                 />
               </div>
             </div>
 
             {/* Gerenciar Categorias */}
-            <div className="flex flex-col gap-4 bg-white p-6 rounded-3xl border border-slate-200">
+            <div className="flex flex-col gap-4 bg-white p-6 rounded-xl border border-slate-200">
               <label className="text-xs font-black text-slate-500 uppercase tracking-widest px-1">Gerenciar Categorias</label>
 
               <div className="flex flex-wrap gap-2 mb-2">
@@ -466,7 +466,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
             </div>
 
             {/* Gerenciar Cupons */}
-            <div className="flex flex-col gap-4 bg-white p-6 rounded-3xl border border-slate-200">
+            <div className="flex flex-col gap-4 bg-white p-6 rounded-xl border border-slate-200">
               <label className="text-xs font-black text-slate-500 uppercase tracking-widest px-1">Gerenciar Cupons</label>
 
               {availableCoupons.length === 0 ? (
@@ -498,13 +498,13 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full h-32 bg-slate-50 border border-slate-200 rounded-2xl p-5 outline-none focus:ring-2 focus:ring-amber-100 font-medium resize-none text-slate-900 italic"
+                className="w-full h-32 bg-slate-50 border border-slate-200 rounded-lg p-5 outline-none focus:ring-2 focus:ring-amber-100 font-medium resize-none text-slate-900 italic"
                 placeholder="Breve resumo sobre o conteúdo do simulado..."
               ></textarea>
             </div>
 
             <div className="space-y-3">
-              <div className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-slate-200">
+              <div className="flex items-center justify-between p-5 bg-slate-50 rounded-lg border border-slate-200">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-amber-100 rounded-lg text-amber-600">
                     <Eye size={20} />
@@ -519,7 +519,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                 </button>
               </div>
 
-              <div className="flex items-center justify-between p-5 bg-orange-50 rounded-2xl border border-orange-200">
+              <div className="flex items-center justify-between p-5 bg-orange-50 rounded-lg border border-orange-200">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-orange-100 rounded-lg text-orange-500">
                     <Star size={20} />
@@ -551,7 +551,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
             <button
               onClick={handlePublish}
               disabled={loading}
-              className={`w-full bg-[#ffd700] text-black font-black uppercase tracking-tighter italic h-16 rounded-2xl shadow-xl shadow-yellow-400/20 active:scale-[0.98] transition-all flex items-center justify-center text-lg ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+              className={`w-full bg-[#ffd700] text-black font-black uppercase tracking-tighter italic h-16 rounded-lg shadow-xl shadow-yellow-400/20 active:scale-[0.98] transition-all flex items-center justify-center text-lg ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
             >
               {loading ? (
                 <div className="w-6 h-6 border-4 border-black border-t-transparent rounded-full animate-spin" />
@@ -559,7 +559,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
             </button>
             <button
               onClick={() => navigate('/admin/list')}
-              className="w-full bg-slate-50 text-slate-500 font-black h-16 rounded-2xl uppercase italic tracking-tighter active:scale-95 transition-all border border-slate-200"
+              className="w-full bg-slate-50 text-slate-500 font-black h-16 rounded-lg uppercase italic tracking-tighter active:scale-95 transition-all border border-slate-200"
             >
               Cancelar Edição
             </button>
@@ -580,7 +580,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="relative bg-white w-full max-w-sm rounded-[2rem] overflow-hidden shadow-2xl border border-slate-200"
+                className="relative bg-white w-full max-w-sm rounded-xl overflow-hidden shadow-2xl border border-slate-200"
               >
                 <div className="bg-red-50 p-8 flex flex-col items-center text-center">
                   <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-red-500/30 animate-pulse">
@@ -596,7 +596,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                   <button
                     onClick={handleConfirmDelete}
                     disabled={isDeletingGlobal}
-                    className="w-full h-14 bg-red-500 text-white rounded-2xl font-black text-lg shadow-lg shadow-red-500/20 active:scale-95 transition-all flex items-center justify-center gap-2"
+                    className="w-full h-14 bg-red-500 text-white rounded-lg font-black text-lg shadow-lg shadow-red-500/20 active:scale-95 transition-all flex items-center justify-center gap-2"
                   >
                     {isDeletingGlobal ? (
                       <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -610,7 +610,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                   <button
                     onClick={() => setIsDeleteDialogOpen(false)}
                     disabled={isDeletingGlobal}
-                    className="w-full h-14 bg-slate-100 text-slate-600 rounded-2xl font-bold active:scale-95 transition-all"
+                    className="w-full h-14 bg-slate-100 text-slate-600 rounded-lg font-bold active:scale-95 transition-all"
                   >
                     Cancelar
                   </button>

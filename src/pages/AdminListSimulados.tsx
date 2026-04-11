@@ -112,7 +112,7 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
                     <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto max-w-6xl">
                         <button
                             onClick={() => navigate('/admin')}
-                            className="size-10 flex items-center justify-center rounded-2xl bg-slate-100 p-2 text-slate-900 shadow-sm hover:bg-slate-200 transition-all"
+                            className="size-10 flex items-center justify-center rounded-lg bg-slate-100 p-2 text-slate-900 shadow-sm hover:bg-slate-200 transition-all"
                         >
                             <ArrowLeft size={24} />
                         </button>
@@ -169,9 +169,9 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
                             {filteredSimulados.map((sim) => (
                                 <div
                                     key={sim.id}
-                                    className="bg-white p-4 rounded-[2rem] border border-slate-200 shadow-sm flex items-center gap-4 group"
+                                    className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4 group"
                                 >
-                                    <div className="size-16 shrink-0 rounded-2xl bg-slate-900 overflow-hidden border border-white/5">
+                                    <div className="size-16 shrink-0 rounded-lg bg-slate-900 overflow-hidden border border-white/5">
                                         {sim.image_url ? (
                                             <img src={sim.image_url} alt={sim.title} className="w-full h-full object-cover" />
                                         ) : (

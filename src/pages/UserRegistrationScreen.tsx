@@ -155,7 +155,7 @@ export const UserRegistrationScreen = () => {
         <div className="bg-slate-50 min-h-screen flex flex-col font-sans text-slate-900">
             <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
                 <div className="flex items-center gap-4 p-4 pt-12 max-w-6xl mx-auto">
-                    <button onClick={() => navigate('/admin')} className="size-10 flex items-center justify-center rounded-2xl bg-slate-100 p-2 text-slate-900 shadow-sm hover:bg-slate-200 transition">
+                    <button onClick={() => navigate('/admin')} className="size-10 flex items-center justify-center rounded-lg bg-slate-100 p-2 text-slate-900 shadow-sm hover:bg-slate-200 transition">
                         <ArrowLeft size={24} />
                     </button>
                     <div className="flex-1 text-center">
@@ -176,7 +176,7 @@ export const UserRegistrationScreen = () => {
                         placeholder="Buscar por e-mail..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="w-full bg-white border border-slate-200 rounded-2xl h-12 pl-12 pr-4 outline-none focus:ring-2 focus:ring-slate-300 text-sm text-slate-900 placeholder:text-slate-400 font-medium shadow-sm"
+                        className="w-full bg-white border border-slate-200 rounded-lg h-12 pl-12 pr-4 outline-none focus:ring-2 focus:ring-slate-300 text-sm text-slate-900 placeholder:text-slate-400 font-medium shadow-sm"
                     />
                 </div>
 
@@ -188,13 +188,13 @@ export const UserRegistrationScreen = () => {
                 ) : (
                     <div className="space-y-4">
                         {filteredUsers.length === 0 ? (
-                            <div className="text-center py-10 bg-white rounded-[2rem] border border-slate-200 shadow-sm">
+                            <div className="text-center py-10 bg-white rounded-xl border border-slate-200 shadow-sm">
                                 <Users size={32} className="mx-auto text-slate-500 mb-2" />
                                 <p className="text-slate-500 font-bold text-sm">Nenhum usuário encontrado.</p>
                             </div>
                         ) : (
                             filteredUsers.map(user => (
-                                <div key={user.id} className="bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden">
+                                <div key={user.id} className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                                     <div
                                         onClick={() => toggleUserExpand(user.id)}
                                         className="p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors"
@@ -230,7 +230,7 @@ export const UserRegistrationScreen = () => {
                                                     <select
                                                         value={selectedSimuladoId}
                                                         onChange={(e) => setSelectedSimuladoId(e.target.value)}
-                                                        className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-slate-300 text-sm text-slate-900 shadow-sm"
+                                                        className="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-slate-300 text-sm text-slate-900 shadow-sm"
                                                     >
                                                         <option value="">Selecione um simulado...</option>
                                                         {simulados.map(sim => (
@@ -240,7 +240,7 @@ export const UserRegistrationScreen = () => {
                                                     <button
                                                         onClick={() => grantAccess(user.id)}
                                                         disabled={loadingAccess === user.id}
-                                                        className="bg-slate-900 hover:bg-slate-800 text-white px-4 rounded-2xl font-bold flex items-center justify-center transition shadow-sm disabled:opacity-50"
+                                                        className="bg-slate-900 hover:bg-slate-800 text-white px-4 rounded-lg font-bold flex items-center justify-center transition shadow-sm disabled:opacity-50"
                                                     >
                                                         {loadingAccess === user.id ? <Loader2 size={18} className="animate-spin" /> : <Plus size={20} />}
                                                     </button>
@@ -258,7 +258,7 @@ export const UserRegistrationScreen = () => {
                                                             <p className="text-sm text-slate-500 italic py-2">Sem simulados vinculados.</p>
                                                         ) : (
                                                             userAccesses[user.id].map(access => (
-                                                                <div key={access.id} className="flex items-center justify-between bg-white rounded-2xl border border-slate-200 p-3">
+                                                                <div key={access.id} className="flex items-center justify-between bg-white rounded-lg border border-slate-200 p-3">
                                                                     <div className="flex items-center gap-2 overflow-hidden">
                                                                         <ShieldCheck size={16} className="text-emerald-500 shrink-0" />
                                                                         <span className="text-sm font-bold truncate pr-2" title={access.simulados?.title}>

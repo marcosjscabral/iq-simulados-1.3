@@ -137,7 +137,7 @@ export default function AdminCoupons() {
                         placeholder="Buscar cupons..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full bg-white border border-slate-200 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold text-slate-900 focus:outline-none focus:border-amber-300 focus:ring-2 focus:ring-amber-100 transition-all"
+                        className="w-full bg-white border border-slate-200 rounded-lg py-4 pl-12 pr-4 text-sm font-bold text-slate-900 focus:outline-none focus:border-amber-300 focus:ring-2 focus:ring-amber-100 transition-all"
                     />
                 </div>
 
@@ -148,7 +148,7 @@ export default function AdminCoupons() {
                         <p className="text-[10px] font-black uppercase tracking-widest">Carregando Cupons...</p>
                     </div>
                 ) : filteredCoupons.length === 0 ? (
-                    <div className="bg-white rounded-[2.5rem] p-12 text-center border border-slate-200 shadow-sm">
+                    <div className="bg-white rounded-xl p-12 text-center border border-slate-200 shadow-sm">
                         <Ticket size={48} className="mx-auto mb-4 text-slate-700" />
                         <p className="text-slate-500 font-bold text-sm">Nenhum cupom encontrado.</p>
                     </div>
@@ -157,10 +157,10 @@ export default function AdminCoupons() {
                         {filteredCoupons.map((coupon) => (
                             <div
                                 key={coupon.id}
-                                className="bg-white rounded-3xl p-6 border border-slate-200 flex items-center justify-between group hover:bg-slate-50 transition-all shadow-sm"
+                                className="bg-white rounded-xl p-6 border border-slate-200 flex items-center justify-between group hover:bg-slate-50 transition-all shadow-sm"
                             >
                                 <div className="flex items-center gap-5">
-                                    <div className="size-14 rounded-2xl bg-[#ffd700] flex items-center justify-center text-black shrink-0 shadow-lg">
+                                    <div className="size-14 rounded-lg bg-[#ffd700] flex items-center justify-center text-black shrink-0 shadow-lg">
                                         <Ticket size={28} />
                                     </div>
                                     <div>
@@ -200,7 +200,7 @@ export default function AdminCoupons() {
             {showCreate && (
                 <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
                     <div
-                        className="w-full max-w-xl bg-white rounded-[2.5rem] border border-slate-200 shadow-2xl p-8 slide-in-from-bottom duration-500"
+                        className="w-full max-w-xl bg-white rounded-xl border border-slate-200 shadow-2xl p-8 slide-in-from-bottom duration-500"
                     >
                         <div className="flex justify-between items-center mb-8">
                             <div>
@@ -221,7 +221,7 @@ export default function AdminCoupons() {
                                     placeholder="Ex: LANÇAMENTO 2024"
                                     value={newName}
                                     onChange={(e) => setNewName(e.target.value.toUpperCase())}
-                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-bold text-slate-900 focus:border-amber-300 focus:ring-2 focus:ring-amber-100 outline-none transition-all"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm font-bold text-slate-900 focus:border-amber-300 focus:ring-2 focus:ring-amber-100 outline-none transition-all"
                                 />
                             </div>
 
@@ -231,14 +231,14 @@ export default function AdminCoupons() {
                                     <button
                                         type="button"
                                         onClick={() => setDiscountType('percent')}
-                                        className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl border transition-all ${discountType === 'percent' ? 'bg-[#ffd700] text-black border-[#ffd700]' : 'bg-slate-50 text-slate-500 border-slate-200 hover:border-amber-300 hover:bg-amber-50'}`}
+                                        className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-lg border transition-all ${discountType === 'percent' ? 'bg-[#ffd700] text-black border-[#ffd700]' : 'bg-slate-50 text-slate-500 border-slate-200 hover:border-amber-300 hover:bg-amber-50'}`}
                                     >
                                         <Percent size={18} /> % Porcento
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => setDiscountType('amount')}
-                                        className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl border transition-all ${discountType === 'amount' ? 'bg-blue-600 text-white border-blue-600' : 'bg-slate-50 text-slate-500 border-slate-200 hover:border-amber-300 hover:bg-amber-50'}`}
+                                        className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-lg border transition-all ${discountType === 'amount' ? 'bg-blue-600 text-white border-blue-600' : 'bg-slate-50 text-slate-500 border-slate-200 hover:border-amber-300 hover:bg-amber-50'}`}
                                     >
                                         <DollarSign size={18} /> R$ Fixo
                                     </button>
@@ -253,14 +253,14 @@ export default function AdminCoupons() {
                                     placeholder={discountType === 'percent' ? "20 (%)" : "15,00 (R$)"}
                                     value={discountValue}
                                     onChange={(e) => setDiscountValue(e.target.value)}
-                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-bold text-slate-900 focus:border-amber-300 focus:ring-2 focus:ring-amber-100 outline-none transition-all"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm font-bold text-slate-900 focus:border-amber-300 focus:ring-2 focus:ring-amber-100 outline-none transition-all"
                                 />
                             </div>
 
                             <div className="pt-4">
                                 <button
                                     disabled={creating}
-                                    className="w-full bg-amber-400 text-slate-900 font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-xl shadow-amber-400/20 uppercase tracking-widest text-sm italic"
+                                    className="w-full bg-amber-400 text-slate-900 font-black py-5 rounded-lg flex items-center justify-center gap-3 active:scale-95 transition-all shadow-xl shadow-amber-400/20 uppercase tracking-widest text-sm italic"
                                 >
                                     {creating ? (
                                         <div className="size-5 border-2 border-black border-t-transparent rounded-full animate-spin" />

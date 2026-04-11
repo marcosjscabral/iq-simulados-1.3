@@ -35,7 +35,7 @@ export const StripeToggle: React.FC = () => {
     if (loading) return null;
 
     return (
-        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-xl flex items-center justify-between mb-6">
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xl flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
                 <div className={`p-2.5 rounded-xl ${isEnabled ? 'bg-emerald-500/10 text-emerald-500' : 'bg-slate-100 text-slate-500'}`}>
                     <CreditCard size={20} />

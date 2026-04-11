@@ -164,7 +164,7 @@ export const AdminQuestoesScreen = () => {
             <main className="p-4 w-full mx-auto max-w-6xl pb-24 space-y-8">
 
                 {/* Simulado Selector */}
-                <section className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+                <section className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
                     <label className="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 px-1">Selecione o Simulado Alvo</label>
                     <div className="relative">
                         <select
@@ -186,7 +186,7 @@ export const AdminQuestoesScreen = () => {
                 {selectedSimuladoId && (
                     <>
                         {/* Form */}
-                        <section className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                        <section className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="size-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
                                     <Edit2 size={24} />
@@ -272,12 +272,12 @@ export const AdminQuestoesScreen = () => {
 
                             <div className="space-y-3">
                                 {questoes.length === 0 ? (
-                                    <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center text-slate-500 text-sm font-bold shadow-sm">
+                                    <div className="bg-white border border-slate-200 rounded-lg p-8 text-center text-slate-500 text-sm font-bold shadow-sm">
                                         Nenhuma questão cadastrada neste simulado ainda.
                                     </div>
                                 ) : (
                                     questoes.map((q, index) => (
-                                        <div key={q.id} className="bg-white border border-slate-200 rounded-2xl p-4 flex gap-4 shadow-sm">
+                                        <div key={q.id} className="bg-white border border-slate-200 rounded-lg p-4 flex gap-4 shadow-sm">
                                             <div className="size-10 rounded-lg bg-slate-900 border border-slate-900 flex items-center justify-center font-black text-amber-400 shrink-0">
                                                 {index + 1}
                                             </div>

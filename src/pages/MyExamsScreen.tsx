@@ -70,7 +70,7 @@ export const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
                         <Loader2 size={40} className="text-slate-900 animate-spin" />
                     </div>
                 ) : purchasedExams.length === 0 ? (
-                    <div className="bg-white p-12 rounded-[2rem] border border-slate-200 text-center shadow-sm">
+                    <div className="bg-white p-12 rounded-xl border border-slate-200 text-center shadow-sm">
                         <Rocket size={40} className="mx-auto text-slate-700 mb-4" />
                         <p className="text-slate-700 font-semibold">Você ainda não possui simulados vinculados à sua conta.</p>
                         <button
@@ -90,7 +90,7 @@ export const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
                                 <div
                                     key={item.id}
                                     onClick={() => navigate(isParent ? `/premium/${simulado.id}` : `/exam/${simulado.id}`)}
-                                    className="group flex flex-col sm:flex-row bg-white border border-slate-200 rounded-[2rem] overflow-hidden transition-all cursor-pointer shadow-sm hover:bg-slate-50 active:scale-[0.99] sm:h-48"
+                                    className="group flex flex-col sm:flex-row bg-white border border-slate-200 rounded-xl overflow-hidden transition-all cursor-pointer shadow-sm hover:bg-slate-50 active:scale-[0.99] sm:h-48"
                                 >
                                     <div className="w-full sm:w-56 h-48 sm:h-full shrink-0 bg-slate-100 relative overflow-hidden">
                                         {simulado.image_url ? (

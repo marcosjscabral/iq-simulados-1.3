@@ -89,15 +89,15 @@ export const PurchaseHistoryScreen = () => {
                         <Loader2 size={40} className="text-slate-900 animate-spin" />
                     </div>
                 ) : purchases.length === 0 ? (
-                    <div className="bg-white p-12 rounded-[2rem] border border-slate-200 text-center shadow-sm">
-                        <div className="size-20 bg-slate-100 rounded-3xl flex items-center justify-center text-slate-600 mx-auto mb-6">
+                    <div className="bg-white p-12 rounded-xl border border-slate-200 text-center shadow-sm">
+                        <div className="size-20 bg-slate-100 rounded-xl flex items-center justify-center text-slate-600 mx-auto mb-6">
                             <ShoppingBag size={40} />
                         </div>
                         <h2 className="text-xl font-black italic mb-2 text-slate-900">SEM PEDIDOS</h2>
                         <p className="text-slate-500 text-sm mb-8 uppercase font-bold tracking-widest">Você ainda não realizou nenhuma compra.</p>
                         <button
                             onClick={() => navigate('/')}
-                            className="bg-slate-900 text-white px-10 py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-sm active:scale-95 transition-all"
+                            className="bg-slate-900 text-white px-10 py-4 rounded-lg font-black uppercase text-xs tracking-widest shadow-sm active:scale-95 transition-all"
                         >
                             Explorar Simulados
                         </button>
@@ -107,7 +107,7 @@ export const PurchaseHistoryScreen = () => {
                         {purchases.map((purchase) => (
                             <div
                                 key={purchase.id}
-                                className="group flex flex-col sm:flex-row bg-white border border-slate-200 rounded-[2rem] overflow-hidden hover:bg-slate-50 transition-colors shadow-sm"
+                                className="group flex flex-col sm:flex-row bg-white border border-slate-200 rounded-xl overflow-hidden hover:bg-slate-50 transition-colors shadow-sm"
                             >
                                 <div className="w-full sm:w-48 h-32 sm:h-auto shrink-0 bg-slate-100 relative overflow-hidden">
                                     {purchase.simulados?.image_url ? (

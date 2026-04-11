@@ -103,10 +103,10 @@ export const ExamExecutionScreen = () => {
     if (!simulado || questoes.length === 0) {
         return (
             <div className="bg-slate-50 min-h-screen flex flex-col items-center justify-center text-slate-900 p-6 text-center">
-                <div className="bg-white rounded-3xl p-10 shadow-sm border border-slate-200 max-w-md w-full">
+                <div className="bg-white rounded-xl p-10 shadow-sm border border-slate-200 max-w-md w-full">
                     <h2 className="text-2xl font-black mb-4">Módulo Vazio</h2>
                     <p className="text-slate-600">Este simulado ainda não possui questões cadastradas.</p>
-                    <button onClick={() => navigate(-1)} className="mt-8 bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold transition hover:bg-slate-800">
+                    <button onClick={() => navigate(-1)} className="mt-8 bg-slate-900 text-white px-6 py-3 rounded-lg font-bold transition hover:bg-slate-800">
                         Voltar
                     </button>
                 </div>
@@ -139,20 +139,20 @@ export const ExamExecutionScreen = () => {
 
                 <main className="flex-1 px-4 py-10 flex flex-col items-center w-full mx-auto">
                     <div className="grid gap-6 w-full max-w-4xl sm:grid-cols-[1fr_1fr] mb-8">
-                        <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm flex flex-col items-center justify-center">
+                        <div className="rounded-xl border border-slate-200 bg-white p-8 shadow-sm flex flex-col items-center justify-center">
                             <div className="rounded-full bg-emerald-100 text-emerald-700 w-[120px] h-[120px] grid place-items-center shadow-sm">
                                 <span className="text-4xl font-black italic">{scorePercentage.toFixed(0)}%</span>
                             </div>
                             <span className="mt-4 text-sm uppercase tracking-[0.2em] text-slate-500">Acertos</span>
                         </div>
-                        <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm flex flex-col items-center justify-center">
+                        <div className="rounded-xl border border-slate-200 bg-white p-8 shadow-sm flex flex-col items-center justify-center">
                             <Clock size={32} className="text-slate-900 mb-3" />
                             <span className="text-2xl font-black text-slate-900">{formatTime(timeSpent)}</span>
                             <span className="mt-2 text-sm text-slate-500 uppercase tracking-[0.2em]">Tempo</span>
                         </div>
                     </div>
 
-                    <div className="w-full max-w-2xl bg-white rounded-[2rem] border border-slate-200 p-8 shadow-sm text-center mb-8">
+                    <div className="w-full max-w-2xl bg-white rounded-xl border border-slate-200 p-8 shadow-sm text-center mb-8">
                         <p className="font-bold text-lg text-slate-900">Resumo do Desempenho</p>
                         <p className="text-slate-600 mt-2">Você acertou <span className="font-black text-slate-900">{correctCount}</span> de <span className="font-black text-slate-900">{questoes.length}</span> questões.</p>
                     </div>
@@ -163,13 +163,13 @@ export const ExamExecutionScreen = () => {
                                 setIsReviewing(true);
                                 setCurrentQuestionIndex(0);
                             }}
-                            className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black uppercase tracking-widest text-sm shadow-sm hover:bg-slate-800 transition"
+                            className="w-full bg-slate-900 text-white py-4 rounded-lg font-black uppercase tracking-widest text-sm shadow-sm hover:bg-slate-800 transition"
                         >
                             <ListChecks size={20} className="inline-block mr-2" /> Ver Gabarito Comentado
                         </button>
                         <button
                             onClick={() => navigate('/my-exams')}
-                            className="w-full bg-white text-slate-900 py-4 rounded-2xl font-black uppercase tracking-widest text-sm border border-slate-200 shadow-sm hover:bg-slate-50 transition"
+                            className="w-full bg-white text-slate-900 py-4 rounded-lg font-black uppercase tracking-widest text-sm border border-slate-200 shadow-sm hover:bg-slate-50 transition"
                         >
                             <ArrowLeft size={20} className="inline-block mr-2" /> Meus Simulados
                         </button>
@@ -186,7 +186,7 @@ export const ExamExecutionScreen = () => {
         <div className="bg-slate-50 min-h-screen flex flex-col text-slate-900 font-display">
             <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
                 <div className="flex items-center justify-between gap-4 p-4 pt-12 max-w-6xl mx-auto">
-                    <button onClick={() => navigate('/my-exams')} className="size-10 flex items-center justify-center rounded-2xl bg-slate-100 p-2 text-slate-900 shadow-sm hover:bg-slate-200 transition">
+                    <button onClick={() => navigate('/my-exams')} className="size-10 flex items-center justify-center rounded-lg bg-slate-100 p-2 text-slate-900 shadow-sm hover:bg-slate-200 transition">
                         <ArrowLeft size={24} />
                     </button>
                     <div className="flex-1 text-center">
@@ -203,7 +203,7 @@ export const ExamExecutionScreen = () => {
             <main className="flex-1 p-4 pb-28 max-w-6xl mx-auto space-y-8">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="size-12 rounded-2xl bg-white border border-slate-200 shadow-sm grid place-items-center">
+                        <div className="size-12 rounded-lg bg-white border border-slate-200 shadow-sm grid place-items-center">
                             <span className="text-slate-900 font-black text-xl">{currentQuestionIndex + 1}</span>
                         </div>
                         <div>
@@ -213,7 +213,7 @@ export const ExamExecutionScreen = () => {
                     </div>
                     <button
                         onClick={() => setShowTimer(!showTimer)}
-                        className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-600 shadow-sm hover:bg-slate-50 transition"
+                        className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-600 shadow-sm hover:bg-slate-50 transition"
                     >
                         {showTimer ? (
                             <>
@@ -235,7 +235,7 @@ export const ExamExecutionScreen = () => {
                     </button>
                 </div>
 
-                <div className="bg-white rounded-[2rem] border border-slate-200 shadow-sm p-6">
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
                     <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-xs font-black uppercase tracking-[0.3em] text-slate-500">
                         Enunciado
                     </div>
@@ -277,10 +277,10 @@ export const ExamExecutionScreen = () => {
                                 key={opt.id}
                                 type="button"
                                 onClick={() => !isReviewing && handleSelectOption(opt.id as any)}
-                                className={`w-full rounded-3xl border p-4 text-left transition-all ${styles} ${!isReviewing ? 'hover:shadow-sm active:scale-[0.98]' : ''}`}
+                                className={`w-full rounded-xl border p-4 text-left transition-all ${styles} ${!isReviewing ? 'hover:shadow-sm active:scale-[0.98]' : ''}`}
                             >
                                 <div className="flex items-center gap-4">
-                                    <div className={`size-10 flex h-10 w-10 items-center justify-center rounded-2xl border ${idBadgeStyles} font-black`}>{opt.id}</div>
+                                    <div className={`size-10 flex h-10 w-10 items-center justify-center rounded-lg border ${idBadgeStyles} font-black`}>{opt.id}</div>
                                     <p className="text-base font-medium leading-relaxed">{opt.text}</p>
                                 </div>
                                 {isReviewing && isCorrect && (
@@ -294,7 +294,7 @@ export const ExamExecutionScreen = () => {
                 </div>
 
                 {isReviewing && (
-                    <div className="bg-white rounded-[2rem] border border-slate-200 shadow-sm p-6 mt-8">
+                    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 mt-8">
                         <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-xs font-black uppercase tracking-[0.25em] text-slate-500">
                             Comentário
                         </div>
@@ -312,13 +312,13 @@ export const ExamExecutionScreen = () => {
                     <button
                         onClick={handlePrev}
                         disabled={currentQuestionIndex === 0}
-                        className={`w-full rounded-2xl border py-4 font-black uppercase tracking-widest text-sm transition ${currentQuestionIndex === 0 ? 'border-slate-200 text-slate-400 bg-slate-100 cursor-not-allowed' : 'border-slate-300 text-slate-900 bg-white hover:bg-slate-50'}`}
+                        className={`w-full rounded-lg border py-4 font-black uppercase tracking-widest text-sm transition ${currentQuestionIndex === 0 ? 'border-slate-200 text-slate-400 bg-slate-100 cursor-not-allowed' : 'border-slate-300 text-slate-900 bg-white hover:bg-slate-50'}`}
                     >
                         <ArrowLeft size={18} className="inline-block mr-2" /> Anterior
                     </button>
                     <button
                         onClick={handleNext}
-                        className={`w-full rounded-2xl py-4 font-black uppercase tracking-widest text-sm transition ${currentQuestionIndex === questoes.length - 1 ? (isReviewing ? 'bg-slate-900 text-white hover:bg-slate-800' : 'bg-slate-900 text-white hover:bg-slate-800') : 'bg-blue-600 text-white hover:bg-blue-700'}`}
+                        className={`w-full rounded-lg py-4 font-black uppercase tracking-widest text-sm transition ${currentQuestionIndex === questoes.length - 1 ? (isReviewing ? 'bg-slate-900 text-white hover:bg-slate-800' : 'bg-slate-900 text-white hover:bg-slate-800') : 'bg-blue-600 text-white hover:bg-blue-700'}`}
                     >
                         {currentQuestionIndex === questoes.length - 1 ? (isReviewing ? 'Resultado' : 'Finalizar') : 'Próxima'}
                         {currentQuestionIndex !== questoes.length - 1 && <ArrowRight size={18} className="inline-block ml-2" />}
