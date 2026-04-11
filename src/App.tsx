@@ -157,19 +157,19 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
   );
 
   return (
-    <div className="bg-[#181a17] min-h-screen pb-24 text-white font-sans selection:bg-[#f3ec05] selection:text-black">
+    <div className="bg-slate-50 min-h-screen pb-24 text-slate-900 font-sans selection:bg-slate-200 selection:text-slate-900">
       {/* HEADER */}
-      <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
+      <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
         <div className="flex items-center p-4 justify-between pt-12 max-w-5xl mx-auto">
-          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
+          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30">
             <Menu size={24} />
           </button>
           <div className="flex flex-col items-center">
-            <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">Vitrine de Simulados</h1>
-            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Plataforma IQ</p>
+            <h1 className="text-xl font-black leading-tight text-slate-900 italic uppercase tracking-tighter">Vitrine de Simulados</h1>
+            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Plataforma IQ</p>
           </div>
-          <div className="size-10 flex items-center justify-end text-black">
-            <button onClick={() => navigate(isAdmin ? '/admin' : '/profile')} className="rounded-full bg-black/10 p-2 text-black active:scale-95 transition-transform">
+          <div className="size-10 flex items-center justify-end text-slate-900">
+            <button onClick={() => navigate(isAdmin ? '/admin' : '/profile')} className="rounded-full bg-slate-100 p-2 text-slate-900 active:scale-95 transition-transform shadow-sm border border-slate-200">
               {isAdmin ? <Settings size={20} /> : <User size={20} />}
             </button>
           </div>
@@ -177,15 +177,15 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
       </header>
 
       {/* CATEGORIES */}
-      <div className="bg-[#181a17] py-4 border-b border-[#2b2d26] shadow-sm mb-6">
+      <div className="bg-white py-4 border-b border-slate-200 shadow-sm mb-6">
         <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1 px-4 max-w-5xl mx-auto">
           {categories.map(cat => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
               className={`flex-shrink-0 px-6 py-1.5 rounded-full text-[13px] font-bold transition-all border ${selectedCategory === cat
-                ? 'bg-[#f3ec05] text-black border-[#f3ec05] shadow-[0_2px_10px_rgba(243,236,5,0.2)]'
-                : 'bg-[#2b2d26] text-slate-300 border-[#3c3d35] hover:border-white/20'
+                ? 'bg-slate-900 text-white border-slate-900 shadow-[0_2px_10px_rgba(15,23,42,0.08)]'
+                : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'
                 }`}
             >
               {cat}
@@ -200,7 +200,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
           <section>
             <div className="flex items-center gap-2.5 mb-5 px-1">
               <Flame size={22} className="text-[#f15a24]" strokeWidth={2.5} />
-              <h2 className="text-[19px] font-black text-white tracking-tight">
+              <h2 className="text-[19px] font-black text-slate-900 tracking-tight">
                 Destaques da Semana
               </h2>
             </div>
@@ -216,29 +216,29 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                   handleBuy(featuredSimulado);
                 }
               }}
-              className="group relative flex flex-col sm:flex-row w-full rounded-[2.5rem] overflow-hidden cursor-pointer border-2 border-[#f15a24] bg-[#20221e] shadow-2xl flex flex-col transition-all active:scale-[0.99] hover:bg-[#252822]"
+              className="group relative flex flex-col sm:flex-row w-full rounded-[2rem] overflow-hidden cursor-pointer border border-slate-200 bg-white shadow-sm transition-all active:scale-[0.99] hover:bg-slate-50"
             >
-              <div className="relative h-56 sm:h-auto sm:w-80 shrink-0 bg-[#a3c2b8] overflow-hidden">
+              <div className="relative h-56 sm:h-auto sm:w-80 shrink-0 bg-slate-100 overflow-hidden">
                 {/* Banner */}
                 {featuredSimulado.featured_label && (
-                  <span className="absolute top-6 left-6 z-10 px-3 py-1.5 bg-[#f15a24] text-white text-[10px] font-black uppercase tracking-wider rounded-full shadow-lg">
+                  <span className="absolute top-6 left-6 z-10 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-black uppercase tracking-wider rounded-full shadow-md">
                     {featuredSimulado.featured_label}
                   </span>
                 )}
                 {featuredSimulado.image_url ? (
                   <img src={featuredSimulado.image_url} alt={featuredSimulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-black/10 italic font-black text-3xl">IQ</div>
+                  <div className="w-full h-full flex items-center justify-center text-slate-400 italic font-black text-3xl">IQ</div>
                 )}
               </div>
 
               <div className="p-8 sm:p-10 flex flex-col justify-between flex-1">
                 <div>
                   <div className="flex justify-between items-start gap-4 mb-2">
-                    <h3 className="text-2xl font-black text-white leading-tight uppercase tracking-tight">{featuredSimulado.title}</h3>
+                    <h3 className="text-2xl font-black text-slate-900 leading-tight uppercase tracking-tight">{featuredSimulado.title}</h3>
                   </div>
 
-                  <p className="text-[#64748b] text-sm font-semibold leading-relaxed mb-6 line-clamp-3 uppercase">
+                  <p className="text-slate-600 text-sm font-medium leading-relaxed mb-6 line-clamp-3 uppercase">
                     {featuredSimulado.description || 'Descrição não informada.'}
                   </p>
 
@@ -251,7 +251,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 
                 <div className="flex items-center justify-between mt-auto">
                   <div className="flex items-center gap-1">
-                    <span className="text-3xl sm:text-4xl font-black italic text-[#f3ec05] tracking-tighter">
+                    <span className="text-3xl sm:text-4xl font-black italic text-slate-900 tracking-tighter">
                       R$ {formatPrice(featuredSimulado.price)}
                     </span>
                   </div>
@@ -261,7 +261,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                       e.stopPropagation();
                       handleBuy(featuredSimulado);
                     }}
-                    className={`px-10 py-4 ${ownedIds.includes(featuredSimulado.id) ? 'bg-emerald-600 shadow-emerald-600/20' : 'bg-[#2c73eb] shadow-blue-600/20'} text-white rounded-2xl text-[13px] font-black uppercase tracking-widest flex items-center justify-center gap-2.5 hover:opacity-90 transition-all shadow-xl active:scale-95`}
+                    className={`px-10 py-4 ${ownedIds.includes(featuredSimulado.id) ? 'bg-emerald-600 shadow-emerald-600/20' : 'bg-slate-900 shadow-slate-900/20'} text-white rounded-2xl text-[13px] font-black uppercase tracking-widest flex items-center justify-center gap-2.5 hover:opacity-90 transition-all shadow-xl active:scale-95`}
                   >
                     {buyingId === featuredSimulado.id ? (
                       <div className="size-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -279,10 +279,10 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 
         {/* Simulados Disponíveis */}
         <section className="pb-8">
-          <h2 className="text-[19px] font-black text-white mb-5 px-1 tracking-tight">Simulados Disponíveis</h2>
+          <h2 className="text-[19px] font-black text-slate-900 mb-5 px-1 tracking-tight">Simulados Disponíveis</h2>
           {filteredSimulados.length === 0 ? (
-            <div className="p-8 text-center bg-[#272a24] rounded-[2.5rem] border border-[#3c3d35]">
-              <p className="text-slate-400 font-bold text-sm">Nenhum simulado disponível nesta categoria.</p>
+            <div className="p-8 text-center bg-white rounded-[2rem] border border-slate-200 shadow-sm">
+              <p className="text-slate-600 font-semibold text-sm">Nenhum simulado disponível nesta categoria.</p>
             </div>
           ) : (
             <div className="flex flex-col gap-6">
@@ -300,19 +300,19 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                         handleBuy(simulado);
                       }
                     }}
-                    className="group flex flex-col sm:flex-row bg-[#20221e] border border-white/5 rounded-[2rem] overflow-hidden hover:bg-[#252822] transition-colors cursor-pointer shadow-lg active:scale-[0.99] sm:h-48"
+                    className="group flex flex-col sm:flex-row bg-white border border-slate-200 rounded-[2rem] overflow-hidden hover:bg-slate-50 transition-colors cursor-pointer shadow-sm active:scale-[0.99] sm:h-48"
                   >
-                    <div className="w-full sm:w-56 h-48 sm:h-full shrink-0 bg-[#2a4e4d] relative overflow-hidden">
+                    <div className="w-full sm:w-56 h-48 sm:h-full shrink-0 bg-slate-100 relative overflow-hidden">
                       {simulado.image_url ? (
                         <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-white/20 italic font-black text-2xl">IQ</div>
+                        <div className="w-full h-full flex items-center justify-center text-slate-400 italic font-black text-2xl">IQ</div>
                       )}
                     </div>
                     <div className="p-6 flex flex-col justify-between flex-1">
                       <div>
-                        <h3 className="text-lg font-black text-white leading-tight mb-2 uppercase tracking-tight">{simulado.title}</h3>
-                        <p className="text-[#64748b] text-xs font-semibold line-clamp-2 mb-4 leading-relaxed uppercase pr-4">{simulado.description}</p>
+                        <h3 className="text-lg font-black text-slate-900 leading-tight mb-2 uppercase tracking-tight">{simulado.title}</h3>
+                        <p className="text-slate-600 text-sm font-medium line-clamp-2 mb-4 leading-relaxed uppercase pr-4">{simulado.description}</p>
                         <div className="flex flex-wrap items-center gap-4 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">
                           {simulado.questions_count > 0 && (
                             <span>{simulado.questions_count} Questões Objetivas</span>
@@ -321,7 +321,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                       </div>
                       <div className="flex items-center justify-between mt-auto">
                         <div className="flex items-center gap-1">
-                          <span className="text-2xl font-black italic text-[#f3ec05] tracking-tighter">
+                          <span className="text-2xl font-black italic text-slate-900 tracking-tighter">
                             R$ {formatPrice(simulado.price)}
                           </span>
                         </div>
@@ -331,8 +331,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                             e.stopPropagation();
                             handleBuy(simulado);
                           }}
-                          className={`px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all shadow-lg active:scale-95 flex items-center gap-2
-                              ${isOwned ? 'bg-emerald-600' : 'bg-[#2c73eb]'} text-white`}
+                          className="px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all shadow-sm active:scale-95 flex items-center gap-2 bg-slate-900 text-white"
                         >
                           {buyingId === simulado.id ? (
                             <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -358,25 +357,25 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
 
 
 const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: any) => void }) => (
-  <div className="bg-[#181a17] min-h-screen flex flex-col text-white">
-    <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
+  <div className="bg-slate-50 min-h-screen flex flex-col text-slate-900">
+    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
       <div className="flex items-center p-4 justify-between pt-12 max-w-5xl mx-auto">
-        <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
+        <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30">
           <Menu size={24} />
         </button>
         <div className="flex flex-col items-center">
-          <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">Materiais</h1>
-          <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">IQ Simulados</p>
+          <h1 className="text-xl font-black leading-tight text-slate-900 italic uppercase tracking-tighter">Materiais</h1>
+          <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">IQ Simulados</p>
         </div>
         <div className="size-10" />
       </div>
     </header>
     <main className="flex-1 p-6 flex flex-col items-center justify-center text-center max-w-5xl mx-auto">
-      <div className="size-24 rounded-3xl bg-yellow-400/10 flex items-center justify-center text-yellow-400 mb-6 border border-yellow-400/20">
+      <div className="size-24 rounded-3xl bg-slate-100 flex items-center justify-center text-slate-700 mb-6 border border-slate-200">
         <Rocket size={48} />
       </div>
-      <h2 className="text-2xl font-black mb-2 italic">EM BREVE!</h2>
-      <p className="text-slate-500 max-w-xs mx-auto">Estamos preparando apostilas, resumos e mapas mentais exclusivos para turbinar sua aprovação.</p>
+      <h2 className="text-2xl font-black mb-2 italic text-slate-900">EM BREVE!</h2>
+      <p className="text-slate-600 max-w-xs mx-auto">Estamos preparando apostilas, resumos e mapas mentais exclusivos para turbinar sua aprovação.</p>
     </main>
   </div>
 );
@@ -564,29 +563,29 @@ const EditProfileScreen = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-[#f2f20d] border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-slate-300 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="bg-[#181a17] min-h-screen flex flex-col font-display text-white">
-      <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
+    <div className="bg-slate-50 min-h-screen flex flex-col font-display text-slate-900">
+      <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
         <div className="flex items-center p-4 justify-between pt-12 max-w-5xl mx-auto">
-          <button onClick={() => navigate('/profile')} className="size-10 flex items-center justify-start text-black">
+          <button onClick={() => navigate('/profile')} className="size-10 flex items-center justify-start text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30">
             <ChevronLeft size={24} />
           </button>
           <div className="flex flex-col items-center">
-            <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">Editar Perfil</h1>
-            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Dados Pessoais</p>
+            <h1 className="text-xl font-black leading-tight text-slate-900 italic uppercase tracking-tighter">Editar Perfil</h1>
+            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Dados Pessoais</p>
           </div>
           <div className="size-10" />
         </div>
       </header>
 
       <main className="flex-1 w-full max-w-5xl mx-auto p-8 overflow-y-auto">
-        <form onSubmit={handleSave} className="space-y-6">
+        <form onSubmit={handleSave} className="space-y-6 bg-white rounded-[2rem] border border-slate-200 p-8 shadow-sm">
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Nome</label>
             <input
@@ -594,7 +593,7 @@ const EditProfileScreen = () => {
               required
               value={formData.first_name}
               onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-              className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
+              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:border-slate-400 outline-none transition-all"
             />
           </div>
 
@@ -605,7 +604,7 @@ const EditProfileScreen = () => {
               required
               value={formData.last_name}
               onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-              className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
+              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:border-slate-400 outline-none transition-all"
             />
           </div>
 
@@ -616,7 +615,7 @@ const EditProfileScreen = () => {
               required
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
+              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:border-slate-400 outline-none transition-all"
             />
           </div>
 
@@ -626,16 +625,16 @@ const EditProfileScreen = () => {
               type="text"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
+              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:border-slate-400 outline-none transition-all"
               placeholder="(00) 00000-0000"
             />
           </div>
 
           <button
             disabled={saving}
-            className="w-full bg-[#f3ec05] text-black font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-xl shadow-[#f3ec05]/20 uppercase tracking-widest text-sm italic"
+            className="w-full bg-slate-900 text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-sm uppercase tracking-widest text-sm"
           >
-            {saving ? <div className="size-5 border-2 border-black border-t-transparent rounded-full animate-spin" /> : 'Salvar Alterações'}
+            {saving ? <div className="size-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : 'Salvar Alterações'}
           </button>
         </form>
       </main>
@@ -657,7 +656,6 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
       if (user) {
         setIsAdmin(user.app_metadata?.is_admin === true || user.user_metadata?.is_admin === true);
 
-        // Try to fetch from profiles table first
         const { data: profile } = await supabase
           .from('profiles')
           .select('first_name')
@@ -667,7 +665,6 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
         if (profile?.first_name) {
           setUserName(profile.first_name);
         } else {
-          // Fallback to metadata
           const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuário';
           const firstName = fullName.split(' ')[0];
           setUserName(firstName);
@@ -695,7 +692,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
       const filePath = `avatars/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
-        .from('simulados') // Using the same bucket for simplicity, or create an 'avatars' bucket
+        .from('simulados')
         .upload(filePath, file);
 
       if (uploadError) throw uploadError;
@@ -704,7 +701,6 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
         .from('simulados')
         .getPublicUrl(filePath);
 
-      // Update user metadata
       const { error: updateError } = await supabase.auth.updateUser({
         data: { avatar_url: publicUrl }
       });
@@ -746,19 +742,19 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
   };
 
   return (
-    <div className="bg-[#181a17] min-h-screen flex flex-col font-display text-white">
-      <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
+    <div className="bg-slate-50 min-h-screen flex flex-col font-display text-slate-900">
+      <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
         <div className="flex items-center p-4 justify-between pt-12 max-w-5xl mx-auto">
-          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-black">
+          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30">
             <Menu size={24} />
           </button>
           <div className="flex flex-col items-center">
-            <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">Perfil</h1>
-            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Conta</p>
+            <h1 className="text-xl font-black leading-tight text-slate-900 italic uppercase tracking-tighter">Perfil</h1>
+            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Conta</p>
           </div>
           <div className="size-10 flex items-center justify-end">
             {isAdmin ? (
-              <button onClick={() => navigate('/admin')} className="text-black">
+              <button onClick={() => navigate('/admin')} className="text-slate-900">
                 <Settings size={22} />
               </button>
             ) : <div className="size-10" />}
@@ -769,7 +765,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
       <main className="flex-1 w-full max-w-5xl mx-auto pb-24 overflow-y-auto">
         <section className="flex flex-col items-center py-10 px-4">
           <div className="relative group">
-            <div className={`w-32 h-32 rounded-full border-4 border-yellow-400 p-1.5 bg-gradient-to-tr from-yellow-400 to-orange-500 shadow-2xl shadow-yellow-400/20 ${uploading ? 'opacity-50' : ''}`}>
+            <div className={`w-32 h-32 rounded-full border-4 border-slate-200 p-1.5 bg-slate-100 shadow-sm ${uploading ? 'opacity-50' : ''}`}>
               {userAvatar ? (
                 <img
                   src={userAvatar}
@@ -778,12 +774,12 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
                   referrerPolicy="no-referrer"
                 />
               ) : (
-                <div className="w-full h-full rounded-full bg-[#1e293b] flex items-center justify-center">
-                  <User size={64} className="text-slate-400" />
+                <div className="w-full h-full rounded-full bg-slate-200 flex items-center justify-center">
+                  <User size={64} className="text-slate-500" />
                 </div>
               )}
             </div>
-            <label className="absolute bottom-1 right-1 bg-blue-600 text-white p-2.5 rounded-full shadow-lg border-2 border-white cursor-pointer hover:scale-110 transition-transform">
+            <label className="absolute bottom-1 right-1 bg-slate-900 text-white p-2.5 rounded-full shadow-lg border-2 border-white cursor-pointer hover:scale-110 transition-transform">
               {uploading ? (
                 <div className="size-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (
@@ -793,55 +789,53 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
             </label>
           </div>
           <div className="mt-6 text-center">
-            <h2 className="text-2xl font-black tracking-tight uppercase italic underline decoration-yellow-400 decoration-4 underline-offset-4">{userName}</h2>
+            <h2 className="text-2xl font-black tracking-tight uppercase italic underline decoration-slate-900 decoration-4 underline-offset-4">{userName}</h2>
           </div>
         </section>
 
         <section className="px-6 mb-8">
           <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-2">Configurações e Pagamento</h3>
-          <div className="bg-white/5 rounded-3xl overflow-hidden divide-y divide-white/5 border border-white/5 shadow-sm">
+          <div className="bg-white rounded-3xl overflow-hidden divide-y divide-slate-200 border border-slate-200 shadow-sm">
             <button
               onClick={() => navigate('/profile/purchases')}
-              className="w-full flex items-center justify-between p-5 active:bg-white/10 transition-colors"
+              className="w-full flex items-center justify-between p-5 active:bg-slate-50 transition-colors"
             >
               <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center size-12 rounded-2xl bg-yellow-400/10 text-yellow-400">
+                <div className="flex items-center justify-center size-12 rounded-2xl bg-slate-100 text-slate-700">
                   <Receipt size={22} />
                 </div>
                 <div className="text-left">
-                  <span className="block font-bold text-base text-white">Histórico de Pedidos</span>
+                  <span className="block font-bold text-base text-slate-900">Histórico de Pedidos</span>
                   <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Acessar todas as compras</span>
                 </div>
               </div>
-              <ChevronRight size={20} className="text-slate-600" />
+              <ChevronRight size={20} className="text-slate-500" />
             </button>
 
-            {/* Edit Profile Button */}
-            <button onClick={() => navigate('/profile/edit')} className="w-full flex items-center justify-between p-5 active:bg-white/10 transition-colors">
+            <button onClick={() => navigate('/profile/edit')} className="w-full flex items-center justify-between p-5 active:bg-slate-50 transition-colors">
               <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center size-12 rounded-2xl bg-indigo-600/10 text-indigo-400">
+                <div className="flex items-center justify-center size-12 rounded-2xl bg-slate-100 text-slate-700">
                   <User size={22} />
                 </div>
                 <div className="text-left">
-                  <span className="block font-bold text-base text-white">Editar Dados Pessoais</span>
+                  <span className="block font-bold text-base text-slate-900">Editar Dados Pessoais</span>
                   <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Nome, e-mail e telefone</span>
                 </div>
               </div>
-              <ChevronRight size={20} className="text-slate-600" />
+              <ChevronRight size={20} className="text-slate-500" />
             </button>
 
-            {/* Change Password Button */}
-            <button onClick={handlePasswordChange} className="w-full flex items-center justify-between p-5 active:bg-white/10 transition-colors">
+            <button onClick={handlePasswordChange} className="w-full flex items-center justify-between p-5 active:bg-slate-50 transition-colors">
               <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center size-12 rounded-2xl bg-orange-600/10 text-orange-400">
+                <div className="flex items-center justify-center size-12 rounded-2xl bg-slate-100 text-slate-700">
                   <ShieldCheck size={22} />
                 </div>
                 <div className="text-left">
-                  <span className="block font-bold text-base text-white">Trocar Senha</span>
+                  <span className="block font-bold text-base text-slate-900">Trocar Senha</span>
                   <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Enviar e-mail de redefinição</span>
                 </div>
               </div>
-              <ChevronRight size={20} className="text-slate-600" />
+              <ChevronRight size={20} className="text-slate-500" />
             </button>
           </div>
         </section>
@@ -849,7 +843,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
         <section className="px-6 mt-12 pb-12">
           <button
             onClick={onLogout}
-            className="w-full bg-orange-600 hover:bg-orange-700 text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 transition-all active:scale-95 shadow-xl shadow-orange-600/20 uppercase tracking-widest text-sm italic"
+            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 transition-all active:scale-95 shadow-sm uppercase tracking-widest text-sm"
           >
             <LogOut size={20} /> Sair da Conta
           </button>
