@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import {
   Menu,
   Search,
@@ -82,7 +82,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
     }
 
     if (!sim.stripe_price_id) {
-      alert('Este simulado não possui um preço configurado no Stripe.');
+      alert('Este simulado nÃ£o possui um preÃ§o configurado no Stripe.');
       return;
     }
 
@@ -91,7 +91,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
       // Check if user is logged in
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        alert('Por favor, faça login para continuar com a compra.');
+        alert('Por favor, faÃ§a login para continuar com a compra.');
         // Optionally trigger login modal if exists, but for now alert is safer
         return;
       }
@@ -99,7 +99,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
       // Check if Stripe enabled
       const { data: settings } = await supabase.from('app_settings').select('value').eq('key', 'stripe_enabled').single();
       if (settings?.value !== 'true') {
-        alert('O checkout está desabilitado no momento (Modo Desenvolvimento).');
+        alert('O checkout estÃ¡ desabilitado no momento (Modo Desenvolvimento).');
         return;
       }
 
@@ -239,12 +239,12 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                   </div>
 
                   <p className="text-slate-600 text-sm font-medium leading-relaxed mb-6 line-clamp-3 uppercase">
-                    {featuredSimulado.description || 'Descrição não informada.'}
+                    {featuredSimulado.description || 'DescriÃ§Ã£o nÃ£o informada.'}
                   </p>
 
                   <div className="flex flex-wrap items-center gap-4 text-xs font-black text-slate-500 uppercase tracking-widest mb-8">
                     {featuredSimulado.questions_count > 0 && (
-                      <span>{featuredSimulado.questions_count} Questões Objetivas</span>
+                      <span>{featuredSimulado.questions_count} QuestÃµes Objetivas</span>
                     )}
                   </div>
                 </div>
@@ -277,12 +277,12 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
           </section>
         )}
 
-        {/* Simulados Disponíveis */}
+        {/* Simulados DisponÃ­veis */}
         <section className="pb-8">
-          <h2 className="text-[19px] font-black text-slate-900 mb-5 px-1 tracking-tight">Simulados Disponíveis</h2>
+          <h2 className="text-[19px] font-black text-slate-900 mb-5 px-1 tracking-tight">Simulados DisponÃ­veis</h2>
           {filteredSimulados.length === 0 ? (
             <div className="p-8 text-center bg-white rounded-xl border border-slate-200 shadow-sm">
-              <p className="text-slate-600 font-semibold text-sm">Nenhum simulado disponível nesta categoria.</p>
+              <p className="text-slate-600 font-semibold text-sm">Nenhum simulado disponÃ­vel nesta categoria.</p>
             </div>
           ) : (
             <div className="flex flex-col gap-6">
@@ -315,7 +315,7 @@ const HomeScreen = ({ onOpenMenu, simulados }: { onOpenMenu: () => void, setView
                         <p className="text-slate-600 text-sm font-medium line-clamp-2 mb-4 leading-relaxed uppercase pr-4">{simulado.description}</p>
                         <div className="flex flex-wrap items-center gap-4 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">
                           {simulado.questions_count > 0 && (
-                            <span>{simulado.questions_count} Questões Objetivas</span>
+                            <span>{simulado.questions_count} QuestÃµes Objetivas</span>
                           )}
                         </div>
                       </div>
@@ -375,7 +375,7 @@ const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: 
         <Rocket size={48} />
       </div>
       <h2 className="text-2xl font-black mb-2 italic text-slate-900">EM BREVE!</h2>
-      <p className="text-slate-600 max-w-xs mx-auto">Estamos preparando apostilas, resumos e mapas mentais exclusivos para turbinar sua aprovação.</p>
+      <p className="text-slate-600 max-w-xs mx-auto">Estamos preparando apostilas, resumos e mapas mentais exclusivos para turbinar sua aprovaÃ§Ã£o.</p>
     </main>
   </div>
 );
@@ -417,7 +417,7 @@ const ResetPasswordScreen = () => {
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      showAlert('Erro', 'As senhas não coincidem.', 'error');
+      showAlert('Erro', 'As senhas nÃ£o coincidem.', 'error');
       return;
     }
 
@@ -447,7 +447,7 @@ const ResetPasswordScreen = () => {
               <input
                 type={showPassword ? 'text' : 'password'}
                 required
-                placeholder="••••••••"
+                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full bg-slate-50 border border-slate-200 rounded-lg p-4 pr-12 text-sm font-medium focus:border-slate-400 outline-none transition-all"
@@ -468,7 +468,7 @@ const ResetPasswordScreen = () => {
               <input
                 type={showConfirmPassword ? 'text' : 'password'}
                 required
-                placeholder="••••••••"
+                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full bg-slate-50 border border-slate-200 rounded-lg p-4 pr-12 text-sm font-medium focus:border-slate-400 outline-none transition-all"
@@ -636,7 +636,7 @@ const EditProfileScreen = () => {
             disabled={saving}
             className="w-full bg-slate-900 text-white font-black py-5 rounded-lg flex items-center justify-center gap-3 active:scale-95 transition-all shadow-sm uppercase tracking-widest text-sm"
           >
-            {saving ? <div className="size-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : 'Salvar Alterações'}
+            {saving ? <div className="size-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : 'Salvar AlteraÃ§Ãµes'}
           </button>
         </form>
       </main>
@@ -647,7 +647,7 @@ const EditProfileScreen = () => {
 const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLogout: () => void }) => {
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
-  const [userName, setUserName] = useState('Usuário');
+  const [userName, setUserName] = useState('UsuÃ¡rio');
   const [userAvatar, setUserAvatar] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const { showAlert, showConfirm } = useModal();
@@ -667,7 +667,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
         if (profile?.first_name) {
           setUserName(profile.first_name);
         } else {
-          const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuário';
+          const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'UsuÃ¡rio';
           const firstName = fullName.split(' ')[0];
           setUserName(firstName);
         }
@@ -733,7 +733,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
           });
 
           if (error) throw error;
-          showAlert('Sucesso', 'E-mail de redefinição enviado para ' + user.email, 'success');
+          showAlert('Sucesso', 'E-mail de redefiniÃ§Ã£o enviado para ' + user.email, 'success');
         } catch (error: any) {
           showAlert('Erro', 'Erro ao solicitar troca: ' + error.message, 'error');
         }
@@ -796,7 +796,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
         </section>
 
         <section className="px-6 mb-8">
-          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-2">Configurações e Pagamento</h3>
+          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4 px-2">ConfiguraÃ§Ãµes e Pagamento</h3>
           <div className="bg-white rounded-xl overflow-hidden divide-y divide-slate-200 border border-slate-200 shadow-sm">
             <button
               onClick={() => navigate('/profile/purchases')}
@@ -807,7 +807,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
                   <Receipt size={22} />
                 </div>
                 <div className="text-left">
-                  <span className="block font-bold text-base text-slate-900">Histórico de Pedidos</span>
+                  <span className="block font-bold text-base text-slate-900">HistÃ³rico de Pedidos</span>
                   <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Acessar todas as compras</span>
                 </div>
               </div>
@@ -834,7 +834,7 @@ const ProfileScreen = ({ onOpenMenu, onLogout }: { onOpenMenu: () => void, onLog
                 </div>
                 <div className="text-left">
                   <span className="block font-bold text-base text-slate-900">Trocar Senha</span>
-                  <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Enviar e-mail de redefinição</span>
+                  <span className="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Enviar e-mail de redefiniÃ§Ã£o</span>
                 </div>
               </div>
               <ChevronRight size={20} className="text-slate-500" />
@@ -883,7 +883,7 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
           }
         } catch (e) {
           console.error('Error fetching Stripe balance:', e);
-          setStripeBalance('Indisponível');
+          setStripeBalance('IndisponÃ­vel');
         }
       } catch (error) {
         console.error('Error fetching admin stats:', error);
@@ -915,16 +915,16 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
               <div>
                 <p className="text-[10px] uppercase tracking-[0.28em] text-slate-500 font-semibold">Painel</p>
                 <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900">Painel administrativo</h2>
-                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">Acompanhe seus principais indicadores de forma clara e acesse rapidamente as áreas mais importantes do sistema.</p>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">Acompanhe seus principais indicadores de forma clara e acesse rapidamente as Ã¡reas mais importantes do sistema.</p>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700">
-                Visão geral do dashboard
+                VisÃ£o geral do dashboard
               </div>
             </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
               {[
-                { label: 'Usuários', value: userCount.toString(), trend: '+12%' },
+                { label: 'UsuÃ¡rios', value: userCount.toString(), trend: '+12%' },
                 { label: 'Simulados', value: simuladosCount.toString(), trend: '+5%' },
                 { label: 'Saldo Stripe', value: stripeBalance, trend: 'Real-time' }
               ].map((stat) => (
@@ -954,15 +954,18 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
                   <button
                     key={item.label}
                     onClick={item.onClick}
-                    className="flex w-full items-center gap-4 rounded-lg border border-slate-200/70 bg-slate-50 px-5 py-5 text-left transition duration-200 ease-out hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 active:scale-[0.98]"
+                    className="flex w-full flex-col gap-4 rounded-lg border border-slate-200/70 bg-slate-50 p-5 text-left transition duration-200 ease-out hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30 focus-visible:ring-offset-2 focus-visible:ring-slate-50 active:scale-[0.98]"
                   >
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg text-white" style={{ backgroundColor: item.color }}>
-                      <item.icon size={22} />
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-14 w-14 items-center justify-center rounded-lg text-white" style={{ backgroundColor: item.color }}>
+                        <item.icon size={24} />
+                      </div>
+                      <div>
+                        <p className="text-lg font-black tracking-tight text-slate-900">{item.label}</p>
+                        <p className="mt-1 text-sm text-slate-600">{item.sub}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-base font-black tracking-tight text-slate-900">{item.label}</p>
-                      <p className="mt-1 text-sm text-slate-600">{item.sub}</p>
-                    </div>
+                    <ChevronRight size={20} className="text-slate-500" />
                   </button>
                 ))}
               </div>
@@ -976,15 +979,13 @@ const AdminDashboardScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
               </div>
               <div className="mt-6 grid gap-4">
                 {[
-                  { icon: FileText, label: 'Gerenciar Simulados', sub: 'Lista completa e edições rápidas', color: '#f97316', onClick: () => navigate('/admin/list') },
-                  { icon: Ticket, label: 'Cupons e Descontos', sub: 'Criar códigos promocionais Stripe', color: '#facc15', onClick: () => navigate('/admin/coupons') },
                   { icon: List, label: 'Banco de Questões', sub: 'Cadastrar perguntas e respostas', color: '#38bdf8', onClick: () => navigate('/admin/questoes') },
                   { icon: Users, label: 'Usuários e Acessos', sub: 'Status de assinaturas e permissões', color: '#22c55e', onClick: () => navigate('/admin/users') }
                 ].map((item) => (
                   <button
                     key={item.label}
                     onClick={item.onClick}
-                    className="flex w-full flex-col gap-4 rounded-lg border border-slate-200/70 bg-slate-50 p-5 text-left transition duration-200 ease-out hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 active:scale-[0.98]"
+                    className="flex w-full flex-col gap-4 rounded-lg border border-slate-200/70 bg-slate-50 p-5 text-left transition duration-200 ease-out hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30 focus-visible:ring-offset-2 focus-visible:ring-slate-50 active:scale-[0.98]"
                   >
                     <div className="flex items-center gap-4">
                       <div className="flex h-14 w-14 items-center justify-center rounded-lg text-white" style={{ backgroundColor: item.color }}>
@@ -1171,3 +1172,4 @@ export default function App() {
     </ModalProvider>
   );
 }
+
