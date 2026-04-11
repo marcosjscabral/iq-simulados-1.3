@@ -108,36 +108,36 @@ export default function AdminCoupons() {
     );
 
     return (
-        <div className="bg-[#0f172a] min-h-screen flex flex-col font-display text-white">
+        <div className="bg-slate-50 min-h-screen flex flex-col text-slate-900 font-sans">
             {/* HEADER */}
-            <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
-                <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
-                    <button onClick={() => navigate('/admin/list')} className="size-10 flex items-center justify-start text-black">
+            <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+                <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto max-w-6xl">
+                    <button onClick={() => navigate('/admin/list')} className="size-10 flex items-center justify-start text-slate-900">
                         <ArrowLeft size={24} />
                     </button>
                     <div className="flex flex-col items-center">
-                        <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">CUPONS</h1>
-                        <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Stripe Marketing</p>
+                        <h1 className="text-xl font-black leading-tight text-slate-900 italic uppercase tracking-tighter">CUPONS</h1>
+                        <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Stripe Marketing</p>
                     </div>
                     <button
                         onClick={() => setShowCreate(true)}
-                        className="size-10 flex items-center justify-end text-black"
+                        className="size-10 flex items-center justify-end text-slate-900"
                     >
                         <Plus size={24} />
                     </button>
                 </div>
             </header>
 
-            <main className="flex-1 overflow-y-auto pb-32 pt-8 px-6">
+            <main className="flex-1 overflow-y-auto pb-32 pt-8 px-6 max-w-6xl mx-auto">
                 {/* SEARCH */}
                 <div className="relative mb-8">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input
                         type="text"
                         placeholder="Buscar cupons..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full bg-white/5 border border-white/5 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold focus:outline-none focus:border-[#ffd700]/50 transition-all"
+                        className="w-full bg-white border border-slate-200 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold text-slate-900 focus:outline-none focus:border-amber-300 focus:ring-2 focus:ring-amber-100 transition-all"
                     />
                 </div>
 
@@ -148,7 +148,7 @@ export default function AdminCoupons() {
                         <p className="text-[10px] font-black uppercase tracking-widest">Carregando Cupons...</p>
                     </div>
                 ) : filteredCoupons.length === 0 ? (
-                    <div className="bg-white/5 rounded-[2.5rem] p-12 text-center border border-white/5">
+                    <div className="bg-white rounded-[2.5rem] p-12 text-center border border-slate-200 shadow-sm">
                         <Ticket size={48} className="mx-auto mb-4 text-slate-700" />
                         <p className="text-slate-500 font-bold text-sm">Nenhum cupom encontrado.</p>
                     </div>
@@ -157,14 +157,14 @@ export default function AdminCoupons() {
                         {filteredCoupons.map((coupon) => (
                             <div
                                 key={coupon.id}
-                                className="bg-white/5 rounded-3xl p-6 border border-white/5 flex items-center justify-between group hover:bg-white/10 transition-all"
+                                className="bg-white rounded-3xl p-6 border border-slate-200 flex items-center justify-between group hover:bg-slate-50 transition-all shadow-sm"
                             >
                                 <div className="flex items-center gap-5">
                                     <div className="size-14 rounded-2xl bg-[#ffd700] flex items-center justify-center text-black shrink-0 shadow-lg">
                                         <Ticket size={28} />
                                     </div>
                                     <div>
-                                        <h3 className="font-black text-lg uppercase italic text-white flex items-center gap-2">
+                                        <h3 className="font-black text-lg uppercase italic text-slate-900 flex items-center gap-2">
                                             {coupon.name}
                                             {!coupon.valid && <span className="text-[10px] bg-red-500 text-white px-2 py-0.5 rounded-full not-italic">Inválido</span>}
                                         </h3>
@@ -200,11 +200,11 @@ export default function AdminCoupons() {
             {showCreate && (
                 <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
                     <div
-                        className="w-full max-w-xl bg-[#1e293b] rounded-[2.5rem] border border-white/10 shadow-2xl p-8 slide-in-from-bottom duration-500"
+                        className="w-full max-w-xl bg-white rounded-[2.5rem] border border-slate-200 shadow-2xl p-8 slide-in-from-bottom duration-500"
                     >
                         <div className="flex justify-between items-center mb-8">
                             <div>
-                                <h2 className="text-xl font-black italic uppercase tracking-tight text-white">Novo Cupom</h2>
+                                <h2 className="text-xl font-black italic uppercase tracking-tight text-slate-900">Novo Cupom</h2>
                                 <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">Configurações de Desconto</p>
                             </div>
                             <button onClick={() => setShowCreate(false)} className="p-2 text-slate-400 hover:text-white transition-colors">
@@ -221,7 +221,7 @@ export default function AdminCoupons() {
                                     placeholder="Ex: LANÇAMENTO 2024"
                                     value={newName}
                                     onChange={(e) => setNewName(e.target.value.toUpperCase())}
-                                    className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-sm font-bold focus:border-[#ffd700] outline-none transition-all"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-bold text-slate-900 focus:border-amber-300 focus:ring-2 focus:ring-amber-100 outline-none transition-all"
                                 />
                             </div>
 
@@ -231,14 +231,14 @@ export default function AdminCoupons() {
                                     <button
                                         type="button"
                                         onClick={() => setDiscountType('percent')}
-                                        className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl border transition-all ${discountType === 'percent' ? 'bg-[#ffd700] text-black border-[#ffd700]' : 'bg-white/5 text-slate-400 border-white/5'}`}
+                                        className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl border transition-all ${discountType === 'percent' ? 'bg-[#ffd700] text-black border-[#ffd700]' : 'bg-slate-50 text-slate-500 border-slate-200 hover:border-amber-300 hover:bg-amber-50'}`}
                                     >
                                         <Percent size={18} /> % Porcento
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => setDiscountType('amount')}
-                                        className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl border transition-all ${discountType === 'amount' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white/5 text-slate-400 border-white/5'}`}
+                                        className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl border transition-all ${discountType === 'amount' ? 'bg-blue-600 text-white border-blue-600' : 'bg-slate-50 text-slate-500 border-slate-200 hover:border-amber-300 hover:bg-amber-50'}`}
                                     >
                                         <DollarSign size={18} /> R$ Fixo
                                     </button>
@@ -253,14 +253,14 @@ export default function AdminCoupons() {
                                     placeholder={discountType === 'percent' ? "20 (%)" : "15,00 (R$)"}
                                     value={discountValue}
                                     onChange={(e) => setDiscountValue(e.target.value)}
-                                    className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-sm font-bold focus:border-[#ffd700] outline-none transition-all"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-bold text-slate-900 focus:border-amber-300 focus:ring-2 focus:ring-amber-100 outline-none transition-all"
                                 />
                             </div>
 
                             <div className="pt-4">
                                 <button
                                     disabled={creating}
-                                    className="w-full bg-[#ffd700] text-black font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-xl shadow-yellow-400/20 uppercase tracking-widest text-sm italic"
+                                    className="w-full bg-amber-400 text-slate-900 font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-xl shadow-amber-400/20 uppercase tracking-widest text-sm italic"
                                 >
                                     {creating ? (
                                         <div className="size-5 border-2 border-black border-t-transparent rounded-full animate-spin" />

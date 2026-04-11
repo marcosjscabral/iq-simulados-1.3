@@ -306,28 +306,28 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
   };
 
   return (
-    <div className="bg-[#0f172a] min-h-screen flex justify-center text-white">
-      <div className="relative flex min-h-screen w-full flex-col max-w-[430px] bg-[#0f172a] overflow-x-hidden">
+    <div className="bg-slate-50 min-h-screen flex justify-center text-slate-900">
+      <div className="relative flex min-h-screen w-full flex-col max-w-6xl bg-slate-50 overflow-x-hidden">
         {/* Header */}
-        <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
-          <div className="flex items-center p-4 justify-between pt-12 max-w-[430px] mx-auto w-full">
+        <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+          <div className="flex items-center p-4 justify-between pt-12 max-w-6xl mx-auto w-full">
             <button
               onClick={() => navigate('/admin/list')}
-              className="size-10 flex items-center justify-start text-black"
+              className="size-10 flex items-center justify-start text-slate-900"
             >
               <ArrowLeft size={24} />
             </button>
             <div className="flex flex-col items-center">
-              <h1 className="text-xl font-black text-black leading-tight uppercase italic tracking-tighter">{simuladoId ? 'Editar' : 'Novo'} Simulado</h1>
-              <p className="text-black/60 text-[10px] font-bold uppercase tracking-widest">Painel Administrativo</p>
+              <h1 className="text-xl font-black text-slate-900 leading-tight uppercase italic tracking-tighter">{simuladoId ? 'Editar' : 'Novo'} Simulado</h1>
+              <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Painel Administrativo</p>
             </div>
             <div className="size-10" />
           </div>
         </header>
 
-        <main className="flex-1 px-5 pt-8 space-y-6 pb-24">
+        <main className="flex-1 px-5 pt-8 space-y-6 pb-24 max-w-6xl mx-auto">
           {/* Upload Section */}
-          <section className="bg-white/5 rounded-2xl p-6 border-2 border-dashed border-white/10 shadow-sm overflow-hidden min-h-[220px] flex items-center justify-center group hover:bg-white/10 transition-all">
+          <section className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm overflow-hidden min-h-[220px] flex items-center justify-center group hover:shadow-md transition-all">
             {imageUrl ? (
               <div className="relative w-full aspect-video rounded-xl overflow-hidden group">
                 <img src={imageUrl} alt="Capa" className="w-full h-full object-cover" />
@@ -340,23 +340,23 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center gap-4">
-                <div className="bg-yellow-400/10 p-4 rounded-full text-yellow-400">
+                <div className="bg-yellow-100 p-4 rounded-full text-amber-600">
                   <div className="relative">
                     {uploading ? (
-                      <div className="w-10 h-10 border-4 border-[#ffd700] border-t-transparent rounded-full animate-spin" />
+                      <div className="w-10 h-10 border-4 border-amber-400 border-t-transparent rounded-full animate-spin" />
                     ) : (
                       <>
                         <Camera size={40} />
-                        <Plus size={16} className="absolute -top-1 -right-1 bg-black rounded-full p-0.5 border border-yellow-400/20" />
+                        <Plus size={16} className="absolute -top-1 -right-1 bg-white rounded-full p-0.5 border border-amber-300" />
                       </>
                     )}
                   </div>
                 </div>
                 <div className="text-center">
-                  <p className="font-bold text-white uppercase tracking-widest text-xs">Capa do Simulado</p>
+                  <p className="font-bold text-slate-900 uppercase tracking-widest text-xs">Capa do Simulado</p>
                   <p className="text-[10px] text-slate-500 font-medium">800x450px (PNG ou JPG)</p>
                 </div>
-                <label className="cursor-pointer mt-2 text-black bg-[#ffd700] text-sm font-black uppercase italic px-8 py-3 rounded-xl hover:scale-105 transition-all shadow-lg active:scale-95">
+                <label className="cursor-pointer mt-2 text-slate-900 bg-amber-400 text-sm font-black uppercase italic px-8 py-3 rounded-xl hover:scale-105 transition-all shadow-lg active:scale-95">
                   {uploading ? 'Enviando...' : 'Selecionar Imagem'}
                   <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
                 </label>
@@ -365,11 +365,11 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
           </section>
 
           {/* Image Size Observations */}
-          <div className="bg-white/5 p-4 rounded-2xl border border-white/5 flex items-start gap-3">
-            <AlertCircle size={18} className="text-yellow-500 shrink-0 mt-0.5" />
-            <div className="text-[11px] leading-relaxed text-slate-400 font-medium">
-              <p><strong className="text-white">Obs:</strong> Tamanho ideal para as capas: <span className="text-yellow-400 font-bold">800x450px</span>.</p>
-              <p>Para o banner de destaque: <span className="text-yellow-400 font-bold">1200x600px</span>.</p>
+          <div className="bg-white p-4 rounded-2xl border border-slate-200 flex items-start gap-3">
+            <AlertCircle size={18} className="text-amber-500 shrink-0 mt-0.5" />
+            <div className="text-[11px] leading-relaxed text-slate-600 font-medium">
+              <p><strong className="text-slate-900">Obs:</strong> Tamanho ideal para as capas: <span className="text-amber-500 font-bold">800x450px</span>.</p>
+              <p>Para o banner de destaque: <span className="text-amber-500 font-bold">1200x600px</span>.</p>
             </div>
           </div>
 
@@ -381,7 +381,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-[#ffd700]/50 font-bold text-white placeholder:text-slate-600 uppercase italic"
+                className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-amber-100 font-bold text-slate-900 placeholder:text-slate-400 uppercase italic"
                 placeholder="Ex: Simulado Completo OAB 2024"
               />
             </div>
@@ -395,7 +395,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                     type="text"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl pl-12 pr-5 outline-none focus:ring-2 focus:ring-[#ffd700]/50 font-bold text-white"
+                    className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-5 outline-none focus:ring-2 focus:ring-amber-100 font-bold text-slate-900"
                     placeholder="0,00"
                   />
                 </div>
@@ -406,15 +406,15 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                   type="number"
                   value={questionsCount}
                   onChange={(e) => setQuestionsCount(e.target.value)}
-                  className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-[#ffd700]/50 font-bold text-white"
+                  className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-5 outline-none focus:ring-2 focus:ring-amber-100 font-bold text-slate-900"
                   placeholder="0"
                 />
               </div>
             </div>
 
             {/* Gerenciar Categorias */}
-            <div className="flex flex-col gap-4 bg-white/5 p-6 rounded-3xl border border-white/5">
-              <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Gerenciar Categorias</label>
+            <div className="flex flex-col gap-4 bg-white p-6 rounded-3xl border border-slate-200">
+              <label className="text-xs font-black text-slate-500 uppercase tracking-widest px-1">Gerenciar Categorias</label>
 
               <div className="flex flex-wrap gap-2 mb-2">
                 {Array.from(new Set([...availableCategories, ...categories])).sort().map((cat) => (
@@ -424,7 +424,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                       onClick={() => toggleCategory(cat)}
                       className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border-2 ${categories.includes(cat)
                         ? 'bg-[#ffd700] text-black border-[#ffd700] shadow-lg shadow-yellow-400/20 scale-105'
-                        : 'bg-white/5 text-slate-500 border-white/5 hover:border-yellow-400/30 hover:bg-white/10 active:scale-95'
+                        : 'bg-slate-50 text-slate-500 border-slate-200 hover:border-amber-300 hover:bg-amber-50 active:scale-95'
                         }`}
                     >
                       {cat}
@@ -432,7 +432,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                     <button
                       type="button"
                       onClick={(e) => handleDeleteCategoryClick(cat, e)}
-                      className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center transition-all shadow-xl shadow-red-600/40 active:scale-90 z-10 border-2 border-[#0f172a]"
+                      className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center transition-all shadow-xl shadow-red-600/40 active:scale-90 z-10 border-2 border-slate-200"
                     >
                       <X size={14} strokeWidth={4} />
                     </button>
@@ -440,7 +440,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                       type="button"
                       onClick={(e) => togglePremiumCategory(cat, e)}
                       title={parentCategories.includes(cat) ? "Remover de Simulado Pai" : "Tornar Simulado Pai"}
-                      className={`absolute -top-2 -left-2 rounded-full w-6 h-6 flex items-center justify-center transition-all shadow-xl active:scale-90 z-10 border-2 border-[#0f172a] ${parentCategories.includes(cat) ? 'bg-indigo-500 text-white shadow-indigo-500/40' : 'bg-slate-700 text-slate-400 hover:bg-slate-600'}`}
+                      className={`absolute -top-2 -left-2 rounded-full w-6 h-6 flex items-center justify-center transition-all shadow-xl active:scale-90 z-10 border-2 border-slate-200 ${parentCategories.includes(cat) ? 'bg-indigo-500 text-white shadow-indigo-500/40' : 'bg-slate-200 text-slate-600 hover:bg-slate-300'}`}
                     >
                       <Crown size={12} strokeWidth={3} />
                     </button>
@@ -448,11 +448,11 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                 ))}
               </div>
 
-              <div className="flex gap-2 pt-2 border-t border-white/5">
+              <div className="flex gap-2 pt-2 border-t border-slate-200">
                 <input
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
-                  className="flex-1 h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm outline-none font-bold text-white focus:ring-2 focus:ring-[#ffd700]/30 transition-all"
+                  className="flex-1 h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm outline-none font-bold text-slate-900 focus:ring-2 focus:ring-amber-100 transition-all"
                   placeholder="Criar Nova Categoria"
                   onKeyPress={(e) => e.key === 'Enter' && addCategory()}
                 />
@@ -466,8 +466,8 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
             </div>
 
             {/* Gerenciar Cupons */}
-            <div className="flex flex-col gap-4 bg-white/5 p-6 rounded-3xl border border-white/5">
-              <label className="text-xs font-black text-slate-400 uppercase tracking-widest px-1">Gerenciar Cupons</label>
+            <div className="flex flex-col gap-4 bg-white p-6 rounded-3xl border border-slate-200">
+              <label className="text-xs font-black text-slate-500 uppercase tracking-widest px-1">Gerenciar Cupons</label>
 
               {availableCoupons.length === 0 ? (
                 <p className="text-[10px] text-slate-500 font-bold uppercase text-center py-2">Nenhum cupom disponível no Stripe</p>
@@ -480,7 +480,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                       onClick={() => toggleCoupon(coupon.id)}
                       className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border-2 ${selectedCoupons.includes(coupon.id)
                         ? 'bg-[#ffd700] text-black border-[#ffd700] shadow-lg shadow-yellow-400/20 scale-105'
-                        : 'bg-white/5 text-slate-500 border-white/5 hover:border-yellow-400/30 hover:bg-white/10 active:scale-95'
+                        : 'bg-slate-50 text-slate-500 border-slate-200 hover:border-amber-300 hover:bg-amber-50 active:scale-95'
                         }`}
                     >
                       {coupon.name}
@@ -498,33 +498,33 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full h-32 bg-white/5 border border-white/10 rounded-2xl p-5 outline-none focus:ring-2 focus:ring-[#ffd700]/50 font-medium resize-none text-white italic"
+                className="w-full h-32 bg-slate-50 border border-slate-200 rounded-2xl p-5 outline-none focus:ring-2 focus:ring-amber-100 font-medium resize-none text-slate-900 italic"
                 placeholder="Breve resumo sobre o conteúdo do simulado..."
               ></textarea>
             </div>
 
             <div className="space-y-3">
-              <div className="flex items-center justify-between p-5 bg-white/5 rounded-2xl border border-white/5">
+              <div className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-slate-200">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-yellow-400/10 rounded-lg text-yellow-400">
+                  <div className="p-2 bg-amber-100 rounded-lg text-amber-600">
                     <Eye size={20} />
                   </div>
-                  <span className="font-bold text-white uppercase tracking-widest text-[10px]">Ativar na Vitrine</span>
+                  <span className="font-bold text-slate-900 uppercase tracking-widest text-[10px]">Ativar na Vitrine</span>
                 </div>
                 <button
                   onClick={() => setIsActive(!isActive)}
-                  className={`w-12 h-6 rounded-full transition-colors relative flex items-center px-1 ${isActive ? 'bg-[#ffd700]' : 'bg-white/10'}`}
+                  className={`w-12 h-6 rounded-full transition-colors relative flex items-center px-1 ${isActive ? 'bg-[#ffd700]' : 'bg-slate-200'}`}
                 >
                   <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${isActive ? 'translate-x-6' : 'translate-x-0'}`}></div>
                 </button>
               </div>
 
-              <div className="flex items-center justify-between p-5 bg-orange-400/5 rounded-2xl border border-orange-400/10">
+              <div className="flex items-center justify-between p-5 bg-orange-50 rounded-2xl border border-orange-200">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-orange-500/10 rounded-lg text-orange-500">
+                  <div className="p-2 bg-orange-100 rounded-lg text-orange-500">
                     <Star size={20} />
                   </div>
-                  <span className="font-bold text-white uppercase tracking-widest text-[10px]">Colocar em Destaque</span>
+                  <span className="font-bold text-slate-900 uppercase tracking-widest text-[10px]">Colocar em Destaque</span>
                 </div>
                 <button
                   onClick={() => setIsFeatured(!isFeatured)}
@@ -540,7 +540,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                   type="text"
                   value={featuredLabel}
                   onChange={(e) => setFeaturedLabel(e.target.value)}
-                  className="w-full h-12 bg-white/5 border border-orange-400/20 rounded-xl px-4 outline-none focus:ring-2 focus:ring-orange-500 font-bold text-[10px] text-white text-center uppercase tracking-widest"
+                  className="w-full h-12 bg-slate-50 border border-orange-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-orange-100 font-bold text-[10px] text-slate-900 text-center uppercase tracking-widest"
                   placeholder="DEIXE EM BRANCO PARA NÃO EXIBIR"
                 />
               </div>
@@ -559,7 +559,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
             </button>
             <button
               onClick={() => navigate('/admin/list')}
-              className="w-full bg-white/5 text-slate-500 font-black h-16 rounded-2xl uppercase italic tracking-tighter active:scale-95 transition-all border border-white/5"
+              className="w-full bg-slate-50 text-slate-500 font-black h-16 rounded-2xl uppercase italic tracking-tighter active:scale-95 transition-all border border-slate-200"
             >
               Cancelar Edição
             </button>
@@ -580,19 +580,19 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="relative bg-white dark:bg-slate-900 w-full max-w-sm rounded-[2rem] overflow-hidden shadow-2xl border border-white/20"
+                className="relative bg-white w-full max-w-sm rounded-[2rem] overflow-hidden shadow-2xl border border-slate-200"
               >
-                <div className="bg-red-50 dark:bg-red-950/30 p-8 flex flex-col items-center text-center">
+                <div className="bg-red-50 p-8 flex flex-col items-center text-center">
                   <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-red-500/30 animate-pulse">
                     <Trash2 size={32} className="text-white" />
                   </div>
-                  <h3 className="text-xl font-black text-red-950 dark:text-red-100 leading-tight">Excluir Categoria?</h3>
-                  <p className="mt-2 text-sm text-red-800/70 dark:text-red-300 font-medium">
+                  <h3 className="text-xl font-black text-red-950 leading-tight">Excluir Categoria?</h3>
+                  <p className="mt-2 text-sm text-red-800/70 font-medium">
                     A categoria <span className="font-black text-red-600">"{categoryToDelete}"</span> será removida de TODOS os simulados cadastrados.
                   </p>
                 </div>
 
-                <div className="p-6 bg-white dark:bg-slate-900 flex flex-col gap-3">
+                <div className="p-6 bg-white flex flex-col gap-3">
                   <button
                     onClick={handleConfirmDelete}
                     disabled={isDeletingGlobal}
@@ -610,7 +610,7 @@ const AdminSimulados: React.FC<AdminSimuladosProps> = ({ onPublishSuccess, avail
                   <button
                     onClick={() => setIsDeleteDialogOpen(false)}
                     disabled={isDeletingGlobal}
-                    className="w-full h-14 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-2xl font-bold active:scale-95 transition-all"
+                    className="w-full h-14 bg-slate-100 text-slate-600 rounded-2xl font-bold active:scale-95 transition-all"
                   >
                     Cancelar
                   </button>

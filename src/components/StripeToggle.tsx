@@ -35,13 +35,13 @@ export const StripeToggle: React.FC = () => {
     if (loading) return null;
 
     return (
-        <div className="bg-[#1e293b] p-4 rounded-3xl border border-white/5 shadow-xl flex items-center justify-between mb-6">
+        <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-xl flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-                <div className={`p-2.5 rounded-xl ${isEnabled ? 'bg-emerald-500/10 text-emerald-400' : 'bg-slate-700/50 text-slate-500'}`}>
+                <div className={`p-2.5 rounded-xl ${isEnabled ? 'bg-emerald-500/10 text-emerald-500' : 'bg-slate-100 text-slate-500'}`}>
                     <CreditCard size={20} />
                 </div>
                 <div>
-                    <h3 className="text-sm font-bold text-white leading-tight">Integração Stripe</h3>
+                    <h3 className="text-sm font-bold text-slate-900 leading-tight">Integração Stripe</h3>
                     <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
                         {isEnabled ? 'Modo Ativo' : 'Modo Offline'}
                     </p>

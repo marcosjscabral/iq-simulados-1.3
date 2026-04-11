@@ -36,12 +36,12 @@ export const RichInput: React.FC<RichInputProps> = ({ value, onChange, placehold
     };
 
     return (
-        <div className={`flex flex-col rounded-xl overflow-hidden border-2 bg-[#0f172a] focus-within:border-[#ffd700] transition-colors ${className || 'border-[#334155]'}`}>
-            <div className="flex bg-[#1e293b] border-b-2 border-inherit p-1 gap-1">
+        <div className={`flex flex-col rounded-xl overflow-hidden border-2 bg-white focus-within:border-slate-900 transition-colors ${className || 'border-slate-200'}`}>
+            <div className="flex bg-slate-50 border-b border-slate-200 p-1 gap-1">
                 <button
                     type="button"
                     onClick={(e) => { e.preventDefault(); execCommand('bold'); }}
-                    className="p-1.5 rounded-lg text-slate-300 hover:bg-black/20 hover:text-white transition-colors"
+                    className="p-1.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
                     title="Negrito"
                 >
                     <Bold size={18} />
@@ -49,7 +49,7 @@ export const RichInput: React.FC<RichInputProps> = ({ value, onChange, placehold
                 <button
                     type="button"
                     onClick={(e) => { e.preventDefault(); execCommand('italic'); }}
-                    className="p-1.5 rounded-lg text-slate-300 hover:bg-black/20 hover:text-white transition-colors"
+                    className="p-1.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
                     title="Itálico"
                 >
                     <Italic size={18} />
@@ -57,7 +57,7 @@ export const RichInput: React.FC<RichInputProps> = ({ value, onChange, placehold
                 <button
                     type="button"
                     onClick={(e) => { e.preventDefault(); execCommand('underline'); }}
-                    className="p-1.5 rounded-lg text-slate-300 hover:bg-black/20 hover:text-white transition-colors"
+                    className="p-1.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
                     title="Sublinhado"
                 >
                     <Underline size={18} />
@@ -66,7 +66,7 @@ export const RichInput: React.FC<RichInputProps> = ({ value, onChange, placehold
 
             <div
                 ref={editorRef}
-                className="p-4 text-white font-medium outline-none min-h-[120px] max-h-[300px] overflow-y-auto cursor-text empty:before:content-[attr(data-placeholder)] empty:before:text-slate-500"
+                className="p-4 text-slate-900 font-medium outline-none min-h-[120px] max-h-[300px] overflow-y-auto cursor-text empty:before:content-[attr(data-placeholder)] empty:before:text-slate-500 bg-white"
                 contentEditable
                 onInput={handleInput}
                 onBlur={handleInput}

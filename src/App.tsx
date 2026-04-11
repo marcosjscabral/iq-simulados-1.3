@@ -383,21 +383,23 @@ const MaterialsScreen = ({ onOpenMenu }: { onOpenMenu: () => void, setView: (v: 
 const AnswerKeyScreen = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-[#0f172a] min-h-screen flex flex-col text-white">
-      <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
-        <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
-          <button onClick={() => navigate('/')} className="size-10 flex items-center justify-start text-black">
+    <div className="bg-slate-50 min-h-screen flex flex-col font-display text-slate-900">
+      <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+        <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto max-w-5xl">
+          <button onClick={() => navigate('/')} className="size-10 flex items-center justify-start text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30">
             <ChevronLeft size={24} />
           </button>
           <div className="flex flex-col items-center">
-            <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">Gabarito</h1>
-            <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">IQ Simulados</p>
+            <h1 className="text-xl font-black leading-tight text-slate-900 italic uppercase tracking-tighter">Gabarito</h1>
+            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">IQ Simulados</p>
           </div>
           <div className="size-10" />
         </div>
       </header>
       <main className="flex-1 flex items-center justify-center p-6 text-center">
-        <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Selecione um simulado finalizado para ver o gabarito.</p>
+        <div className="bg-white rounded-[2rem] border border-slate-200 shadow-sm p-10 max-w-lg w-full">
+          <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Selecione um simulado finalizado para ver o gabarito.</p>
+        </div>
       </main>
     </div>
   );
@@ -433,27 +435,27 @@ const ResetPasswordScreen = () => {
   };
 
   return (
-    <div className="bg-[#0f172a] min-h-screen flex flex-col items-center justify-center p-6 text-white">
-      <div className="w-full max-w-7xl bg-white/5 rounded-[2.5rem] p-8 border border-white/10 shadow-2xl">
-        <h1 className="text-2xl font-black italic uppercase italic tracking-tighter mb-2 text-yellow-400">Nova Senha</h1>
-        <p className="text-slate-500 text-xs mb-8 uppercase font-bold tracking-[0.2em]">Crie uma senha segura para sua conta</p>
+    <div className="bg-slate-50 min-h-screen flex flex-col items-center justify-center p-6 text-slate-900">
+      <div className="w-full max-w-2xl bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm">
+        <h1 className="text-2xl font-black uppercase tracking-tighter mb-2">Nova Senha</h1>
+        <p className="text-slate-500 text-sm mb-8 uppercase tracking-[0.2em] font-bold">Crie uma senha segura para sua conta</p>
 
         <form onSubmit={handleUpdate} className="space-y-6">
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Senha</label>
             <div className="relative">
               <input
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 required
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 pr-12 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 pr-12 text-sm font-medium focus:border-slate-400 outline-none transition-all"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-yellow-400 transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-900 transition-colors"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
@@ -464,17 +466,17 @@ const ResetPasswordScreen = () => {
             <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Confirmar Senha</label>
             <div className="relative">
               <input
-                type={showConfirmPassword ? "text" : "password"}
+                type={showConfirmPassword ? 'text' : 'password'}
                 required
                 placeholder="••••••••"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full bg-white/10 border border-white/10 rounded-2xl p-4 pr-12 text-sm font-bold focus:border-yellow-400 outline-none transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 pr-12 text-sm font-medium focus:border-slate-400 outline-none transition-all"
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-yellow-400 transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-900 transition-colors"
               >
                 {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
@@ -483,9 +485,9 @@ const ResetPasswordScreen = () => {
 
           <button
             disabled={loading}
-            className="w-full bg-yellow-400 text-black font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-xl shadow-yellow-400/20 uppercase tracking-widest text-sm italic"
+            className="w-full bg-slate-900 text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-sm uppercase tracking-widest text-sm"
           >
-            {loading ? <div className="size-5 border-2 border-black border-t-transparent rounded-full animate-spin" /> : 'Atualizar Senha'}
+            {loading ? <div className="size-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : 'Atualizar Senha'}
           </button>
         </form>
       </div>
@@ -1066,8 +1068,8 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-[#f2f20d] border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-slate-300 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -1081,11 +1083,8 @@ export default function App() {
   return (
     <ModalProvider>
       <Router>
-        <div className="relative flex min-h-screen w-full flex-col lg:flex-row bg-[#0f172a]">
-          <Sidebar
-            isOpen={isSidebarOpen}
-            onClose={() => setSidebarOpen(false)}
-            onLogout={handleLogout}
+        <div className="relative flex min-h-screen w-full flex-col lg:flex-row bg-slate-50">
+          onLogout={handleLogout}
           />
 
           <div className="flex-1 min-w-0 flex flex-col relative w-full">

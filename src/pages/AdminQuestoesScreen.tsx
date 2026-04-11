@@ -147,28 +147,28 @@ export const AdminQuestoesScreen = () => {
     };
 
     return (
-        <div className="bg-[#0f172a] min-h-screen text-white font-sans">
-            <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl text-black">
-                <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
-                    <button onClick={() => navigate('/admin')} className="size-10 flex items-center justify-start text-black">
+        <div className="bg-slate-50 min-h-screen text-slate-900 font-sans">
+            <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm text-slate-900">
+                <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto max-w-6xl">
+                    <button onClick={() => navigate('/admin')} className="size-10 flex items-center justify-start text-slate-900">
                         <ArrowLeft size={24} strokeWidth={2.5} />
                     </button>
                     <div className="flex flex-col items-center">
-                        <h1 className="text-xl font-black leading-tight text-black italic uppercase tracking-tighter">Questões</h1>
-                        <p className="text-[10px] uppercase tracking-widest text-black/60 font-bold">Banco de Dados</p>
+                        <h1 className="text-xl font-black leading-tight text-slate-900 italic uppercase tracking-tighter">Questões</h1>
+                        <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Banco de Dados</p>
                     </div>
                     <div className="size-10" />
                 </div>
             </header>
 
-            <main className="p-4 w-full mx-auto pb-24 space-y-8">
+            <main className="p-4 w-full mx-auto max-w-6xl pb-24 space-y-8">
 
                 {/* Simulado Selector */}
-                <section className="bg-[#1e293b] p-5 rounded-3xl border border-[#334155] shadow-lg">
-                    <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2 px-1">Selecione o Simulado Alvo</label>
+                <section className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+                    <label className="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 px-1">Selecione o Simulado Alvo</label>
                     <div className="relative">
                         <select
-                            className="w-full bg-[#0f172a] border-2 border-[#334155] rounded-xl h-14 px-4 text-white font-bold outline-none focus:border-[#f3ec05] transition-colors appearance-none"
+                            className="w-full bg-slate-50 border-2 border-slate-200 rounded-xl h-14 px-4 text-slate-900 font-semibold outline-none focus:border-amber-300 focus:ring-2 focus:ring-amber-100 transition-colors appearance-none"
                             value={selectedSimuladoId}
                             onChange={(e) => setSelectedSimuladoId(e.target.value)}
                         >
@@ -186,19 +186,19 @@ export const AdminQuestoesScreen = () => {
                 {selectedSimuladoId && (
                     <>
                         {/* Form */}
-                        <section className="bg-[#1e293b] p-6 rounded-3xl border border-[#334155] shadow-xl">
+                        <section className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
                             <div className="flex items-center gap-3 mb-6">
-                                <div className="size-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                                <div className="size-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
                                     <Edit2 size={24} />
                                 </div>
-                                <h2 className="text-xl font-black italic uppercase text-white">
+                                <h2 className="text-xl font-black italic uppercase text-slate-900">
                                     {editingId ? 'Editar Questão' : 'Nova Questão'}
                                 </h2>
                             </div>
 
                             <form onSubmit={handleSave} className="space-y-5">
                                 <div>
-                                    <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2 pl-1">Enunciado / Pergunta</label>
+                                    <label className="block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 pl-1">Enunciado / Pergunta</label>
                                     <RichInput
                                         value={enunciado}
                                         onChange={(val) => setEnunciado(val)}
@@ -218,7 +218,7 @@ export const AdminQuestoesScreen = () => {
                                         { id: 'E', val: opcaoE, set: setOpcaoE, optional: true },
                                     ].map(opt => (
                                         <div key={opt.id} className="flex items-center gap-3">
-                                            <div className={`shrink-0 flex items-center justify-center size-10 rounded-lg font-black text-lg border-2 cursor-pointer transition-colors ${respostaCorreta === opt.id ? 'bg-[#f3ec05] border-[#f3ec05] text-black shadow-[0_0_15px_rgba(243,236,5,0.3)]' : 'bg-[#0f172a] border-[#334155] text-slate-400 hover:border-slate-500'}`} onClick={() => setRespostaCorreta(opt.id as any)}>
+                                            <div className={`shrink-0 flex items-center justify-center size-10 rounded-lg font-black text-lg border-2 cursor-pointer transition-colors ${respostaCorreta === opt.id ? 'bg-[#f3ec05] border-[#f3ec05] text-black shadow-[0_0_15px_rgba(243,236,5,0.3)]' : 'bg-slate-50 border-slate-200 text-slate-500 hover:border-slate-400'}`} onClick={() => setRespostaCorreta(opt.id as any)}>
                                                 {opt.id}
                                             </div>
                                             <input
@@ -226,7 +226,7 @@ export const AdminQuestoesScreen = () => {
                                                 value={opt.val}
                                                 onChange={(e) => opt.set(e.target.value)}
                                                 placeholder={`Texto da alternativa ${opt.id}${opt.optional ? ' (Opcional)' : ''}...`}
-                                                className={`flex-1 bg-[#0f172a] border-2 rounded-xl h-12 px-4 text-sm font-medium outline-none transition-colors ${respostaCorreta === opt.id ? 'border-[#ffd700]/50 focus:border-[#ffd700]' : 'border-[#334155] focus:border-blue-500'}`}
+                                                className={`flex-1 bg-slate-50 border-2 rounded-xl h-12 px-4 text-sm font-medium text-slate-900 outline-none transition-colors ${respostaCorreta === opt.id ? 'border-amber-300 focus:border-amber-300' : 'border-slate-200 focus:border-blue-500'}`}
                                                 required={!opt.optional}
                                             />
                                         </div>
@@ -248,7 +248,7 @@ export const AdminQuestoesScreen = () => {
 
                                 <div className="flex gap-3 pt-4">
                                     {editingId && (
-                                        <button type="button" onClick={resetForm} className="flex-1 py-4 rounded-xl font-bold uppercase text-sm border-2 border-[#334155] text-white hover:bg-[#334155] transition-colors">
+                                        <button type="button" onClick={resetForm} className="flex-1 py-4 rounded-xl font-bold uppercase text-sm border-2 border-slate-200 text-slate-900 bg-slate-50 hover:bg-slate-100 transition-colors">
                                             Cancelar
                                         </button>
                                     )}
@@ -272,18 +272,18 @@ export const AdminQuestoesScreen = () => {
 
                             <div className="space-y-3">
                                 {questoes.length === 0 ? (
-                                    <div className="bg-[#1e293b] border border-[#334155] rounded-2xl p-8 text-center text-slate-400 text-sm font-bold">
+                                    <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center text-slate-500 text-sm font-bold shadow-sm">
                                         Nenhuma questão cadastrada neste simulado ainda.
                                     </div>
                                 ) : (
                                     questoes.map((q, index) => (
-                                        <div key={q.id} className="bg-[#1e293b] border border-[#334155] rounded-2xl p-4 flex gap-4">
-                                            <div className="size-10 rounded-lg bg-[#0f172a] border border-[#334155] flex items-center justify-center font-black text-[#ffd700] shrink-0">
+                                        <div key={q.id} className="bg-white border border-slate-200 rounded-2xl p-4 flex gap-4 shadow-sm">
+                                            <div className="size-10 rounded-lg bg-slate-900 border border-slate-900 flex items-center justify-center font-black text-amber-400 shrink-0">
                                                 {index + 1}
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <div
-                                                    className="font-medium text-sm text-white line-clamp-2 leading-relaxed"
+                                                    className="font-medium text-sm text-slate-900 line-clamp-2 leading-relaxed"
                                                     dangerouslySetInnerHTML={{ __html: q.enunciado }}
                                                 />
                                                 <div className="flex items-center gap-3 mt-3">

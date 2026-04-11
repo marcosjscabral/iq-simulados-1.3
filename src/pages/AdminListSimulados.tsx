@@ -104,33 +104,33 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
     );
 
     return (
-        <div className="bg-[#0f172a] min-h-screen flex justify-center text-white">
-            <div className="relative flex min-h-screen w-full flex-col bg-[#0f172a] overflow-x-hidden">
+        <div className="bg-slate-50 min-h-screen flex justify-center text-slate-900">
+            <div className="relative flex min-h-screen w-full flex-col bg-slate-50 overflow-x-hidden">
 
                 {/* Header */}
-                <header className="sticky top-0 z-50 bg-[#f3ec05] shadow-2xl">
-                    <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto">
+                <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+                    <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto max-w-6xl">
                         <button
                             onClick={() => navigate('/admin')}
-                            className="size-10 flex items-center justify-start text-black"
+                            className="size-10 flex items-center justify-center rounded-2xl bg-slate-100 p-2 text-slate-900 shadow-sm hover:bg-slate-200 transition-all"
                         >
                             <ArrowLeft size={24} />
                         </button>
                         <div className="flex flex-col items-center">
-                            <h1 className="text-xl font-black text-black leading-tight uppercase italic tracking-tighter">Gerenciar Vitrine</h1>
-                            <p className="text-black/60 text-[10px] font-bold uppercase tracking-widest">Administração</p>
+                            <h1 className="text-xl font-black text-slate-900 leading-tight uppercase italic tracking-tighter">Gerenciar Vitrine</h1>
+                            <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Administração</p>
                         </div>
                         <div className="flex gap-2">
                             <button
                                 onClick={() => navigate('/admin/coupons')}
-                                className="text-black p-2 rounded-xl active:scale-95 transition-all"
+                                className="text-slate-900 bg-slate-100 p-2 rounded-xl shadow-sm hover:bg-slate-200 transition-all"
                                 title="Gerenciar Cupons"
                             >
                                 <Ticket size={24} />
                             </button>
                             <button
                                 onClick={() => navigate('/admin/simulados/new')}
-                                className="text-black p-2 rounded-xl active:scale-95 transition-all"
+                                className="text-slate-900 bg-slate-100 p-2 rounded-xl shadow-sm hover:bg-slate-200 transition-all"
                                 title="Novo Simulado"
                             >
                                 <Plus size={24} strokeWidth={3} />
@@ -144,13 +144,13 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
 
                     {/* Search Bar */}
                     <div className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                         <input
                             type="text"
                             placeholder="Buscar simulado pelo nome"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full h-14 pl-12 pr-4 bg-[#1e293b] border-none rounded-full shadow-inner outline-none focus:ring-2 focus:ring-[#ffd700]/20 transition-all font-medium text-white placeholder:text-slate-500"
+                            className="w-full h-14 pl-12 pr-4 bg-white border border-slate-200 rounded-full shadow-sm outline-none focus:ring-2 focus:ring-slate-300 transition-all font-medium text-slate-900 placeholder:text-slate-400"
                         />
                     </div>
 
@@ -169,7 +169,7 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
                             {filteredSimulados.map((sim) => (
                                 <div
                                     key={sim.id}
-                                    className="bg-[#1e293b] p-4 rounded-[2rem] border border-white/5 shadow-xl flex items-center gap-4 group"
+                                    className="bg-white p-4 rounded-[2rem] border border-slate-200 shadow-sm flex items-center gap-4 group"
                                 >
                                     <div className="size-16 shrink-0 rounded-2xl bg-slate-900 overflow-hidden border border-white/5">
                                         {sim.image_url ? (
@@ -199,7 +199,7 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
                                             )}
                                         </div>
                                         <div className="flex items-center gap-2 text-[10px] font-bold text-slate-500 uppercase tracking-tight">
-                                            <span className="text-blue-400">R$ {formatPrice(sim.price)}</span>
+                                            <span className="text-slate-900">R$ {formatPrice(sim.price)}</span>
                                             <span className="opacity-30">•</span>
                                             <span className="truncate max-w-[100px]">{sim.categories[0]}</span>
                                         </div>

@@ -64,7 +64,7 @@ export const CustomModal: React.FC<CustomModalProps> = ({
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
             <div
-                className="bg-[#1e293b] w-full max-w-sm rounded-[2rem] border border-[#334155] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
+                className="bg-white w-full max-w-sm rounded-[2rem] border border-slate-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className="p-6">
@@ -73,11 +73,11 @@ export const CustomModal: React.FC<CustomModalProps> = ({
                             {config.icon}
                         </div>
                         <div>
-                            <h3 className="text-lg font-black text-white italic uppercase tracking-tight leading-tight">{title}</h3>
+                            <h3 className="text-lg font-black text-slate-900 italic uppercase tracking-tight leading-tight">{title}</h3>
                         </div>
                     </div>
 
-                    <p className="text-slate-300 text-[15px] font-medium leading-relaxed mb-8">
+                    <p className="text-slate-600 text-[15px] font-medium leading-relaxed mb-8">
                         {message}
                     </p>
 
@@ -85,7 +85,7 @@ export const CustomModal: React.FC<CustomModalProps> = ({
                         {type === 'confirm' && onCancel && (
                             <button
                                 onClick={onCancel}
-                                className="flex-[1] py-4 rounded-xl font-bold uppercase tracking-widest text-xs border-2 border-[#334155] text-slate-300 hover:bg-[#334155] hover:text-white transition-colors"
+                                className="flex-[1] py-4 rounded-xl font-bold uppercase tracking-widest text-xs border-2 border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
                             >
                                 {cancelText}
                             </button>
