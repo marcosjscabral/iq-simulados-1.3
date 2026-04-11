@@ -52,8 +52,8 @@ export const PremiumStorefrontScreen = () => {
                 const premiumCategories = parentData.parent_categories || [];
 
                 if (premiumCategories.length === 0) {
-                     setLoading(false);
-                     return;
+                    setLoading(false);
+                    return;
                 }
 
                 // 2. Fetch all active simulados
@@ -62,7 +62,7 @@ export const PremiumStorefrontScreen = () => {
                     .select('*')
                     .eq('is_active', true)
                     .order('created_at', { ascending: false });
-                
+
                 if (allSimError) throw allSimError;
 
                 // 3. Filter for children (belongs to a category of the parent, but is NOT the parent)
@@ -100,42 +100,18 @@ export const PremiumStorefrontScreen = () => {
     }, [id, navigate]);
 
     const handleBuy = async (sim: Simulado) => {
-        if (ownedIds.includes(sim.id)) {
-            navigate(`/exam/${sim.id}`);
-            return;
-        }
-
-        if (!sim.stripe_price_id) {
-            showAlert('Indisponível', 'Este simulado não possui um preço configurado no Stripe.', 'warning');
-            return;
-        }
-
         setBuyingId(sim.id);
         try {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) {
-                showAlert('Acesso Negado', 'Por favor, faça login para continuar com a compra.', 'warning');
+                showAlert('Acesso Negado', 'Por favor, faça login para continuar.', 'warning');
                 return;
             }
 
-            const { data: settings } = await supabase.from('app_settings').select('value').eq('key', 'stripe_enabled').single();
-            if (settings?.value !== 'true') {
-                showAlert('Desabilitado', 'O checkout está desabilitado no momento.', 'info');
-                return;
-            }
-
-            const successUrl = `${window.location.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}&simulado_id=${sim.id}`;
-            const cancelUrl = `${window.location.origin}/premium/${id}`;
-
-            const session = await StripeService.createCheckoutSession(sim.stripe_price_id, successUrl, cancelUrl, sim.id);
-            if (session.url) {
-                window.location.href = session.url;
-            } else {
-                throw new Error('Could not create checkout session');
-            }
+            navigate(`/exam/${sim.id}`);
         } catch (err: any) {
-            console.error('Checkout error:', err);
-            showAlert('Erro', 'Erro ao iniciar checkout: ' + (err.message || 'Erro desconhecido'), 'error');
+            console.error('Access error:', err);
+            showAlert('Erro', 'Erro ao acessar o simulado: ' + (err.message || 'Erro desconhecido'), 'error');
         } finally {
             setBuyingId(null);
         }
@@ -221,15 +197,12 @@ export const PremiumStorefrontScreen = () => {
                                                 <button
                                                     disabled={buyingId === simulado.id}
                                                     onClick={(e) => { e.stopPropagation(); handleBuy(simulado); }}
-                                                    className={`px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all shadow-lg active:scale-95 flex items-center gap-2
-                                                        ${isOwned ? 'bg-emerald-600' : 'bg-[#2c73eb]'} text-white`}
+                                                    className={`px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all shadow-lg active:scale-95 flex items-center gap-2 bg-emerald-600 text-white`}
                                                 >
                                                     {buyingId === simulado.id ? (
                                                         <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                                    ) : isOwned ? (
-                                                        'Acessar'
                                                     ) : (
-                                                        'Comprar'
+                                                        'Acessar'
                                                     )}
                                                 </button>
                                             </div>
