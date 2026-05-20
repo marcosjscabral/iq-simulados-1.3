@@ -1,1 +1,45 @@
 @import "tailwindcss";
+
+@theme {
+  --color-bg-primary: #0b0f19;
+  --color-surface-card: #1f2937;
+  --color-text-primary: #f3f4f6;
+  --color-text-secondary: #9ca3af;
+  --color-brand-purple: #7c3aed;
+  --color-success-green: #10b981;
+  --color-error-red: #ef4444;
+
+  --font-interface: "Inter", sans-serif;
+  --font-question: "Plus Jakarta Sans", sans-serif;
+  --font-serif-question: "Merriweather", serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: var(--font-interface);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Scrollbar for modern dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0f19;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1f2937;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2d3748;
+}
