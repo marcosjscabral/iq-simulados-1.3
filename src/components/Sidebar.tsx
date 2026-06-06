@@ -26,12 +26,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
     const navigate = useNavigate();
     const location = useLocation();
 
+    const getApp2Url = () => {
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            return 'http://localhost:3001';
+        }
+        // URL de produção do seu deploy do app v2 no Vercel (pode ajustar conforme necessário)
+        return '/preparaai'; 
+    };
+
     const navItems = [
         { path: '/', label: 'Vitrine', icon: Home },
         { path: '/my-exams', label: 'Meus Simulados', icon: FileText },
         { path: '/materials', label: 'Materiais', icon: FolderOpen },
         { path: '/profile', label: 'Meu Perfil', icon: User },
-        { path: '/IQ_Concursos_App_v. 2.0.0/preparaai', label: 'PreparaAI v2.0', icon: Sparkles, external: true },
+        { path: getApp2Url(), label: 'PreparaAI v2.0', icon: Sparkles, external: true },
     ];
 
     const handleNav = (item: typeof navItems[0]) => {
