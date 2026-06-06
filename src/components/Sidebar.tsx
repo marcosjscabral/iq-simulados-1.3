@@ -7,7 +7,8 @@ import {
     FolderOpen,
     User,
     LogOut,
-    X
+    X,
+    Sparkles
 } from 'lucide-react';
 import './SidebarStyles.css';
 
@@ -30,10 +31,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
         { path: '/my-exams', label: 'Meus Simulados', icon: FileText },
         { path: '/materials', label: 'Materiais', icon: FolderOpen },
         { path: '/profile', label: 'Meu Perfil', icon: User },
+        { path: '/IQ_Concursos_App_v. 2.0.0/preparaai', label: 'PreparaAI v2.0', icon: Sparkles, external: true },
     ];
 
-    const handleNav = (path: string) => {
-        navigate(path);
+    const handleNav = (item: typeof navItems[0]) => {
+        if (item.external) {
+            window.location.href = item.path;
+        } else {
+            navigate(item.path);
+        }
         onClose();
     };
 
@@ -77,7 +83,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             {navItems.map((item) => (
                                 <button
                                     key={item.path}
-                                    onClick={() => handleNav(item.path)}
+                                    onClick={() => handleNav(item)}
                                     className={`sidebar-item ${location.pathname === item.path ? 'active' : ''}`}
                                 >
                                     <item.icon size={22} />

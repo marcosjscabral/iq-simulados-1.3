@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PreparaAI - Modo Estudo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#727577",
+                    "inverse-primary": "#c0c1ff",
+                    "outline": "#767586",
+                    "tertiary-fixed": "#e0e3e5",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed-dim": "#c4c7c9",
+                    "inverse-surface": "#263143",
+                    "primary-container": "#6063ee",
+                    "primary": "#4648d4",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed": "#07006c",
+                    "surface-dim": "#cfdaf2",
+                    "surface-container": "#e7eeff",
+                    "on-tertiary-fixed-variant": "#444749",
+                    "outline-variant": "#c7c4d7",
+                    "surface": "#f9f9ff",
+                    "surface-variant": "#d8e3fb",
+                    "on-secondary-fixed": "#0d1c2e",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface-bright": "#f9f9ff",
+                    "surface-tint": "#494bd6",
+                    "on-secondary-container": "#57657a",
+                    "secondary-fixed-dim": "#b9c7df",
+                    "on-tertiary-fixed": "#191c1e",
+                    "on-secondary-fixed-variant": "#3a485b",
+                    "on-primary-container": "#fffbff",
+                    "on-background": "#111c2d",
+                    "on-primary-fixed-variant": "#2f2ebe",
+                    "surface-container-low": "#f0f3ff",
+                    "on-tertiary-container": "#fbfdff",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#d8e3fb",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "primary-fixed-dim": "#c0c1ff",
+                    "secondary-container": "#d5e3fc",
+                    "surface-container-high": "#dee8ff",
+                    "inverse-on-surface": "#ecf1ff",
+                    "on-surface-variant": "#464554",
+                    "secondary-fixed": "#d5e3fc",
+                    "background": "#f9f9ff",
+                    "on-surface": "#111c2d",
+                    "secondary": "#515f74",
+                    "tertiary": "#595c5e",
+                    "primary-fixed": "#e1e0ff",
+                    "on-error": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px",
+                    "unit": "4px",
+                    "container-max-width": "1280px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .is-flipped { transform: rotateY(180deg); }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .shadow-soft {
+            box-shadow: 0 4px 20px rgba(71, 85, 105, 0.08);
+        }
+        
+        .glow-active:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(96, 99, 238, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
+<header class="bg-surface sticky top-0 z-50 px-margin-mobile md:px-margin-desktop py-4 shadow-sm">
+<div class="max-w-container-max-width mx-auto">
+<div class="flex items-center justify-between mb-4">
+<button aria-label="Fechar sessão" class="flex items-center justify-center p-2 rounded-full text-on-surface-variant hover:bg-surface-container-high transition-colors glow-active">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<div class="text-center">
+<h1 class="font-headline-sm text-headline-sm font-bold text-on-surface">Revisão: Biologia Celular</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Baralho Principal</p>
+</div>
+<div class="font-label-md text-label-md bg-surface-container text-primary px-3 py-1.5 rounded-full flex items-center gap-1 border border-primary/10">
+<span class="material-symbols-outlined text-[18px]" data-icon="style">style</span>
+<span class="font-bold">12</span> / 50
+                </div>
+</div>
+<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="24" class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden" role="progressbar">
+<div class="h-full bg-primary rounded-full w-[24%] transition-all duration-500 ease-out relative">
+<div class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-r from-transparent to-white/30 rounded-full"></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center justify-center p-margin-mobile md:p-margin-desktop w-full max-w-4xl mx-auto">
+<div class="w-full max-w-2xl relative perspective-1000 min-h-[450px]">
+<div class="relative w-full h-full transition-transform duration-700 transform-style-3d ease-[cubic-bezier(0.4,0.0,0.2,1)] absolute inset-0" id="flashcard">
+<div class="absolute inset-0 bg-surface-container-lowest rounded-2xl shadow-soft p-6 md:p-10 flex flex-col items-center justify-center backface-hidden border border-surface-container-high">
+<div class="absolute top-6 left-6 text-on-surface-variant/50">
+<span class="material-symbols-outlined text-4xl" data-icon="help_center" data-weight="fill">help_center</span>
+</div>
+<span class="bg-surface-container text-primary font-label-sm text-label-sm px-4 py-1.5 rounded-full mb-8 tracking-wide">PERGUNTA</span>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface text-center leading-tight">
+                        Qual organela celular é primariamente responsável pela síntese de ATP através do processo de fosforilação oxidativa?
+                    </h2>
+</div>
+<div class="absolute inset-0 bg-surface-container-lowest rounded-2xl shadow-soft p-6 md:p-10 flex flex-col backface-hidden rotate-y-180 border border-surface-container-high overflow-y-auto">
+<div class="w-full text-center mb-6 pb-6 border-b border-surface-container-highest">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Qual organela celular é primariamente responsável pela síntese de ATP através do processo de fosforilação oxidativa?
+                        </p>
+</div>
+<div class="flex-1 flex flex-col items-center justify-center">
+<span class="bg-primary-container text-on-primary-container font-label-sm text-label-sm px-4 py-1.5 rounded-full mb-4 tracking-wide">RESPOSTA</span>
+<h3 class="font-display-lg text-display-lg text-primary text-center mb-6">Mitocôndria</h3>
+<div class="bg-surface-container-low p-6 rounded-xl w-full text-center border border-surface-container">
+<p class="font-body-md text-body-md text-on-surface">
+                                As mitocôndrias são frequentemente chamadas de "usinas de energia" da célula porque geram a maior parte do suprimento de adenosina trifosfato (ATP), usado como fonte de energia química.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full max-w-2xl mt-8 min-h-[80px] flex items-center justify-center">
+<button class="w-full sm:w-auto bg-primary text-on-primary font-label-md text-label-md px-10 py-4 rounded-xl shadow-[0_4px_14px_rgba(70,72,212,0.3)] hover:bg-primary/90 hover:-translate-y-0.5 transition-all duration-200 active:scale-95 flex items-center justify-center gap-2 glow-active" id="btn-show-answer">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+                Ver Resposta
+            </button>
+<div class="hidden w-full grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4" id="feedback-actions">
+<button class="flex flex-col items-center justify-center py-3 px-2 rounded-xl border-2 border-error-container bg-surface-container-lowest hover:bg-error-container text-on-surface transition-all duration-200 active:scale-95 group focus:outline-none focus:ring-2 focus:ring-error focus:ring-offset-2">
+<span class="font-label-sm text-label-sm text-error mb-1 opacity-70 group-hover:opacity-100">&lt; 1 min</span>
+<span class="font-headline-sm text-headline-sm font-bold text-error">Errei</span>
+</button>
+<button class="flex flex-col items-center justify-center py-3 px-2 rounded-xl border-2 border-surface-container-highest bg-surface-container-lowest hover:bg-surface-container-high text-on-surface transition-all duration-200 active:scale-95 group focus:outline-none focus:ring-2 focus:ring-tertiary focus:ring-offset-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant mb-1 opacity-70 group-hover:opacity-100">6 min</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Difícil</span>
+</button>
+<button class="flex flex-col items-center justify-center py-3 px-2 rounded-xl border-2 border-secondary-container bg-surface-container-lowest hover:bg-secondary-container text-on-surface transition-all duration-200 active:scale-95 group focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2">
+<span class="font-label-sm text-label-sm text-secondary mb-1 opacity-70 group-hover:opacity-100">10 min</span>
+<span class="font-headline-sm text-headline-sm font-bold text-secondary">Bom</span>
+</button>
+<button class="flex flex-col items-center justify-center py-3 px-2 rounded-xl border-2 border-primary-container bg-surface-container-lowest hover:bg-primary-container text-on-surface transition-all duration-200 active:scale-95 group focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+<span class="font-label-sm text-label-sm text-primary mb-1 opacity-70 group-hover:opacity-100">4 dias</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Fácil</span>
+</button>
+</div>
+</div>
+</main>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnShowAnswer = document.getElementById('btn-show-answer');
+            const flashcard = document.getElementById('flashcard');
+            const feedbackActions = document.getElementById('feedback-actions');
+            let isFlipped = false;
+
+            btnShowAnswer.addEventListener('click', () => {
+                if (!isFlipped) {
+                    flashcard.classList.add('is-flipped');
+                    
+                    btnShowAnswer.style.display = 'none';
+                    
+                    setTimeout(() => {
+                        feedbackActions.classList.remove('hidden');
+                    }, 150); 
+                    
+                    isFlipped = true;
+                }
+            });
+
+            const feedbackButtons = feedbackActions.querySelectorAll('button');
+            feedbackButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    flashcard.classList.remove('is-flipped');
+                    feedbackActions.classList.add('hidden');
+                    
+                    setTimeout(() => {
+                        btnShowAnswer.style.display = 'flex';
+                    }, 500);
+                    
+                    isFlipped = false;
+                });
+            });
+        });
+    </script>
+</body></html>

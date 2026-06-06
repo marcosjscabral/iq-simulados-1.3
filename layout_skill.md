@@ -6,7 +6,10 @@ Este documento atua como o **guia de estilo absoluto** e diretriz de layout para
 
 ## 🌓 1. Paleta de Cores (Tema Escuro Conforto)
 
-O design deve ser otimizado para sessões prolongadas de leitura, utilizando tons de baixo estresse visual e alto contraste harmônico.
+O webapp deve ter a opção de deixar o tema claro ou escuro. Essa configuração o usuário poderá alterar nas configurações do seu perfil. Quando for feita a alteração, todas as páginas obedecerão o que for escolhido pelo usuário.
+
+Escuro: O design deve ser otimizado para sessões prolongadas de leitura, utilizando tons de baixo estresse visual e alto contraste harmônico.
+
 
 ### Cores Principais (Tokens CSS/Tailwind)
 *   **Fundo Principal (Background):** `#0B0F19`

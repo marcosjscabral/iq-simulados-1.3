@@ -1,0 +1,191 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PreparaAI - Escolha seu Caminho</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error-container": "#ffdad6",
+                      "tertiary-fixed-dim": "#c4c7c9",
+                      "on-tertiary-fixed-variant": "#444749",
+                      "tertiary-fixed": "#e0e3e5",
+                      "tertiary-container": "#727577",
+                      "outline": "#767586",
+                      "surface-container": "#e7eeff",
+                      "on-primary-fixed-variant": "#2f2ebe",
+                      "on-primary-fixed": "#07006c",
+                      "on-surface-variant": "#464554",
+                      "on-error": "#ffffff",
+                      "surface-container-high": "#dee8ff",
+                      "secondary": "#515f74",
+                      "on-tertiary-fixed": "#191c1e",
+                      "on-secondary-container": "#57657a",
+                      "primary-container": "#6063ee",
+                      "primary-fixed": "#e1e0ff",
+                      "on-surface": "#111c2d",
+                      "on-tertiary-container": "#fbfdff",
+                      "surface-container-highest": "#d8e3fb",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-fixed": "#d5e3fc",
+                      "inverse-primary": "#c0c1ff",
+                      "surface-dim": "#cfdaf2",
+                      "primary": "#4648d4",
+                      "inverse-on-surface": "#ecf1ff",
+                      "error": "#ba1a1a",
+                      "on-primary-container": "#fffbff",
+                      "on-tertiary": "#ffffff",
+                      "on-background": "#111c2d",
+                      "on-secondary-fixed-variant": "#3a485b",
+                      "on-secondary": "#ffffff",
+                      "surface-bright": "#f9f9ff",
+                      "outline-variant": "#c7c4d7",
+                      "surface-variant": "#d8e3fb",
+                      "surface-container-low": "#f0f3ff",
+                      "secondary-fixed-dim": "#b9c7df",
+                      "on-error-container": "#93000a",
+                      "inverse-surface": "#263143",
+                      "background": "#f9f9ff",
+                      "surface": "#f9f9ff",
+                      "primary-fixed-dim": "#c0c1ff",
+                      "surface-tint": "#494bd6",
+                      "tertiary": "#595c5e",
+                      "on-primary": "#ffffff",
+                      "secondary-container": "#d5e3fc",
+                      "on-secondary-fixed": "#0d1c2e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px",
+                      "2xl": "1rem",
+                      "3xl": "1.5rem"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "unit": "4px",
+                      "margin-desktop": "40px",
+                      "container-max-width": "1280px"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "headline-sm": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+              },
+              backgroundImage: {
+                'subtle-grid': 'linear-gradient(to right, #e7eeff 1px, transparent 1px), linear-gradient(to bottom, #e7eeff 1px, transparent 1px)',
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 30px -10px rgba(71, 85, 105, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -15px rgba(70, 72, 212, 0.15);
+            border-color: rgba(70, 72, 212, 0.2);
+        }
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen font-sans text-on-surface flex flex-col relative overflow-x-hidden">
+<!-- Decorative Background Elements -->
+<div class="absolute inset-0 bg-subtle-grid bg-grid-pattern opacity-50 pointer-events-none z-0"></div>
+<div class="absolute top-0 left-0 w-[500px] h-[500px] bg-primary-fixed/40 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0"></div>
+<div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-surface-container-high/60 rounded-full blur-[120px] translate-x-1/3 translate-y-1/3 pointer-events-none z-0"></div>
+<!-- Main Content Container -->
+<main class="flex-grow flex flex-col items-center justify-center relative z-10 px-margin-mobile md:px-margin-desktop py-12 md:py-20 w-full max-w-container-max-width mx-auto">
+<!-- Header Section -->
+<header class="text-center mb-12 md:mb-16 w-full max-w-3xl">
+<div class="flex justify-center items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-on-primary" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<h1 class="font-headline-lg-mobile md:font-display-lg text-headline-lg-mobile md:text-display-lg text-on-surface tracking-tight">PreparaAI</h1>
+</div>
+<h2 class="font-headline-sm md:font-headline-md text-headline-sm md:text-headline-md text-on-surface-variant mb-4">Olá, Estudante! Como vamos focar hoje?</h2>
+<p class="font-body-md md:font-body-lg text-body-md md:text-body-lg text-secondary">Escolha o seu caminho principal para a sessão de hoje. Você pode alternar a qualquer momento.</p>
+</header>
+<!-- Path Selection Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full max-w-5xl">
+<!-- Simulados Card -->
+<a class="glass-card rounded-2xl md:rounded-3xl p-6 md:p-10 flex flex-col items-start justify-between h-full min-h-[320px] md:min-h-[400px] group relative overflow-hidden" href="#">
+<!-- Hover Glow Effect -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="relative z-10 w-full">
+<div class="w-14 h-14 rounded-xl md:rounded-2xl bg-surface-container-high flex items-center justify-center mb-6 md:mb-8 group-hover:scale-110 transition-transform duration-300 shadow-sm md:w-20 md:h-20">
+<span class="material-symbols-outlined text-primary text-3xl md:text-5xl" data-icon="quiz">quiz</span>
+</div>
+<h3 class="font-headline-md md:font-headline-lg text-headline-md md:text-headline-lg text-on-surface mb-3 md:mb-4 md:text-4xl">Simulados</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 md:mb-8 line-clamp-3">Pratique com milhares de questões atualizadas e acompanhe sua evolução em tempo real.</p>
+</div>
+<div class="relative z-10 w-full flex items-center justify-between mt-auto pt-4 border-t border-surface-container-highest">
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm">Prática</span>
+<span class="px-3 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-sm text-label-sm">Análise</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-md shadow-primary/30 group-hover:translate-x-2 transition-transform duration-300">
+<span class="material-symbols-outlined text-on-primary md:text-5xl" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</div>
+</a>
+<!-- Estudos & Vade Mecum Card -->
+<a class="glass-card rounded-2xl md:rounded-3xl p-6 md:p-10 flex flex-col items-start justify-between h-full min-h-[320px] md:min-h-[400px] group relative overflow-hidden" href="#">
+<!-- Hover Glow Effect -->
+<div class="absolute inset-0 bg-gradient-to-br from-secondary-fixed/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="relative z-10 w-full">
+<div class="w-14 h-14 rounded-xl md:rounded-2xl bg-surface-container-high flex items-center justify-center mb-6 md:mb-8 group-hover:scale-110 transition-transform duration-300 shadow-sm md:w-20 md:h-20">
+<span class="material-symbols-outlined text-secondary text-3xl md:text-5xl" data-icon="menu_book">menu_book</span>
+</div>
+<h3 class="font-headline-md md:font-headline-lg text-headline-md md:text-headline-lg text-on-surface mb-3 md:mb-4 md:text-4xl">Estudos &amp; Vade Mecum</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 md:mb-8 line-clamp-3">Domine a teoria com nosso Vade Mecum inteligente e flashcards gerados por IA.</p>
+</div>
+<div class="relative z-10 w-full flex items-center justify-between mt-auto pt-4 border-t border-surface-container-highest">
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm">Teoria</span>
+<span class="px-3 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-sm text-label-sm">Leis</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest text-secondary flex items-center justify-center shadow-sm group-hover:bg-secondary group-hover:text-on-secondary group-hover:translate-x-2 transition-all duration-300">
+<span class="material-symbols-outlined md:text-5xl" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</div>
+</a>
+</div>
+</main>
+
+
+</body></html>

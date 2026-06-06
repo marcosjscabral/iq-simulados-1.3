@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html lang="pt-br" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PreparaAI - Relatório de Inteligência 2.0</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "secondary": "#515f74",
+                        "surface-container": "#e7eeff",
+                        "inverse-on-surface": "#ecf1ff",
+                        "primary": "#4648d4",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "tertiary-fixed-dim": "#c4c7c9",
+                        "inverse-primary": "#c0c1ff",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#e1e0ff",
+                        "inverse-surface": "#263143",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "on-surface-variant": "#464554",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#e0e3e5",
+                        "outline": "#767586",
+                        "surface-container-highest": "#d8e3fb",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c7c4d7",
+                        "on-secondary-container": "#57657a",
+                        "surface-tint": "#494bd6",
+                        "secondary-container": "#d5e3fc",
+                        "primary-container": "#6063ee",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#dee8ff",
+                        "on-tertiary-fixed-variant": "#444749",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "tertiary-container": "#727577",
+                        "surface-container-low": "#f0f3ff",
+                        "surface-variant": "#d8e3fb",
+                        "surface-bright": "#f9f9ff",
+                        "secondary-fixed": "#d5e3fc",
+                        "on-tertiary-fixed": "#191c1e",
+                        "on-surface": "#111c2d",
+                        "on-primary-fixed": "#07006c",
+                        "on-background": "#111c2d",
+                        "tertiary": "#595c5e",
+                        "on-tertiary-container": "#fbfdff",
+                        "background": "#f9f9ff",
+                        "surface-dim": "#cfdaf2",
+                        "surface": "#f9f9ff",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "on-primary-container": "#fffbff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max-width": "1280px",
+                        "unit": "4px",
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9ff;
+            color: #111c2d;
+        }
+        .ai-glow {
+            box-shadow: 0 0 15px rgba(70, 72, 212, 0.2);
+            transition: all 0.3s ease;
+        }
+        .ai-glow:hover {
+            box-shadow: 0 0 25px rgba(70, 72, 212, 0.4);
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20 md:pb-0 md:pt-16">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-surface shadow-sm flex items-center justify-between px-margin-mobile md:px-margin-desktop py-4 z-50">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary active:scale-95 duration-150">menu</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">PreparaAI</h1>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex gap-6">
+<a class="font-label-md text-label-md text-primary font-bold transition-colors" href="#">Simulados</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors px-2 py-1 rounded" href="#">Desempenho</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors px-2 py-1 rounded" href="#">IA Mentor</a>
+</nav>
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden border-2 border-surface-container-high">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-hDYKAd57rT9kHUdNd3NgjmvVN8v7PC3UvOztmhVFXFwDNS34fZK-rFMrGIGhs_vF_gesuTDSVqLM6d_kB0Q69vxz25NOtOW7ZeHb8-g5EqDnMTqEQGepC6QHM6j5u0QFly3uGRkIhtY5hCQ-pQOi1ly4uZOo0tkP3omS85iIU66165JZS7RRYw_74oFBbWfRvgiXSh28ZaNkBgLrQCfBiRBn_rm2NzeXUrFjht4CbpgzoeDD5yKZYJSyao8b1odAmWyIGUBAIw"/>
+</div>
+</div>
+</header>
+<main class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-8">
+<!-- Header Section -->
+<div class="mb-8">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Relatório de Inteligência 2.0</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Análise profunda baseada em suas anotações, flashcards e histórico de desempenho para acelerar sua aprovação.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Left Column: Difficulty Mapping -->
+<div class="md:col-span-7 space-y-gutter">
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-sm text-headline-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                            Mapeamento de Dificuldades
+                        </h3>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-8 border border-outline-variant/30 space-y-8">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-md text-body-md font-semibold">Processo Penal (Inquérito)</span>
+<span class="font-label-sm text-error bg-error-container/30 px-3 py-1 rounded-full">Alta</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-3">
+<div class="bg-error h-3 rounded-full shadow-[0_0_8px_rgba(186,26,26,0.3)]" style="width: 85%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-md text-body-md font-semibold">Direito Administrativo (Licitações)</span>
+<span class="font-label-sm text-primary bg-primary-container/20 px-3 py-1 rounded-full">Média</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-3">
+<div class="bg-primary h-3 rounded-full shadow-[0_0_8px_rgba(70,72,212,0.3)]" style="width: 55%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-md text-body-md font-semibold">Português (Sintaxe)</span>
+<span class="font-label-sm text-on-surface-variant bg-surface-variant px-3 py-1 rounded-full">Baixa</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-3">
+<div class="bg-secondary h-3 rounded-full" style="width: 25%"></div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline-sm text-headline-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">edit_note</span>
+                            Anotações que Influenciaram a Análise
+                        </h3>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="bg-white p-5 rounded-xl shadow-sm border border-outline-variant/30">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase">Direito Penal</span>
+</div>
+<h4 class="font-headline-sm text-[16px] mb-2">Teoria do Crime: Ilicitude</h4>
+<p class="font-body-md text-label-md text-on-surface-variant line-clamp-2">Revisão necessária sobre legítima defesa...</p>
+</div>
+<div class="bg-white p-5 rounded-xl shadow-sm border border-outline-variant/30">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase">Constitucional</span>
+</div>
+<h4 class="font-headline-sm text-[16px] mb-2">Remédios Constitucionais</h4>
+<p class="font-body-md text-label-md text-on-surface-variant line-clamp-2">MS vs Habeas Data: pontos de prova.</p>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: AI Generator Section -->
+<div class="md:col-span-5">
+<div class="sticky top-24">
+<div class="bg-primary-container text-on-primary-container p-8 rounded-2xl ai-glow relative overflow-hidden">
+<!-- Abstract AI background decoration -->
+<div class="absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
+<div class="absolute bottom-0 left-0 -ml-8 -mb-8 w-32 h-32 bg-primary/20 rounded-full blur-2xl"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-[32px]">psychology</span>
+<h3 class="font-headline-md text-headline-md">IA Generator</h3>
+</div>
+<p class="font-body-md text-label-md mb-6 opacity-90">Com base nos seus pontos de dificuldade e notas recentes, criei sugestões de simulados personalizados para reforçar seu aprendizado.</p>
+<div class="space-y-4 mb-8">
+<!-- AI Suggestion Card 1 -->
+<div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-label-md text-label-md font-bold">Foco: Inquérito e Provas</h4>
+<span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+<p class="text-[12px] opacity-80 mb-3">20 questões • Nível Difícil • Alinhado com suas notas de ontem.</p>
+<div class="flex gap-2">
+<span class="text-[10px] bg-primary-fixed/20 px-2 py-0.5 rounded">CPP</span>
+<span class="text-[10px] bg-primary-fixed/20 px-2 py-0.5 rounded">Jurisprudência</span>
+</div>
+</div>
+<!-- AI Suggestion Card 2 -->
+<div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20 hover:bg-white/20 transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-label-md text-label-md font-bold">Maratona: Administrativo</h4>
+<span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+<p class="text-[12px] opacity-80 mb-3">50 questões • Nível Intermediário • Foco em Licitações (8.666 vs 14.133).</p>
+<div class="flex gap-2">
+<span class="text-[10px] bg-primary-fixed/20 px-2 py-0.5 rounded">Nova Lei</span>
+<span class="text-[10px] bg-primary-fixed/20 px-2 py-0.5 rounded">Doutrina</span>
+</div>
+</div>
+</div>
+<button class="w-full bg-white text-primary py-4 rounded-xl font-bold font-headline-sm text-[16px] shadow-lg hover:bg-surface-container-low active:scale-95 transition-all">
+                                Gerar Simulado Personalizado
+                            </button>
+</div>
+</div>
+<!-- Quick Stats -->
+<div class="mt-6 grid grid-cols-3 gap-2 bg-white p-4 rounded-2xl border border-outline-variant/30">
+<div class="text-center border-r border-outline-variant/20">
+<p class="text-[9px] uppercase font-bold text-on-surface-variant">Questões</p>
+<p class="text-headline-sm font-bold text-primary">42</p>
+</div>
+<div class="text-center border-r border-outline-variant/20">
+<p class="text-[9px] uppercase font-bold text-on-surface-variant">Tempo</p>
+<p class="text-headline-sm font-bold text-primary">3.5h</p>
+</div>
+<div class="text-center">
+<p class="text-[9px] uppercase font-bold text-on-surface-variant">Precisão</p>
+<p class="text-headline-sm font-bold text-primary">78%</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface shadow-[0_-2px_10px_rgba(71,85,105,0.08)] flex justify-around items-center h-16 pb-safe md:hidden"><a class="flex flex-col items-center justify-center bg-primary text-white rounded-xl px-4 py-2 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">layers</span>
+<span class="font-label-sm text-[10px] font-bold">Flashcards</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-sm text-[10px]">Anotações</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-sm text-[10px]">IA Mentor</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-sm text-[10px]">Vade Mecum</span>
+</a></nav>
+</body></html>
