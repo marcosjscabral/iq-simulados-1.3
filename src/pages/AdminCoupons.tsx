@@ -108,9 +108,9 @@ export default function AdminCoupons() {
     );
 
     return (
-        <div className="bg-slate-50 min-h-screen flex flex-col text-slate-900 font-sans">
+        <div className="min-h-screen flex flex-col" style={{ background: '#f9f9ff', color: '#111c2d', fontFamily: 'Inter, system-ui, sans-serif' }}>
             {/* HEADER */}
-            <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+            <header className="sticky top-0 z-50 border-b" style={{ background: 'rgba(249,249,255,0.92)', backdropFilter: 'blur(12px)', borderColor: '#e7eeff' }}>
                 <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto max-w-6xl">
                     <button onClick={() => navigate('/admin/list')} className="size-10 flex items-center justify-start text-slate-900">
                         <ArrowLeft size={24} />

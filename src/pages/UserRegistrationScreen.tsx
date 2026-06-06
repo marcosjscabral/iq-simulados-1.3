@@ -152,8 +152,8 @@ export const UserRegistrationScreen = () => {
     );
 
     return (
-        <div className="bg-slate-50 min-h-screen flex flex-col font-sans text-slate-900">
-            <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+        <div className="min-h-screen flex flex-col" style={{ background: '#f9f9ff', color: '#111c2d', fontFamily: 'Inter, system-ui, sans-serif' }}>
+            <header className="sticky top-0 z-50 border-b" style={{ background: 'rgba(249,249,255,0.92)', backdropFilter: 'blur(12px)', borderColor: '#e7eeff' }}>
                 <div className="flex items-center gap-4 p-4 pt-12 max-w-6xl mx-auto">
                     <button onClick={() => navigate('/admin')} className="size-10 flex items-center justify-center rounded-lg bg-slate-100 p-2 text-slate-900 shadow-sm hover:bg-slate-200 transition">
                         <ArrowLeft size={24} />

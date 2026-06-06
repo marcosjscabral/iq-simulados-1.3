@@ -1,45 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
-@theme {
-  --color-bg-primary: #0b0f19;
-  --color-surface-card: #1f2937;
-  --color-text-primary: #f3f4f6;
-  --color-text-secondary: #9ca3af;
-  --color-brand-purple: #7c3aed;
-  --color-success-green: #10b981;
-  --color-error-red: #ef4444;
 
-  --font-interface: "Inter", sans-serif;
-  --font-question: "Plus Jakarta Sans", sans-serif;
-  --font-serif-question: "Merriweather", serif;
+/* ============================================================
+   PreparaAI — Design System Tokens (Academic Intelligence)
+   Ref: IQ-Simulados-design/academic_intelligence_system/DESIGN.md
+   ============================================================ */
+
+@theme {
+  /* --- Backgrounds & Surfaces --- */
+  --color-background:                 #f9f9ff;
+  --color-surface:                    #ffffff;
+  --color-surface-dim:                #cfdaf2;
+  --color-surface-bright:             #f9f9ff;
+  --color-surface-container-lowest:   #ffffff;
+  --color-surface-container-low:      #f0f3ff;
+  --color-surface-container:          #e7eeff;
+  --color-surface-container-high:     #dee8ff;
+  --color-surface-container-highest:  #d8e3fb;
+  --color-surface-variant:            #d8e3fb;
+
+  /* --- Text (On-Surface) --- */
+  --color-on-surface:         #111c2d;
+  --color-on-surface-variant: #464554;
+  --color-inverse-surface:    #263143;
+  --color-inverse-on-surface: #ecf1ff;
+
+  /* --- Primary (Deep Purple / Indigo) --- */
+  --color-primary:             #4648d4;
+  --color-on-primary:          #ffffff;
+  --color-primary-container:   #6063ee;
+  --color-on-primary-container:#fffbff;
+  --color-primary-fixed:       #e1e0ff;
+  --color-primary-fixed-dim:   #c0c1ff;
+  --color-on-primary-fixed:    #07006c;
+  --color-inverse-primary:     #c0c1ff;
+  --color-surface-tint:        #494bd6;
+
+  /* --- Secondary (Slate Blue) --- */
+  --color-secondary:              #515f74;
+  --color-on-secondary:           #ffffff;
+  --color-secondary-container:    #d5e3fc;
+  --color-on-secondary-container: #57657a;
+  --color-secondary-fixed:        #d5e3fc;
+  --color-secondary-fixed-dim:    #b9c7df;
+  --color-on-secondary-fixed:     #0d1c2e;
+
+  /* --- Tertiary (Neutral Gray) --- */
+  --color-tertiary:           #595c5e;
+  --color-on-tertiary:        #ffffff;
+  --color-tertiary-container: #727577;
+
+  /* --- Semantic --- */
+  --color-error:             #ba1a1a;
+  --color-on-error:          #ffffff;
+  --color-error-container:   #ffdad6;
+  --color-on-error-container:#93000a;
+  --color-success:           #1a6b3a;
+  --color-success-container: #d4eddf;
+
+  /* --- Borders --- */
+  --color-outline:         #767586;
+  --color-outline-variant: #c7c4d7;
+
+  /* --- Typography --- */
+  --font-interface: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Legacy compat — mapped to new tokens to avoid breaking inline classes */
+  --color-bg-primary:     #f9f9ff;
+  --color-surface-card:   #ffffff;
+  --color-text-primary:   #111c2d;
+  --color-text-secondary: #464554;
+  --color-brand-purple:   #4648d4;
+  --color-success-green:  #1a6b3a;
+  --color-error-red:      #ba1a1a;
 }
 
+/* ============================================================
+   Base Styles
+   ============================================================ */
+
 @layer base {
-  body {
-    background-color: var(--color-bg-primary);
-    color: var(--color-text-primary);
-    font-family: var(--font-interface);
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-on-surface);
+    font-family: var(--font-interface);
     overflow-x: hidden;
   }
 }
 
-/* Custom Scrollbar for modern dark theme */
+/* ============================================================
+   Glassmorphism Utility
+   ============================================================ */
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 10px 30px -10px rgba(71, 85, 105, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -15px rgba(70, 72, 212, 0.15);
+  border-color: rgba(70, 72, 212, 0.2);
+}
+
+/* ============================================================
+   Decorative Background
+   ============================================================ */
+
+.bg-grid-pattern {
+  background-image: linear-gradient(to right, #e7eeff 1px, transparent 1px),
+                    linear-gradient(to bottom, #e7eeff 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ============================================================
+   Progress Bar Glow
+   ============================================================ */
+
+.progress-bar-glow {
+  box-shadow: 0 0 12px rgba(70, 72, 212, 0.4), 0 0 4px rgba(70, 72, 212, 0.2);
+}
+
+/* ============================================================
+   Scrollbar — Light Theme
+   ============================================================ */
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0b0f19;
+  background: #f0f3ff;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1f2937;
-  border-radius: 4px;
+  background: #c7c4d7;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2d3748;
+  background: #767586;
+}
+
+/* ============================================================
+   Utility — Hide scrollbar (keep scroll)
+   ============================================================ */
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ============================================================
+   Micro-animations
+   ============================================================ */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #f0f3ff 25%, #e7eeff 50%, #f0f3ff 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
 }

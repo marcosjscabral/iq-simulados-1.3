@@ -35,14 +35,14 @@ export const StripeToggle: React.FC = () => {
     if (loading) return null;
 
     return (
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xl flex items-center justify-between mb-6">
+        <div className="glass-card p-4 rounded-xl flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-                <div className={`p-2.5 rounded-xl ${isEnabled ? 'bg-emerald-500/10 text-emerald-500' : 'bg-slate-100 text-slate-500'}`}>
+                <div className={`p-2.5 rounded-xl ${isEnabled ? 'bg-emerald-500/10 text-emerald-600' : 'bg-slate-100 text-slate-500'}`}>
                     <CreditCard size={20} />
                 </div>
                 <div>
-                    <h3 className="text-sm font-bold text-slate-900 leading-tight">Integração Stripe</h3>
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                    <h3 className="text-sm font-bold leading-tight" style={{ color: '#111c2d' }}>Integração Stripe</h3>
+                    <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: '#767586' }}>
                         {isEnabled ? 'Modo Ativo' : 'Modo Offline'}
                     </p>
                 </div>
@@ -50,7 +50,7 @@ export const StripeToggle: React.FC = () => {
 
             <button
                 onClick={toggle}
-                className={`relative w-14 h-7 rounded-full transition-all duration-300 flex items-center px-1 ${isEnabled ? 'bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.3)]' : 'bg-slate-700'}`}
+                className={`relative w-14 h-7 rounded-full transition-all duration-300 flex items-center px-1 ${isEnabled ? 'bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.25)]' : 'bg-slate-300'}`}
             >
                 <div className={`size-5 rounded-full bg-white shadow-sm transition-all duration-300 flex items-center justify-center ${isEnabled ? 'translate-x-7' : 'translate-x-0'}`}>
                     <Power size={12} className={isEnabled ? 'text-emerald-500' : 'text-slate-400'} />

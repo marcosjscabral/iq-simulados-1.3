@@ -51,14 +51,12 @@ export const HomeScreen = ({ onOpenMenu, simulados }: HomeScreenProps) => {
 
     setBuyingId(sim.id);
     try {
-      // Check if user is logged in
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         alert('Por favor, faça login para continuar com a compra.');
         return;
       }
 
-      // Check if Stripe enabled
       const { data: settings } = await supabase.from('app_settings').select('value').eq('key', 'stripe_enabled').single();
       if (settings?.value !== 'true') {
         alert('O checkout está desabilitado no momento (Modo Desenvolvimento).');
@@ -116,19 +114,49 @@ export const HomeScreen = ({ onOpenMenu, simulados }: HomeScreenProps) => {
   );
 
   return (
-    <div className="bg-bg-primary min-h-screen pb-24 text-text-primary font-interface select-none">
+    <div className="min-h-screen pb-24 select-none relative overflow-x-hidden" style={{ background: '#f9f9ff' }}>
+
+      {/* Decorative background */}
+      <div className="fixed inset-0 bg-grid-pattern opacity-50 pointer-events-none z-0" />
+      <div className="fixed top-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none z-0"
+        style={{ background: 'radial-gradient(circle, rgba(225,224,255,0.4) 0%, transparent 70%)', transform: 'translate(-30%, -30%)' }} />
+      <div className="fixed bottom-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none z-0"
+        style={{ background: 'radial-gradient(circle, rgba(222,232,255,0.5) 0%, transparent 70%)', transform: 'translate(30%, 30%)' }} />
+
       {/* HEADER */}
-      <header className="sticky top-0 z-50 bg-bg-primary/80 backdrop-blur-md border-b border-slate-900 shadow-sm">
-        <div className="flex items-center p-4 justify-between pt-12 max-w-5xl mx-auto">
-          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-text-primary hover:text-brand-purple focus:outline-none transition-colors">
+      <header className="sticky top-0 z-50 border-b" style={{ background: 'rgba(249,249,255,0.85)', backdropFilter: 'blur(12px)', borderColor: '#e7eeff' }}>
+        <div className="flex items-center p-4 justify-between pt-10 max-w-5xl mx-auto">
+          <button
+            onClick={onOpenMenu}
+            className="size-10 flex items-center justify-start focus:outline-none transition-colors"
+            style={{ color: '#515f74' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#4648d4')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#515f74')}
+          >
             <Menu size={24} />
           </button>
-          <div className="flex flex-col items-center">
-            <h1 className="text-xl font-black leading-tight italic uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-purple-400">Vitrine de Simulados</h1>
-            <p className="text-[9px] uppercase tracking-[0.25em] text-text-secondary font-black mt-1">Plataforma IQ</p>
+
+          <div className="flex flex-col items-center gap-0.5">
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center shadow-sm"
+                style={{ background: 'linear-gradient(135deg, #4648d4 0%, #6063ee 100%)' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                </svg>
+              </div>
+              <h1 className="text-lg font-bold tracking-tight" style={{ color: '#111c2d' }}>Vitrine de Simulados</h1>
+            </div>
+            <p className="text-[10px] font-semibold tracking-[0.2em] uppercase" style={{ color: '#767586' }}>Plataforma IQ</p>
           </div>
+
           <div className="size-10 flex items-center justify-end">
-            <button onClick={() => navigate(isAdmin ? '/admin' : '/profile')} className="rounded-xl bg-surface-card p-2.5 text-text-primary hover:border-brand-purple/50 active:scale-95 transition-all shadow-lg border border-slate-800 cursor-pointer">
+            <button
+              onClick={() => navigate(isAdmin ? '/admin' : '/profile')}
+              className="rounded-xl p-2.5 active:scale-95 transition-all shadow-sm cursor-pointer"
+              style={{ background: '#ffffff', border: '1px solid #e7eeff', color: '#515f74' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#4648d4'; (e.currentTarget as HTMLElement).style.color = '#4648d4'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#e7eeff'; (e.currentTarget as HTMLElement).style.color = '#515f74'; }}
+            >
               {isAdmin ? <Settings size={18} /> : <User size={18} />}
             </button>
           </div>
@@ -136,16 +164,19 @@ export const HomeScreen = ({ onOpenMenu, simulados }: HomeScreenProps) => {
       </header>
 
       {/* CATEGORIES */}
-      <div className="bg-bg-primary/50 backdrop-blur-md py-4.5 border-b border-slate-900 shadow-sm mb-6 sticky top-23 z-40">
-        <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1 px-4 max-w-5xl mx-auto scroll-smooth">
+      <div className="py-4 border-b sticky top-[72px] z-40" style={{ background: 'rgba(249,249,255,0.9)', backdropFilter: 'blur(12px)', borderColor: '#e7eeff' }}>
+        <div className="flex gap-2.5 overflow-x-auto no-scrollbar pb-0.5 px-4 max-w-5xl mx-auto">
           {categories.map(cat => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`flex-shrink-0 px-6 py-2 rounded-full text-[13px] font-bold transition-all border cursor-pointer ${selectedCategory === cat
-                ? 'bg-brand-purple text-text-primary border-brand-purple shadow-lg shadow-brand-purple/20'
-                : 'bg-surface-card text-text-secondary border-slate-800 hover:text-text-primary hover:border-slate-700'
-                }`}
+              className="flex-shrink-0 px-5 py-2 rounded-full text-[13px] font-semibold transition-all cursor-pointer"
+              style={selectedCategory === cat
+                ? { background: '#4648d4', color: '#ffffff', border: '1px solid #4648d4', boxShadow: '0 4px 12px rgba(70,72,212,0.25)' }
+                : { background: '#ffffff', color: '#515f74', border: '1px solid #c7c4d7' }
+              }
+              onMouseEnter={e => { if (selectedCategory !== cat) { (e.currentTarget as HTMLElement).style.borderColor = '#4648d4'; (e.currentTarget as HTMLElement).style.color = '#4648d4'; }}}
+              onMouseLeave={e => { if (selectedCategory !== cat) { (e.currentTarget as HTMLElement).style.borderColor = '#c7c4d7'; (e.currentTarget as HTMLElement).style.color = '#515f74'; }}}
             >
               {cat}
             </button>
@@ -153,13 +184,14 @@ export const HomeScreen = ({ onOpenMenu, simulados }: HomeScreenProps) => {
         </div>
       </div>
 
-      <main className="px-4 space-y-8 max-w-5xl mx-auto pt-2">
+      <main className="px-4 space-y-8 max-w-5xl mx-auto pt-8 relative z-10">
+
         {/* Destaques da Semana */}
         {showFeatured && featuredSimulado && (
-          <section>
-            <div className="flex items-center gap-2 mb-4.5 px-1">
-              <Flame size={20} className="text-brand-purple" strokeWidth={2.5} />
-              <h2 className="text-[17px] font-black text-text-primary uppercase tracking-wider">
+          <section className="animate-fade-in-up">
+            <div className="flex items-center gap-2 mb-5 px-1">
+              <Flame size={18} style={{ color: '#4648d4' }} strokeWidth={2.5} />
+              <h2 className="text-[15px] font-bold tracking-wide uppercase" style={{ color: '#111c2d' }}>
                 Destaques da Semana
               </h2>
             </div>
@@ -168,60 +200,70 @@ export const HomeScreen = ({ onOpenMenu, simulados }: HomeScreenProps) => {
               onClick={() => {
                 const isOwned = ownedIds.includes(featuredSimulado.id);
                 const isParent = featuredSimulado.parent_categories && featuredSimulado.parent_categories.length > 0;
-
                 if (isOwned) {
                   navigate(isParent ? `/premium/${featuredSimulado.id}` : `/exam/${featuredSimulado.id}`);
                 } else {
                   handleBuy(featuredSimulado);
                 }
               }}
-              className="group relative flex flex-col md:flex-row w-full rounded-2xl overflow-hidden cursor-pointer border border-slate-800 bg-surface-card shadow-xl transition-all hover:border-slate-700 hover:shadow-brand-purple/5"
+              className="glass-card rounded-2xl overflow-hidden cursor-pointer group flex flex-col md:flex-row w-full"
             >
-              <div className="relative h-52 md:h-auto md:w-80 shrink-0 bg-slate-900 overflow-hidden border-b md:border-b-0 md:border-r border-slate-900">
+              <div className="relative h-52 md:h-auto md:w-80 shrink-0 overflow-hidden"
+                style={{ background: '#f0f3ff', borderBottom: '1px solid #e7eeff' }}>
+                <div className="md:hidden" style={{ borderBottom: '1px solid #e7eeff' }} />
                 {featuredSimulado.featured_label && (
-                  <span className="absolute top-6 left-6 z-10 px-3 py-1.5 bg-brand-purple text-text-primary text-[9px] font-black uppercase tracking-wider rounded-lg shadow-lg">
+                  <span className="absolute top-4 left-4 z-10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-lg text-white shadow-lg"
+                    style={{ background: '#4648d4', boxShadow: '0 4px 12px rgba(70,72,212,0.35)' }}>
                     {featuredSimulado.featured_label}
                   </span>
                 )}
                 {featuredSimulado.image_url ? (
-                  <img src={featuredSimulado.image_url} alt={featuredSimulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <img src={featuredSimulado.image_url} alt={featuredSimulado.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-text-secondary/20 italic font-black text-4xl">IQ</div>
+                  <div className="w-full h-full flex items-center justify-center text-4xl font-black italic"
+                    style={{ color: '#c7c4d7' }}>IQ</div>
                 )}
               </div>
 
               <div className="p-8 flex flex-col justify-between flex-1">
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-black text-text-primary leading-tight uppercase tracking-tight mb-3 group-hover:text-brand-purple transition-colors">{featuredSimulado.title}</h3>
-                  <p className="text-text-secondary text-sm font-medium leading-relaxed mb-6 line-clamp-3 uppercase">
+                  <h3 className="text-xl sm:text-2xl font-bold leading-tight tracking-tight mb-3 transition-colors"
+                    style={{ color: '#111c2d' }}
+                    onMouseEnter={e => (e.currentTarget.style.color = '#4648d4')}
+                    onMouseLeave={e => (e.currentTarget.style.color = '#111c2d')}>
+                    {featuredSimulado.title}
+                  </h3>
+                  <p className="text-sm font-medium leading-relaxed mb-6 line-clamp-3" style={{ color: '#464554' }}>
                     {featuredSimulado.description || 'Descrição não informada.'}
                   </p>
-                  <div className="flex flex-wrap items-center gap-4 text-[10px] font-black text-text-secondary/70 uppercase tracking-widest mb-6">
+                  <div className="flex flex-wrap items-center gap-3 mb-6">
                     {featuredSimulado.questions_count > 0 && (
-                      <span className="bg-bg-primary px-3 py-1.5 rounded-lg border border-slate-900">{featuredSimulado.questions_count} Questões Objetivas</span>
+                      <span className="text-[11px] font-semibold px-3 py-1.5 rounded-lg"
+                        style={{ background: '#f0f3ff', color: '#4648d4', border: '1px solid #e7eeff' }}>
+                        {featuredSimulado.questions_count} Questões Objetivas
+                      </span>
                     )}
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-800/40">
-                  <span className="text-2xl sm:text-3xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-purple-400 tracking-tighter">
+                <div className="flex items-center justify-between mt-auto pt-5" style={{ borderTop: '1px solid #e7eeff' }}>
+                  <span className="text-2xl sm:text-3xl font-bold tracking-tight"
+                    style={{ background: 'linear-gradient(135deg, #4648d4, #6063ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                     R$ {formatPrice(featuredSimulado.price)}
                   </span>
                   <button
                     disabled={buyingId === featuredSimulado.id}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleBuy(featuredSimulado);
-                    }}
-                    className={`px-8 py-3 rounded-xl text-[12px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:opacity-95 transition-all shadow-lg cursor-pointer ${ownedIds.includes(featuredSimulado.id) ? 'bg-success-green/10 text-success-green border border-success-green/30' : 'bg-brand-purple text-text-primary shadow-brand-purple/20'}`}
+                    onClick={e => { e.stopPropagation(); handleBuy(featuredSimulado); }}
+                    className="px-7 py-3 rounded-xl text-[12px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer"
+                    style={ownedIds.includes(featuredSimulado.id)
+                      ? { background: 'rgba(26,107,58,0.08)', color: '#1a6b3a', border: '1px solid rgba(26,107,58,0.25)' }
+                      : { background: '#4648d4', color: '#ffffff', boxShadow: '0 4px 16px rgba(70,72,212,0.3)' }
+                    }
                   >
                     {buyingId === featuredSimulado.id ? (
-                      <div className="size-4 border-2 border-text-primary border-t-transparent rounded-full animate-spin" />
-                    ) : ownedIds.includes(featuredSimulado.id) ? (
-                      <>Acessar</>
-                    ) : (
-                      <>Comprar</>
-                    )}
+                      <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    ) : ownedIds.includes(featuredSimulado.id) ? 'Acessar' : 'Comprar'}
                   </button>
                 </div>
               </div>
@@ -231,14 +273,16 @@ export const HomeScreen = ({ onOpenMenu, simulados }: HomeScreenProps) => {
 
         {/* Simulados Disponíveis */}
         <section className="pb-16">
-          <h2 className="text-[17px] font-black text-text-primary uppercase tracking-wider mb-5 px-1">Simulados Disponíveis</h2>
+          <h2 className="text-[15px] font-bold tracking-wide uppercase mb-5 px-1" style={{ color: '#111c2d' }}>
+            Simulados Disponíveis
+          </h2>
           {filteredSimulados.length === 0 ? (
-            <div className="p-10 text-center bg-surface-card rounded-2xl border border-slate-800 shadow-xl">
-              <p className="text-text-secondary font-medium text-sm">Nenhum simulado disponível nesta categoria.</p>
+            <div className="p-10 text-center rounded-2xl" style={{ background: '#ffffff', border: '1px solid #e7eeff', boxShadow: '0 4px 16px rgba(71,85,105,0.06)' }}>
+              <p className="font-medium text-sm" style={{ color: '#767586' }}>Nenhum simulado disponível nesta categoria.</p>
             </div>
           ) : (
-            <div className="flex flex-col gap-5">
-              {filteredSimulados.map((simulado) => {
+            <div className="flex flex-col gap-4">
+              {filteredSimulados.map((simulado, idx) => {
                 const isOwned = ownedIds.includes(simulado.id);
                 const isParent = simulado.parent_categories && simulado.parent_categories.length > 0;
 
@@ -252,44 +296,57 @@ export const HomeScreen = ({ onOpenMenu, simulados }: HomeScreenProps) => {
                         handleBuy(simulado);
                       }
                     }}
-                    className="group flex flex-col md:flex-row bg-surface-card border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition-all cursor-pointer shadow-xl md:h-44"
+                    className="glass-card rounded-2xl overflow-hidden cursor-pointer group flex flex-col md:flex-row md:h-44 animate-fade-in-up"
+                    style={{ animationDelay: `${idx * 60}ms` }}
                   >
-                    <div className="w-full md:w-52 h-44 md:h-full shrink-0 bg-slate-900 relative overflow-hidden border-b md:border-b-0 md:border-r border-slate-900">
+                    <div className="w-full md:w-52 h-44 md:h-full shrink-0 relative overflow-hidden"
+                      style={{ background: '#f0f3ff', borderBottom: '1px solid #e7eeff' }}>
                       {simulado.image_url ? (
-                        <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <img src={simulado.image_url} alt={simulado.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-text-secondary/10 italic font-black text-3xl">IQ</div>
+                        <div className="w-full h-full flex items-center justify-center text-3xl font-black italic"
+                          style={{ color: '#c7c4d7' }}>IQ</div>
                       )}
                     </div>
+
                     <div className="p-6 flex flex-col justify-between flex-1">
                       <div>
-                        <h3 className="text-md sm:text-lg font-black text-text-primary leading-tight uppercase tracking-tight mb-2 group-hover:text-brand-purple transition-colors">{simulado.title}</h3>
-                        <p className="text-text-secondary text-xs sm:text-sm font-medium line-clamp-2 leading-relaxed uppercase mb-4 pr-4">{simulado.description}</p>
-                        <div className="flex flex-wrap items-center gap-4 text-[9px] font-black text-text-secondary/60 uppercase tracking-widest mb-4">
+                        <h3 className="text-base sm:text-lg font-bold leading-tight tracking-tight mb-2 transition-colors group-hover:text-primary"
+                          style={{ color: '#111c2d' }}>
+                          {simulado.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm font-medium line-clamp-2 leading-relaxed mb-4 pr-4"
+                          style={{ color: '#464554' }}>
+                          {simulado.description}
+                        </p>
+                        <div className="flex flex-wrap items-center gap-3 mb-4">
                           {simulado.questions_count > 0 && (
-                            <span className="bg-bg-primary px-2.5 py-1 rounded border border-slate-900">{simulado.questions_count} Questões</span>
+                            <span className="text-[11px] font-semibold px-2.5 py-1 rounded-lg"
+                              style={{ background: '#f0f3ff', color: '#4648d4', border: '1px solid #e7eeff' }}>
+                              {simulado.questions_count} Questões
+                            </span>
                           )}
                         </div>
                       </div>
-                      <div className="flex items-center justify-between mt-auto pt-3 border-t border-slate-800/40">
-                        <span className="text-xl sm:text-2xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-purple-400 tracking-tighter">
+
+                      <div className="flex items-center justify-between mt-auto pt-3" style={{ borderTop: '1px solid #e7eeff' }}>
+                        <span className="text-xl sm:text-2xl font-bold tracking-tight"
+                          style={{ background: 'linear-gradient(135deg, #4648d4, #6063ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                           R$ {formatPrice(simulado.price)}
                         </span>
                         <button
                           disabled={buyingId === simulado.id}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleBuy(simulado);
-                          }}
-                          className={`px-6 py-2.5 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all shadow-lg cursor-pointer ${isOwned ? 'bg-success-green/10 text-success-green border border-success-green/20' : 'bg-brand-purple text-text-primary shadow-brand-purple/20'}`}
+                          onClick={e => { e.stopPropagation(); handleBuy(simulado); }}
+                          className="px-5 py-2.5 rounded-xl font-bold uppercase tracking-widest text-[11px] transition-all shadow-sm cursor-pointer"
+                          style={isOwned
+                            ? { background: 'rgba(26,107,58,0.08)', color: '#1a6b3a', border: '1px solid rgba(26,107,58,0.2)' }
+                            : { background: '#4648d4', color: '#ffffff', boxShadow: '0 4px 12px rgba(70,72,212,0.25)' }
+                          }
                         >
                           {buyingId === simulado.id ? (
-                            <div className="size-4 border-2 border-text-primary border-t-transparent rounded-full animate-spin" />
-                          ) : isOwned ? (
-                            'Acessar'
-                          ) : (
-                            'Comprar'
-                          )}
+                            <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          ) : isOwned ? 'Acessar' : 'Comprar'}
                         </button>
                       </div>
                     </div>

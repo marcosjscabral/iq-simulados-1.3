@@ -108,20 +108,62 @@ export const ProfileScreen = ({ onOpenMenu, onLogout }: ProfileScreenProps) => {
     );
   };
 
+  const menuItems = [
+    {
+      icon: Receipt,
+      label: 'Histórico de Pedidos',
+      sub: 'Acessar todas as compras',
+      onClick: () => navigate('/profile/purchases'),
+    },
+    {
+      icon: User,
+      label: 'Editar Dados Pessoais',
+      sub: 'Nome, e-mail e telefone',
+      onClick: () => navigate('/profile/edit'),
+    },
+    {
+      icon: ShieldCheck,
+      label: 'Trocar Senha',
+      sub: 'Enviar e-mail de redefinição',
+      onClick: handlePasswordChange,
+    },
+  ];
+
   return (
-    <div className="bg-bg-primary min-h-screen flex flex-col font-interface text-text-primary select-none">
-      <header className="sticky top-0 z-50 bg-bg-primary/80 backdrop-blur-md border-b border-slate-900 shadow-sm">
-        <div className="flex items-center p-4 justify-between pt-12 max-w-5xl mx-auto">
-          <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-text-primary hover:text-brand-purple focus:outline-none transition-colors">
+    <div className="min-h-screen flex flex-col select-none relative overflow-x-hidden" style={{ background: '#f9f9ff' }}>
+
+      {/* Decorative background */}
+      <div className="fixed inset-0 bg-grid-pattern opacity-40 pointer-events-none z-0" />
+      <div className="fixed top-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none z-0"
+        style={{ background: 'radial-gradient(circle, rgba(225,224,255,0.35) 0%, transparent 70%)', transform: 'translate(25%, -25%)' }} />
+
+      {/* HEADER */}
+      <header className="sticky top-0 z-50 border-b" style={{ background: 'rgba(249,249,255,0.85)', backdropFilter: 'blur(12px)', borderColor: '#e7eeff' }}>
+        <div className="flex items-center p-4 justify-between pt-10 max-w-5xl mx-auto">
+          <button
+            onClick={onOpenMenu}
+            className="size-10 flex items-center justify-start focus:outline-none transition-colors"
+            style={{ color: '#515f74' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#4648d4')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#515f74')}
+          >
             <Menu size={24} />
           </button>
-          <div className="flex flex-col items-center">
-            <h1 className="text-xl font-black leading-tight italic uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-purple-400">Perfil</h1>
-            <p className="text-[9px] uppercase tracking-[0.25em] text-text-secondary font-black mt-1">Conta</p>
+
+          <div className="flex flex-col items-center gap-0.5">
+            <h1 className="text-lg font-bold tracking-tight" style={{ color: '#111c2d' }}>Perfil</h1>
+            <p className="text-[10px] font-semibold tracking-[0.2em] uppercase" style={{ color: '#767586' }}>Conta</p>
           </div>
+
           <div className="size-10 flex items-center justify-end">
             {isAdmin ? (
-              <button onClick={() => navigate('/admin')} className="rounded-xl bg-surface-card p-2.5 text-text-primary hover:border-brand-purple/50 active:scale-95 transition-all shadow-lg border border-slate-800 cursor-pointer">
+              <button
+                onClick={() => navigate('/admin')}
+                className="rounded-xl p-2.5 active:scale-95 transition-all shadow-sm cursor-pointer"
+                style={{ background: '#ffffff', border: '1px solid #e7eeff', color: '#515f74' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#4648d4'; (e.currentTarget as HTMLElement).style.color = '#4648d4'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#e7eeff'; (e.currentTarget as HTMLElement).style.color = '#515f74'; }}
+              >
                 <Settings size={18} />
               </button>
             ) : <div className="size-10" />}
@@ -129,10 +171,16 @@ export const ProfileScreen = ({ onOpenMenu, onLogout }: ProfileScreenProps) => {
         </div>
       </header>
 
-      <main className="flex-1 w-full max-w-2xl mx-auto pb-24 px-4 overflow-y-auto">
-        <section className="flex flex-col items-center py-10">
+      <main className="flex-1 w-full max-w-2xl mx-auto pb-24 px-4 overflow-y-auto relative z-10">
+
+        {/* Avatar Section */}
+        <section className="flex flex-col items-center py-10 animate-fade-in-up">
           <div className="relative group">
-            <div className={`w-32 h-32 rounded-full border-4 border-slate-800 p-1 bg-slate-900 shadow-xl ${uploading ? 'opacity-50' : ''} overflow-hidden transition-all duration-300 group-hover:border-brand-purple`}>
+            <div className={`w-32 h-32 rounded-full p-1 overflow-hidden transition-all duration-300 ${uploading ? 'opacity-50' : ''}`}
+              style={{ border: '3px solid #e7eeff', background: '#f0f3ff', boxShadow: '0 8px 24px rgba(70,72,212,0.1)' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#4648d4'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#e7eeff'; }}
+            >
               {userAvatar ? (
                 <img
                   src={userAvatar}
@@ -141,76 +189,68 @@ export const ProfileScreen = ({ onOpenMenu, onLogout }: ProfileScreenProps) => {
                   referrerPolicy="no-referrer"
                 />
               ) : (
-                <div className="w-full h-full rounded-full bg-slate-800 flex items-center justify-center">
-                  <User size={56} className="text-text-secondary" />
+                <div className="w-full h-full rounded-full flex items-center justify-center"
+                  style={{ background: '#f0f3ff' }}>
+                  <User size={52} style={{ color: '#c7c4d7' }} />
                 </div>
               )}
             </div>
-            <label className="absolute bottom-1 right-1 bg-brand-purple text-text-primary p-2 rounded-xl shadow-lg border border-slate-900 cursor-pointer hover:scale-110 active:scale-95 transition-all">
+            <label className="absolute bottom-1 right-1 p-2 rounded-xl shadow-md cursor-pointer transition-all hover:scale-110 active:scale-95"
+              style={{ background: '#4648d4', color: '#ffffff', border: '2px solid #ffffff' }}>
               {uploading ? (
-                <Loader2 size={14} className="animate-spin text-text-primary" />
+                <Loader2 size={14} className="animate-spin" />
               ) : (
                 <Edit size={14} />
               )}
               <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
             </label>
           </div>
-          <div className="mt-6 text-center">
-            <h2 className="text-xl font-black tracking-wider uppercase italic text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-purple-400">{userName}</h2>
+
+          <div className="mt-5 text-center">
+            <h2 className="text-xl font-bold tracking-tight" style={{ color: '#111c2d' }}>{userName}</h2>
+            <p className="text-sm mt-1" style={{ color: '#767586' }}>Minha Conta</p>
           </div>
         </section>
 
-        <section className="mb-8">
-          <h3 className="text-[9px] font-black uppercase tracking-[0.2em] text-text-secondary mb-4 px-2">Configurações e Segurança</h3>
-          <div className="bg-surface-card rounded-2xl overflow-hidden divide-y divide-slate-900 border border-slate-800 shadow-xl">
-            <button
-              onClick={() => navigate('/profile/purchases')}
-              className="w-full flex items-center justify-between p-5 hover:bg-slate-800/40 transition-colors cursor-pointer"
-            >
-              <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center size-11 rounded-xl bg-bg-primary text-brand-purple border border-slate-900">
-                  <Receipt size={20} />
+        {/* Settings Menu */}
+        <section className="mb-8 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-3 px-1" style={{ color: '#767586' }}>
+            Configurações e Segurança
+          </p>
+          <div className="rounded-2xl overflow-hidden" style={{ background: '#ffffff', border: '1px solid #e7eeff', boxShadow: '0 4px 16px rgba(71,85,105,0.06)' }}>
+            {menuItems.map((item, idx) => (
+              <button
+                key={idx}
+                onClick={item.onClick}
+                className="w-full flex items-center justify-between p-5 transition-colors cursor-pointer"
+                style={{ borderBottom: idx < menuItems.length - 1 ? '1px solid #f0f3ff' : 'none' }}
+                onMouseEnter={e => (e.currentTarget.style.background = '#f9f9ff')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-center size-11 rounded-xl"
+                    style={{ background: '#f0f3ff', border: '1px solid #e7eeff', color: '#4648d4' }}>
+                    <item.icon size={20} />
+                  </div>
+                  <div className="text-left">
+                    <span className="block font-semibold text-sm" style={{ color: '#111c2d' }}>{item.label}</span>
+                    <span className="block text-[11px] font-medium mt-0.5" style={{ color: '#767586' }}>{item.sub}</span>
+                  </div>
                 </div>
-                <div className="text-left">
-                  <span className="block font-bold text-sm text-text-primary">Histórico de Pedidos</span>
-                  <span className="block text-[8px] text-text-secondary uppercase font-bold tracking-widest">Acessar todas as compras</span>
-                </div>
-              </div>
-              <ChevronRight size={18} className="text-text-secondary" />
-            </button>
-
-            <button onClick={() => navigate('/profile/edit')} className="w-full flex items-center justify-between p-5 hover:bg-slate-800/40 transition-colors cursor-pointer">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center size-11 rounded-xl bg-bg-primary text-brand-purple border border-slate-900">
-                  <User size={20} />
-                </div>
-                <div className="text-left">
-                  <span className="block font-bold text-sm text-text-primary">Editar Dados Pessoais</span>
-                  <span className="block text-[8px] text-text-secondary uppercase font-bold tracking-widest">Nome, e-mail e telefone</span>
-                </div>
-              </div>
-              <ChevronRight size={18} className="text-text-secondary" />
-            </button>
-
-            <button onClick={handlePasswordChange} className="w-full flex items-center justify-between p-5 hover:bg-slate-800/40 transition-colors cursor-pointer">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center size-11 rounded-xl bg-bg-primary text-brand-purple border border-slate-900">
-                  <ShieldCheck size={20} />
-                </div>
-                <div className="text-left">
-                  <span className="block font-bold text-sm text-text-primary">Trocar Senha</span>
-                  <span className="block text-[8px] text-text-secondary uppercase font-bold tracking-widest">Enviar e-mail de redefinição</span>
-                </div>
-              </div>
-              <ChevronRight size={18} className="text-text-secondary" />
-            </button>
+                <ChevronRight size={18} style={{ color: '#c7c4d7' }} />
+              </button>
+            ))}
           </div>
         </section>
 
-        <section className="mt-12 pb-12">
+        {/* Logout */}
+        <section className="mt-6 pb-12 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
           <button
             onClick={onLogout}
-            className="w-full bg-error-red/10 hover:bg-error-red text-error-red hover:text-text-primary font-black py-4.5 rounded-2xl flex items-center justify-center gap-2.5 transition-all active:scale-[0.99] border border-error-red/15 hover:border-error-red hover:shadow-lg hover:shadow-error-red/10 uppercase tracking-widest text-xs cursor-pointer"
+            className="w-full py-4 rounded-2xl flex items-center justify-center gap-2.5 transition-all active:scale-[0.99] font-bold uppercase tracking-widest text-xs cursor-pointer"
+            style={{ background: 'rgba(186,26,26,0.05)', color: '#ba1a1a', border: '1px solid rgba(186,26,26,0.12)' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#ba1a1a'; (e.currentTarget as HTMLElement).style.color = '#ffffff'; (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 20px rgba(186,26,26,0.2)'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(186,26,26,0.05)'; (e.currentTarget as HTMLElement).style.color = '#ba1a1a'; (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}
           >
             <LogOut size={16} /> Sair da Conta
           </button>

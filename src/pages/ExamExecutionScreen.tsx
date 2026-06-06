@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, ShieldCheck, Loader2, CheckCircle2, ChevronRight, Clock, ListChecks, Eye, EyeOff, XCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Loader2, CheckCircle2, Clock, ListChecks, Eye, EyeOff, XCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import { Simulado, Questao } from '../types';
@@ -93,19 +93,24 @@ export const ExamExecutionScreen = () => {
 
     if (loading) {
         return (
-            <div className="bg-bg-primary min-h-screen flex items-center justify-center">
-                <Loader2 className="w-12 h-12 text-brand-purple animate-spin" />
+            <div className="min-h-screen flex items-center justify-center" style={{ background: '#f9f9ff' }}>
+                <Loader2 className="w-12 h-12 animate-spin" style={{ color: '#4648d4' }} />
             </div>
         );
     }
 
     if (!simulado || questoes.length === 0) {
         return (
-            <div className="bg-bg-primary min-h-screen flex flex-col items-center justify-center text-text-primary p-6 text-center">
-                <div className="bg-surface-card rounded-2xl p-10 shadow-xl border border-slate-800 max-w-md w-full">
-                    <h2 className="text-2xl font-black mb-4 tracking-tight">Módulo Vazio</h2>
-                    <p className="text-text-secondary">Este simulado ainda não possui questões cadastradas.</p>
-                    <button onClick={() => navigate(-1)} className="mt-8 w-full bg-brand-purple hover:bg-brand-purple/90 text-text-primary py-3 rounded-xl font-bold transition shadow-lg shadow-brand-purple/20">
+            <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center" style={{ background: '#f9f9ff' }}>
+                <div className="rounded-2xl p-10 max-w-md w-full"
+                    style={{ background: '#ffffff', border: '1px solid #e7eeff', boxShadow: '0 8px 24px rgba(71,85,105,0.08)' }}>
+                    <h2 className="text-2xl font-bold mb-4 tracking-tight" style={{ color: '#111c2d' }}>Módulo Vazio</h2>
+                    <p style={{ color: '#767586' }}>Este simulado ainda não possui questões cadastradas.</p>
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="mt-8 w-full py-3 rounded-xl font-bold transition shadow-md"
+                        style={{ background: '#4648d4', color: '#ffffff', boxShadow: '0 4px 16px rgba(70,72,212,0.3)' }}
+                    >
                         Voltar
                     </button>
                 </div>
@@ -128,49 +133,74 @@ export const ExamExecutionScreen = () => {
         };
 
         return (
-            <div className="bg-bg-primary min-h-screen flex flex-col text-text-primary font-interface">
-                <header className="sticky top-0 z-50 bg-bg-primary/80 backdrop-blur-md border-b border-slate-900 shadow-sm">
-                    <div className="flex flex-col items-center pt-12 pb-5 w-full mx-auto max-w-5xl px-4">
-                        <h1 className="text-xl font-black leading-tight italic uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-purple-400">Resultado Final</h1>
-                        <p className="text-xs text-text-secondary mt-1 text-center font-medium">{simulado.title}</p>
+            <div className="min-h-screen flex flex-col" style={{ background: '#f9f9ff' }}>
+                <div className="fixed inset-0 bg-grid-pattern opacity-40 pointer-events-none z-0" />
+
+                <header className="sticky top-0 z-50 border-b" style={{ background: 'rgba(249,249,255,0.9)', backdropFilter: 'blur(12px)', borderColor: '#e7eeff' }}>
+                    <div className="flex flex-col items-center pt-10 pb-5 w-full mx-auto max-w-5xl px-4">
+                        <h1 className="text-xl font-bold leading-tight tracking-tight" style={{ color: '#111c2d' }}>Resultado Final</h1>
+                        <p className="text-xs mt-1 text-center font-medium" style={{ color: '#767586' }}>{simulado.title}</p>
                     </div>
                 </header>
 
-                <main className="flex-1 px-4 py-10 flex flex-col items-center w-full mx-auto">
-                    <div className="grid gap-6 w-full max-w-4xl sm:grid-cols-[1fr_1fr] mb-8">
-                        <div className="rounded-2xl border border-slate-800 bg-surface-card p-8 shadow-xl flex flex-col items-center justify-center">
-                            <div className="rounded-full bg-success-green/10 text-success-green w-[120px] h-[120px] grid place-items-center shadow-lg border border-success-green/20">
-                                <span className="text-4xl font-black italic">{scorePercentage.toFixed(0)}%</span>
+                <main className="flex-1 px-4 py-10 flex flex-col items-center w-full mx-auto relative z-10">
+                    <div className="grid gap-5 w-full max-w-4xl sm:grid-cols-2 mb-8">
+                        {/* Score card */}
+                        <div className="rounded-2xl p-8 flex flex-col items-center justify-center animate-fade-in-up"
+                            style={{ background: '#ffffff', border: '1px solid #e7eeff', boxShadow: '0 8px 24px rgba(71,85,105,0.07)' }}>
+                            <div className="w-28 h-28 rounded-full grid place-items-center mb-4"
+                                style={{ background: 'rgba(26,107,58,0.08)', border: '2px solid rgba(26,107,58,0.2)' }}>
+                                <span className="text-4xl font-bold" style={{ color: '#1a6b3a' }}>
+                                    {scorePercentage.toFixed(0)}%
+                                </span>
                             </div>
-                            <span className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-text-secondary">Aproveitamento</span>
+                            <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: '#767586' }}>Aproveitamento</span>
                         </div>
-                        <div className="rounded-2xl border border-slate-800 bg-surface-card p-8 shadow-xl flex flex-col items-center justify-center">
-                            <div className="rounded-full bg-brand-purple/10 text-brand-purple w-[120px] h-[120px] grid place-items-center shadow-lg border border-brand-purple/20">
-                                <Clock size={40} />
+
+                        {/* Time card */}
+                        <div className="rounded-2xl p-8 flex flex-col items-center justify-center animate-fade-in-up"
+                            style={{ background: '#ffffff', border: '1px solid #e7eeff', boxShadow: '0 8px 24px rgba(71,85,105,0.07)', animationDelay: '80ms' }}>
+                            <div className="w-28 h-28 rounded-full grid place-items-center mb-4"
+                                style={{ background: '#f0f3ff', border: '2px solid #e7eeff' }}>
+                                <Clock size={40} style={{ color: '#4648d4' }} />
                             </div>
-                            <span className="mt-4 text-2xl font-black text-text-primary">{formatTime(timeSpent)}</span>
-                            <span className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-text-secondary">Tempo Total</span>
+                            <span className="text-2xl font-bold mb-1" style={{ color: '#111c2d' }}>{formatTime(timeSpent)}</span>
+                            <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: '#767586' }}>Tempo Total</span>
                         </div>
                     </div>
 
-                    <div className="w-full max-w-2xl bg-surface-card rounded-2xl border border-slate-800 p-8 shadow-xl text-center mb-8">
-                        <p className="font-bold text-lg text-text-primary mb-2">Resumo do Desempenho</p>
-                        <p className="text-text-secondary">Você acertou <span className="font-black text-text-primary text-lg">{correctCount}</span> de <span className="font-black text-text-primary text-lg">{questoes.length}</span> questões do simulado.</p>
+                    {/* Summary */}
+                    <div className="w-full max-w-2xl rounded-2xl p-8 text-center mb-8 animate-fade-in-up"
+                        style={{ background: '#ffffff', border: '1px solid #e7eeff', boxShadow: '0 8px 24px rgba(71,85,105,0.07)', animationDelay: '120ms' }}>
+                        <p className="font-bold text-lg mb-2" style={{ color: '#111c2d' }}>Resumo do Desempenho</p>
+                        <p style={{ color: '#464554' }}>
+                            Você acertou{' '}
+                            <span className="font-bold text-lg" style={{ color: '#111c2d' }}>{correctCount}</span>
+                            {' '}de{' '}
+                            <span className="font-bold text-lg" style={{ color: '#111c2d' }}>{questoes.length}</span>
+                            {' '}questões do simulado.
+                        </p>
                     </div>
 
-                    <div className="w-full max-w-2xl space-y-4">
+                    <div className="w-full max-w-2xl space-y-3 animate-fade-in-up" style={{ animationDelay: '160ms' }}>
                         <button
                             onClick={() => {
                                 setIsReviewing(true);
                                 setCurrentQuestionIndex(0);
                             }}
-                            className="w-full bg-brand-purple hover:bg-brand-purple/90 text-text-primary py-4 rounded-xl font-black uppercase tracking-widest text-sm shadow-lg shadow-brand-purple/20 transition flex items-center justify-center gap-2"
+                            className="w-full py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition flex items-center justify-center gap-2 cursor-pointer"
+                            style={{ background: '#4648d4', color: '#ffffff', boxShadow: '0 4px 16px rgba(70,72,212,0.3)' }}
+                            onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
+                            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
                         >
                             <ListChecks size={20} /> Ver Gabarito Comentado
                         </button>
                         <button
                             onClick={() => navigate('/my-exams')}
-                            className="w-full bg-surface-card text-text-primary py-4 rounded-xl font-black uppercase tracking-widest text-sm border border-slate-800 shadow-lg hover:bg-slate-800 transition flex items-center justify-center gap-2"
+                            className="w-full py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition flex items-center justify-center gap-2 cursor-pointer"
+                            style={{ background: '#ffffff', color: '#515f74', border: '1px solid #c7c4d7' }}
+                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#4648d4'; (e.currentTarget as HTMLElement).style.color = '#4648d4'; }}
+                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#c7c4d7'; (e.currentTarget as HTMLElement).style.color = '#515f74'; }}
                         >
                             <ArrowLeft size={20} /> Meus Simulados
                         </button>
@@ -184,41 +214,61 @@ export const ExamExecutionScreen = () => {
     const progressPercentage = (answeredQuestionsCount / questoes.length) * 100;
 
     return (
-        <div className="bg-bg-primary min-h-screen flex flex-col text-text-primary font-interface">
-            <header className="sticky top-0 z-50 bg-bg-primary/80 backdrop-blur-md border-b border-slate-900 shadow-sm">
-                <div className="flex items-center justify-between gap-4 p-4 pt-12 max-w-5xl w-full mx-auto">
-                    <button onClick={() => navigate('/my-exams')} className="size-10 flex items-center justify-center rounded-xl bg-surface-card border border-slate-800 text-text-primary shadow-lg hover:bg-slate-800 transition">
+        <div className="min-h-screen flex flex-col" style={{ background: '#f9f9ff', fontFamily: 'Inter, system-ui, sans-serif' }}>
+
+            {/* HEADER */}
+            <header className="sticky top-0 z-50 border-b" style={{ background: 'rgba(249,249,255,0.92)', backdropFilter: 'blur(12px)', borderColor: '#e7eeff' }}>
+                <div className="flex items-center justify-between gap-4 p-4 pt-10 max-w-5xl w-full mx-auto">
+                    <button
+                        onClick={() => navigate('/my-exams')}
+                        className="size-10 flex items-center justify-center rounded-xl transition"
+                        style={{ background: '#ffffff', border: '1px solid #e7eeff', color: '#515f74' }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#4648d4'; (e.currentTarget as HTMLElement).style.color = '#4648d4'; }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#e7eeff'; (e.currentTarget as HTMLElement).style.color = '#515f74'; }}
+                    >
                         <ArrowLeft size={20} />
                     </button>
                     <div className="flex-1 text-center">
-                        <h1 className="text-md sm:text-lg font-black leading-tight italic uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-purple-400">{simulado.title}</h1>
-                        <p className="text-[9px] uppercase tracking-[0.25em] text-text-secondary font-black mt-1">Plataforma IQ</p>
+                        <h1 className="text-sm sm:text-base font-bold leading-tight tracking-tight line-clamp-1" style={{ color: '#111c2d' }}>{simulado.title}</h1>
+                        <p className="text-[10px] font-semibold tracking-[0.2em] uppercase mt-0.5" style={{ color: '#767586' }}>Plataforma IQ</p>
                     </div>
                     <div className="size-10" />
                 </div>
-                <div className="h-1.5 bg-slate-900 w-full">
-                    <div className="h-full bg-gradient-to-r from-brand-purple to-purple-400 transition-all duration-300" style={{ width: `${progressPercentage}%` }} />
+                {/* Progress bar */}
+                <div className="h-1.5 w-full" style={{ background: '#f0f3ff' }}>
+                    <div
+                        className="h-full transition-all duration-500 progress-bar-glow"
+                        style={{ width: `${progressPercentage}%`, background: 'linear-gradient(90deg, #4648d4, #6063ee)' }}
+                    />
                 </div>
             </header>
 
-            <main className="flex-1 p-4 pb-28 max-w-3xl w-full mx-auto space-y-6">
+            <main className="flex-1 p-4 pb-28 max-w-3xl w-full mx-auto space-y-5">
+
+                {/* Question meta row */}
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="size-12 rounded-xl bg-surface-card border border-slate-800 shadow-lg grid place-items-center">
-                            <span className="text-brand-purple font-black text-xl">{currentQuestionIndex + 1}</span>
+                        <div className="size-12 rounded-xl grid place-items-center"
+                            style={{ background: '#ffffff', border: '1px solid #e7eeff', boxShadow: '0 2px 8px rgba(71,85,105,0.06)' }}>
+                            <span className="font-bold text-xl" style={{ color: '#4648d4' }}>{currentQuestionIndex + 1}</span>
                         </div>
                         <div>
-                            <p className="text-[9px] uppercase tracking-[0.2em] text-text-secondary font-black">Questão</p>
-                            <p className="text-xs font-bold text-text-secondary">de {questoes.length}</p>
+                            <p className="text-[10px] uppercase tracking-[0.2em] font-bold" style={{ color: '#767586' }}>Questão</p>
+                            <p className="text-xs font-semibold" style={{ color: '#464554' }}>de {questoes.length}</p>
                         </div>
                     </div>
+
+                    {/* Timer toggle */}
                     <button
                         onClick={() => setShowTimer(!showTimer)}
-                        className="inline-flex items-center gap-2 rounded-xl border border-slate-800 bg-surface-card px-4 py-2.5 text-xs font-bold text-text-secondary shadow-lg hover:bg-slate-800 transition"
+                        className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-semibold transition"
+                        style={{ background: '#ffffff', border: '1px solid #e7eeff', color: '#515f74' }}
+                        onMouseEnter={e => (e.currentTarget.style.borderColor = '#c7c4d7')}
+                        onMouseLeave={e => (e.currentTarget.style.borderColor = '#e7eeff')}
                     >
                         {showTimer ? (
                             <>
-                                <EyeOff size={16} className="text-brand-purple" />
+                                <EyeOff size={15} style={{ color: '#4648d4' }} />
                                 <span>{(() => {
                                     const elapsed = Math.floor((currentTime - startTime) / 1000);
                                     const h = Math.floor(elapsed / 3600);
@@ -229,7 +279,7 @@ export const ExamExecutionScreen = () => {
                             </>
                         ) : (
                             <>
-                                <Eye size={16} className="text-text-secondary" />
+                                <Eye size={15} />
                                 <span>Mostrar tempo</span>
                             </>
                         )}
@@ -243,17 +293,22 @@ export const ExamExecutionScreen = () => {
                         initial="hidden"
                         animate="visible"
                         exit="hidden"
-                        className="space-y-6"
+                        className="space-y-4"
                     >
-                        <div className="bg-surface-card rounded-2xl border border-slate-800 shadow-xl p-6">
-                            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-bg-primary border border-slate-800 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-[0.25em] text-text-secondary">
+                        {/* Question text card */}
+                        <div className="rounded-2xl p-6"
+                            style={{ background: '#ffffff', border: '1px solid #e7eeff', boxShadow: '0 4px 16px rgba(71,85,105,0.06)' }}>
+                            <div className="mb-4 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.25em]"
+                                style={{ background: '#f0f3ff', color: '#4648d4', border: '1px solid #e7eeff' }}>
                                 Enunciado
                             </div>
-                            {/* Concurseiro typography style: Merriweather or Plus Jakarta Sans */}
-                            <div className="text-text-primary text-base sm:text-lg font-serif-question leading-relaxed select-text" dangerouslySetInnerHTML={{ __html: currentQuestion.enunciado }} />
+                            <div className="text-base sm:text-lg leading-relaxed select-text"
+                                style={{ color: '#111c2d', fontFamily: 'Georgia, serif' }}
+                                dangerouslySetInnerHTML={{ __html: currentQuestion.enunciado }} />
                         </div>
 
-                        <div className="space-y-3.5">
+                        {/* Alternatives */}
+                        <div className="space-y-3">
                             {[
                                 { id: 'A', text: currentQuestion.opcao_a },
                                 { id: 'B', text: currentQuestion.opcao_b },
@@ -264,26 +319,34 @@ export const ExamExecutionScreen = () => {
                                 const isSelected = answers[currentQuestion.id] === opt.id;
                                 const isCorrect = currentQuestion.resposta_correta === opt.id;
 
-                                let styles = 'bg-surface-card border-slate-800 text-text-primary hover:border-brand-purple/50';
-                                let idBadgeStyles = 'bg-bg-primary text-text-secondary border-slate-800';
+                                let cardStyle: React.CSSProperties = {
+                                    background: '#ffffff',
+                                    border: '1px solid #c7c4d7',
+                                    color: '#111c2d',
+                                };
+                                let badgeStyle: React.CSSProperties = {
+                                    background: '#f0f3ff',
+                                    border: '1px solid #e7eeff',
+                                    color: '#515f74',
+                                };
                                 let animateType: "idle" | "shake" | "pop" = "idle";
 
                                 if (isReviewing) {
                                     if (isCorrect) {
-                                        styles = 'bg-success-green/10 border-success-green/40 text-text-primary';
-                                        idBadgeStyles = 'bg-success-green text-bg-primary border-success-green font-black';
+                                        cardStyle = { background: 'rgba(26,107,58,0.05)', border: '1px solid rgba(26,107,58,0.3)', color: '#111c2d' };
+                                        badgeStyle = { background: '#1a6b3a', border: '1px solid #1a6b3a', color: '#ffffff', fontWeight: 700 };
                                         if (isSelected) animateType = "pop";
                                     } else if (isSelected && !isCorrect) {
-                                        styles = 'bg-error-red/10 border-error-red/40 text-text-primary';
-                                        idBadgeStyles = 'bg-error-red text-text-primary border-error-red font-black';
+                                        cardStyle = { background: 'rgba(186,26,26,0.05)', border: '1px solid rgba(186,26,26,0.3)', color: '#111c2d' };
+                                        badgeStyle = { background: '#ba1a1a', border: '1px solid #ba1a1a', color: '#ffffff', fontWeight: 700 };
                                         animateType = "shake";
                                     } else {
-                                        styles = 'bg-surface-card/40 border-slate-900/40 text-text-secondary opacity-50';
-                                        idBadgeStyles = 'bg-bg-primary/40 text-text-secondary border-slate-900/40';
+                                        cardStyle = { background: '#f9f9ff', border: '1px solid #e7eeff', color: '#767586', opacity: 0.6 };
+                                        badgeStyle = { background: '#f0f3ff', border: '1px solid #e7eeff', color: '#c7c4d7' };
                                     }
                                 } else if (isSelected) {
-                                    styles = 'bg-brand-purple/10 border-brand-purple text-text-primary shadow-lg shadow-brand-purple/10';
-                                    idBadgeStyles = 'bg-brand-purple text-text-primary border-brand-purple font-black';
+                                    cardStyle = { background: 'rgba(70,72,212,0.05)', border: '1px solid #4648d4', color: '#111c2d', boxShadow: '0 4px 12px rgba(70,72,212,0.12)' };
+                                    badgeStyle = { background: '#4648d4', border: '1px solid #4648d4', color: '#ffffff', fontWeight: 700 };
                                 }
 
                                 return (
@@ -293,24 +356,28 @@ export const ExamExecutionScreen = () => {
                                         onClick={() => !isReviewing && handleSelectOption(opt.id as any)}
                                         variants={animateType === "shake" ? shakeVariants : (animateType === "pop" ? popVariants : undefined)}
                                         animate={animateType}
-                                        whileHover={!isReviewing ? { y: -2, scale: 1.005 } : undefined}
+                                        whileHover={!isReviewing ? { y: -1, scale: 1.003 } : undefined}
                                         whileTap={!isReviewing ? { scale: 0.99 } : undefined}
-                                        className={`w-full rounded-2xl border p-4.5 text-left transition-colors cursor-pointer ${styles} flex flex-col justify-center min-h-[52px]`}
+                                        className="w-full rounded-2xl p-4 text-left transition-colors cursor-pointer flex flex-col justify-center min-h-[52px]"
+                                        style={cardStyle}
                                     >
                                         <div className="flex items-center gap-4">
-                                            <div className={`size-9 flex items-center justify-center rounded-xl border ${idBadgeStyles} font-bold text-sm shrink-0 transition-colors`}>
+                                            <div className="size-9 flex items-center justify-center rounded-xl shrink-0 font-bold text-sm transition-colors"
+                                                style={badgeStyle}>
                                                 {opt.id}
                                             </div>
-                                            <p className="text-sm sm:text-base font-question font-medium leading-relaxed">{opt.text}</p>
+                                            <p className="text-sm sm:text-base font-medium leading-relaxed">{opt.text}</p>
                                         </div>
                                         {isReviewing && isCorrect && (
-                                            <div className="mt-3 text-success-green font-bold text-xs flex items-center gap-1.5 ml-13">
-                                                <CheckCircle2 size={16} /> Alternativa Correta
+                                            <div className="mt-2 text-xs font-bold flex items-center gap-1.5 ml-[52px]"
+                                                style={{ color: '#1a6b3a' }}>
+                                                <CheckCircle2 size={14} /> Alternativa Correta
                                             </div>
                                         )}
                                         {isReviewing && isSelected && !isCorrect && (
-                                            <div className="mt-3 text-error-red font-bold text-xs flex items-center gap-1.5 ml-13">
-                                                <XCircle size={16} /> Sua Resposta (Incorreta)
+                                            <div className="mt-2 text-xs font-bold flex items-center gap-1.5 ml-[52px]"
+                                                style={{ color: '#ba1a1a' }}>
+                                                <XCircle size={14} /> Sua Resposta (Incorreta)
                                             </div>
                                         )}
                                     </motion.button>
@@ -318,20 +385,28 @@ export const ExamExecutionScreen = () => {
                             })}
                         </div>
 
+                        {/* Explanation (review mode) */}
                         {isReviewing && (
                             <motion.div
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="bg-surface-card rounded-2xl border border-slate-800 shadow-xl p-6 relative overflow-hidden"
+                                className="rounded-2xl p-6 relative overflow-hidden"
+                                style={{ background: '#ffffff', border: '1px solid #e7eeff', boxShadow: '0 4px 16px rgba(71,85,105,0.06)' }}
                             >
-                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-purple to-purple-400" />
-                                <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-bg-primary border border-slate-800 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-purple-400">
-                                    💡 Explicação da IA
+                                <div className="absolute top-0 left-0 w-full h-1 rounded-t-2xl"
+                                    style={{ background: 'linear-gradient(90deg, #4648d4, #6063ee)' }} />
+                                <div className="mb-4 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.25em]"
+                                    style={{ background: '#f0f3ff', color: '#4648d4', border: '1px solid #e7eeff' }}>
+                                    💡 Explicação
                                 </div>
                                 {currentQuestion.explicacao ? (
-                                    <div className="text-text-secondary text-sm sm:text-base font-question leading-relaxed select-text" dangerouslySetInnerHTML={{ __html: currentQuestion.explicacao }} />
+                                    <div className="text-sm sm:text-base leading-relaxed select-text"
+                                        style={{ color: '#464554' }}
+                                        dangerouslySetInnerHTML={{ __html: currentQuestion.explicacao }} />
                                 ) : (
-                                    <div className="text-text-secondary text-sm sm:text-base font-question leading-relaxed italic">Nenhum comentário disponível para esta questão.</div>
+                                    <div className="text-sm sm:text-base leading-relaxed italic" style={{ color: '#767586' }}>
+                                        Nenhum comentário disponível para esta questão.
+                                    </div>
                                 )}
                             </motion.div>
                         )}
@@ -339,20 +414,31 @@ export const ExamExecutionScreen = () => {
                 </AnimatePresence>
             </main>
 
-            <footer className="fixed bottom-0 left-0 right-0 bg-bg-primary/95 backdrop-blur-md border-t border-slate-900 py-4.5 z-40">
+            {/* Footer navigation */}
+            <footer className="fixed bottom-0 left-0 right-0 py-4 z-40"
+                style={{ background: 'rgba(249,249,255,0.95)', backdropFilter: 'blur(12px)', borderTop: '1px solid #e7eeff' }}>
                 <div className="max-w-3xl mx-auto px-4 grid gap-3 grid-cols-[1fr_2fr] w-full">
                     <button
                         onClick={handlePrev}
                         disabled={currentQuestionIndex === 0}
-                        className={`w-full rounded-xl border py-3.5 font-black uppercase tracking-widest text-xs transition flex items-center justify-center gap-2 ${currentQuestionIndex === 0 ? 'border-slate-900 text-text-secondary/35 bg-bg-primary/50 cursor-not-allowed' : 'border-slate-800 text-text-primary bg-surface-card hover:bg-slate-800 cursor-pointer'}`}
+                        className="w-full rounded-xl py-3.5 font-bold uppercase tracking-widest text-xs transition flex items-center justify-center gap-2"
+                        style={currentQuestionIndex === 0
+                            ? { background: '#f0f3ff', color: '#c7c4d7', border: '1px solid #e7eeff', cursor: 'not-allowed' }
+                            : { background: '#ffffff', color: '#515f74', border: '1px solid #c7c4d7', cursor: 'pointer' }
+                        }
                     >
                         <ArrowLeft size={16} /> Anterior
                     </button>
                     <button
                         onClick={handleNext}
-                        className={`w-full rounded-xl py-3.5 font-black uppercase tracking-widest text-xs transition cursor-pointer flex items-center justify-center gap-2 ${currentQuestionIndex === questoes.length - 1 ? 'bg-brand-purple hover:bg-brand-purple/90 text-text-primary shadow-lg shadow-brand-purple/20' : 'bg-brand-purple hover:bg-brand-purple/90 text-text-primary shadow-lg shadow-brand-purple/20'}`}
+                        className="w-full rounded-xl py-3.5 font-bold uppercase tracking-widest text-xs transition cursor-pointer flex items-center justify-center gap-2"
+                        style={{ background: '#4648d4', color: '#ffffff', boxShadow: '0 4px 16px rgba(70,72,212,0.3)' }}
+                        onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
+                        onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
                     >
-                        {currentQuestionIndex === questoes.length - 1 ? (isReviewing ? 'Ver Resultado' : 'Finalizar Simulado') : 'Próxima'}
+                        {currentQuestionIndex === questoes.length - 1
+                            ? (isReviewing ? 'Ver Resultado' : 'Finalizar Simulado')
+                            : 'Próxima'}
                         {currentQuestionIndex !== questoes.length - 1 && <ArrowRight size={16} />}
                     </button>
                 </div>

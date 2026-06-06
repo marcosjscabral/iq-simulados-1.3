@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Menu, User, Rocket, Loader2 } from 'lucide-react';
+import { Menu, User, Loader2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Simulado } from '../types';
 
@@ -42,43 +42,80 @@ export const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
     };
 
     return (
-        <div className="bg-bg-primary min-h-screen text-text-primary font-interface select-none">
-            <header className="sticky top-0 z-50 bg-bg-primary/80 backdrop-blur-md border-b border-slate-900 shadow-sm">
-                <div className="flex items-center p-4 justify-between pt-12 max-w-5xl mx-auto">
-                    <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-text-primary hover:text-brand-purple focus:outline-none transition-colors">
+        <div className="min-h-screen select-none relative overflow-x-hidden" style={{ background: '#f9f9ff' }}>
+
+            {/* Decorative background */}
+            <div className="fixed inset-0 bg-grid-pattern opacity-40 pointer-events-none z-0" />
+            <div className="fixed top-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none z-0"
+                style={{ background: 'radial-gradient(circle, rgba(225,224,255,0.35) 0%, transparent 70%)', transform: 'translate(25%, -25%)' }} />
+
+            {/* HEADER */}
+            <header className="sticky top-0 z-50 border-b" style={{ background: 'rgba(249,249,255,0.85)', backdropFilter: 'blur(12px)', borderColor: '#e7eeff' }}>
+                <div className="flex items-center p-4 justify-between pt-10 max-w-5xl mx-auto">
+                    <button
+                        onClick={onOpenMenu}
+                        className="size-10 flex items-center justify-start focus:outline-none transition-colors"
+                        style={{ color: '#515f74' }}
+                        onMouseEnter={e => (e.currentTarget.style.color = '#4648d4')}
+                        onMouseLeave={e => (e.currentTarget.style.color = '#515f74')}
+                    >
                         <Menu size={24} />
                     </button>
-                    <div className="flex flex-col items-center">
-                        <h1 className="text-xl font-black leading-tight italic uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-purple-400">Meus Simulados</h1>
-                        <p className="text-[9px] uppercase tracking-[0.25em] text-text-secondary font-black mt-1">Plataforma IQ</p>
+
+                    <div className="flex flex-col items-center gap-0.5">
+                        <h1 className="text-lg font-bold tracking-tight" style={{ color: '#111c2d' }}>Meus Simulados</h1>
+                        <p className="text-[10px] font-semibold tracking-[0.2em] uppercase" style={{ color: '#767586' }}>Plataforma IQ</p>
                     </div>
+
                     <div className="size-10 flex items-center justify-end">
-                        <button onClick={() => navigate('/profile')} className="rounded-xl bg-surface-card p-2.5 text-text-primary hover:border-brand-purple/50 active:scale-95 transition-all shadow-lg border border-slate-800 cursor-pointer">
+                        <button
+                            onClick={() => navigate('/profile')}
+                            className="rounded-xl p-2.5 active:scale-95 transition-all shadow-sm cursor-pointer"
+                            style={{ background: '#ffffff', border: '1px solid #e7eeff', color: '#515f74' }}
+                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#4648d4'; (e.currentTarget as HTMLElement).style.color = '#4648d4'; }}
+                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#e7eeff'; (e.currentTarget as HTMLElement).style.color = '#515f74'; }}
+                        >
                             <User size={18} />
                         </button>
                     </div>
                 </div>
             </header>
 
-            <main className="p-4 space-y-6 max-w-5xl mx-auto pt-8 pb-24">
+            <main className="p-4 space-y-6 max-w-5xl mx-auto pt-8 pb-24 relative z-10">
                 {loading ? (
-                    <div className="flex justify-center items-center py-20">
-                        <Loader2 className="w-10 h-10 text-brand-purple animate-spin" />
+                    <div className="flex justify-center items-center py-24">
+                        <Loader2 className="w-10 h-10 animate-spin" style={{ color: '#4648d4' }} />
                     </div>
                 ) : purchasedExams.length === 0 ? (
-                    <div className="bg-surface-card p-12 rounded-2xl border border-slate-800 text-center shadow-xl max-w-md mx-auto">
-                        <Rocket size={44} className="mx-auto text-brand-purple mb-4" />
-                        <p className="text-text-secondary font-medium mb-6">Você ainda não possui simulados vinculados à sua conta.</p>
+                    <div className="p-12 rounded-2xl text-center max-w-md mx-auto animate-fade-in-up"
+                        style={{ background: '#ffffff', border: '1px solid #e7eeff', boxShadow: '0 8px 24px rgba(71,85,105,0.08)' }}>
+                        {/* Rocket icon as SVG in primary color */}
+                        <div className="w-16 h-16 mx-auto mb-5 rounded-2xl flex items-center justify-center"
+                            style={{ background: '#f0f3ff', border: '1px solid #e7eeff' }}>
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4648d4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                                <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+                                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+                                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+                            </svg>
+                        </div>
+                        <h3 className="text-base font-bold mb-2" style={{ color: '#111c2d' }}>Nenhum simulado ainda</h3>
+                        <p className="text-sm font-medium mb-6" style={{ color: '#767586' }}>
+                            Você ainda não possui simulados vinculados à sua conta.
+                        </p>
                         <button
                             onClick={() => navigate('/')}
-                            className="w-full bg-brand-purple hover:bg-brand-purple/90 text-text-primary py-3.5 rounded-xl font-black uppercase text-xs tracking-widest shadow-lg shadow-brand-purple/20 transition cursor-pointer"
+                            className="w-full py-3.5 rounded-xl font-bold uppercase text-xs tracking-widest shadow-md transition-all cursor-pointer"
+                            style={{ background: '#4648d4', color: '#ffffff', boxShadow: '0 4px 16px rgba(70,72,212,0.3)' }}
+                            onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
+                            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
                         >
                             Ir para a Vitrine
                         </button>
                     </div>
                 ) : (
-                    <div className="flex flex-col gap-5">
-                        {purchasedExams.map((item) => {
+                    <div className="flex flex-col gap-4">
+                        {purchasedExams.map((item, idx) => {
                             const simulado = item.simulados;
                             const isParent = simulado.parent_categories && simulado.parent_categories.length > 0;
 
@@ -86,37 +123,52 @@ export const MyExamsScreen = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
                                 <div
                                     key={item.id}
                                     onClick={() => navigate(isParent ? `/premium/${simulado.id}` : `/exam/${simulado.id}`)}
-                                    className="group flex flex-col md:flex-row bg-surface-card border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition-all cursor-pointer shadow-xl md:h-44"
+                                    className="glass-card rounded-2xl overflow-hidden cursor-pointer group flex flex-col md:flex-row md:h-44 animate-fade-in-up"
+                                    style={{ animationDelay: `${idx * 60}ms` }}
                                 >
-                                    <div className="w-full md:w-52 h-44 md:h-full shrink-0 bg-slate-900 relative overflow-hidden border-b md:border-b-0 md:border-r border-slate-900">
+                                    <div className="w-full md:w-52 h-44 md:h-full shrink-0 relative overflow-hidden"
+                                        style={{ background: '#f0f3ff' }}>
                                         {simulado.image_url ? (
-                                            <img src={simulado.image_url} alt={simulado.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                            <img src={simulado.image_url} alt={simulado.title}
+                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                                         ) : (
-                                            <div className="w-full h-full flex items-center justify-center text-text-secondary/10 italic font-black text-3xl">IQ</div>
+                                            <div className="w-full h-full flex items-center justify-center text-3xl font-black italic"
+                                                style={{ color: '#c7c4d7' }}>IQ</div>
                                         )}
                                     </div>
+
                                     <div className="p-6 flex flex-col justify-between flex-1">
                                         <div>
-                                            <h3 className={`text-md sm:text-lg font-black leading-tight mb-2 uppercase tracking-tight transition-colors group-hover:text-brand-purple ${isParent ? 'text-brand-purple' : 'text-text-primary'}`}>
+                                            <h3 className="text-base sm:text-lg font-bold leading-tight tracking-tight mb-2 transition-colors"
+                                                style={{ color: isParent ? '#4648d4' : '#111c2d' }}>
                                                 {isParent ? `Coleção VIP: ${simulado.title}` : simulado.title}
                                             </h3>
-                                            <p className="text-text-secondary text-xs sm:text-sm font-medium line-clamp-2 leading-relaxed uppercase mb-4 pr-4">
+                                            <p className="text-xs sm:text-sm font-medium line-clamp-2 leading-relaxed mb-4 pr-4"
+                                                style={{ color: '#464554' }}>
                                                 {simulado.description || 'Simulado disponível para estudo imediato.'}
                                             </p>
-                                            <div className="flex flex-wrap items-center gap-4 text-[9px] font-black uppercase tracking-widest mb-4 text-text-secondary/60">
-                                                <span className="bg-bg-primary px-2.5 py-1 rounded border border-slate-900">
+                                            <div className="flex flex-wrap items-center gap-3 mb-4">
+                                                <span className="text-[11px] font-semibold px-2.5 py-1 rounded-lg"
+                                                    style={{ background: '#f0f3ff', color: '#4648d4', border: '1px solid #e7eeff' }}>
                                                     {isParent ? 'Acesso VIP Liberado' : (
                                                         simulado.questions_count > 0 && `${simulado.questions_count} Questões`
                                                     )}
                                                 </span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between mt-auto pt-3 border-t border-slate-800/40">
-                                            <span className="text-sm font-black tracking-widest text-success-green flex items-center gap-1.5 uppercase italic">
-                                                <span className="inline-block size-2 rounded-full bg-success-green animate-pulse" /> Liberado
+
+                                        <div className="flex items-center justify-between mt-auto pt-3" style={{ borderTop: '1px solid #e7eeff' }}>
+                                            <span className="text-sm font-bold flex items-center gap-1.5"
+                                                style={{ color: '#1a6b3a' }}>
+                                                <span className="inline-block size-2 rounded-full animate-pulse"
+                                                    style={{ background: '#1a6b3a' }} />
+                                                Liberado
                                             </span>
                                             <button
-                                                className="px-6 py-2.5 rounded-xl font-black uppercase tracking-widest text-[10px] bg-brand-purple hover:bg-brand-purple/90 text-text-primary shadow-lg shadow-brand-purple/20 transition cursor-pointer"
+                                                className="px-5 py-2.5 rounded-xl font-bold uppercase tracking-widest text-[11px] shadow-sm transition-all cursor-pointer"
+                                                style={{ background: '#4648d4', color: '#ffffff', boxShadow: '0 4px 12px rgba(70,72,212,0.25)' }}
+                                                onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
+                                                onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
                                             >
                                                 Estudar
                                             </button>

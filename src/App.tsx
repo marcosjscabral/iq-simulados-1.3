@@ -88,8 +88,8 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-slate-300 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-surface-container border-t-primary rounded-full animate-spin" />
       </div>
     );
   }
@@ -103,7 +103,7 @@ export default function App() {
   return (
     <ModalProvider>
       <Router>
-        <div className="relative flex min-h-screen w-full flex-col lg:flex-row bg-slate-50">
+        <div className="relative flex min-h-screen w-full flex-col lg:flex-row bg-background">
           <Sidebar
             isOpen={isSidebarOpen}
             onClose={() => setSidebarOpen(false)}

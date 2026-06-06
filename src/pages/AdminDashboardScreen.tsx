@@ -330,22 +330,23 @@ export const AdminDashboardScreen = ({ onOpenMenu }: AdminDashboardScreenProps) 
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center font-sans">
+      <div className="min-h-screen flex flex-col items-center justify-center" style={{ background: '#f9f9ff' }}>
         <motion.div 
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }}
-          className="w-10 h-10 border-3 border-indigo-600 border-t-transparent rounded-full mb-4"
+          className="w-10 h-10 border-3 border-t-transparent rounded-full mb-4"
+          style={{ borderColor: '#e7eeff', borderTopColor: '#4648d4' }}
         />
-        <p className="text-slate-500 text-xs font-semibold uppercase tracking-widest animate-pulse">Carregando métricas analíticas...</p>
+        <p className="text-xs font-semibold uppercase tracking-widest animate-pulse" style={{ color: '#767586' }}>Carregando métricas analíticas...</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-slate-50 min-h-screen flex flex-col font-sans text-slate-800 antialiased selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-screen flex flex-col font-sans antialiased" style={{ background: '#f9f9ff', color: '#111c2d' }}>
       
       {/* GOOGLE ANALYTICS TYPE HEADER */}
-      <header className="sticky top-0 z-50 border-b border-slate-200/60 bg-white/95 backdrop-blur-md shadow-xs">
+      <header className="sticky top-0 z-50 border-b" style={{ background: 'rgba(249,249,255,0.92)', backdropFilter: 'blur(12px)', borderColor: '#e7eeff' }}>
         <div className="flex items-center p-4 justify-between pt-12 w-full max-w-6xl mx-auto">
           <button onClick={onOpenMenu} className="size-10 flex items-center justify-start text-slate-700 hover:text-indigo-600 transition-colors focus:outline-none">
             <Menu size={22} />

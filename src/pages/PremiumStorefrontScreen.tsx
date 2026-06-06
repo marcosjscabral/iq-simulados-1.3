@@ -108,8 +108,8 @@ export const PremiumStorefrontScreen = () => {
 
     if (loading) {
         return (
-            <div className="bg-slate-50 min-h-screen text-slate-900 flex justify-center items-center">
-                <Loader2 size={40} className="text-slate-900 animate-spin" />
+            <div className="min-h-screen flex justify-center items-center" style={{ background: '#f9f9ff' }}>
+                <Loader2 size={40} className="animate-spin" style={{ color: '#4648d4' }} />
             </div>
         );
     }
@@ -117,10 +117,13 @@ export const PremiumStorefrontScreen = () => {
     if (!parentSimulado) return null;
 
     return (
-        <div className="bg-slate-50 min-h-screen text-slate-900 font-sans selection:bg-slate-200 selection:text-slate-900">
-            <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+        <div className="min-h-screen" style={{ background: '#f9f9ff', fontFamily: 'Inter, system-ui, sans-serif' }}>
+            <div className="fixed inset-0 bg-grid-pattern opacity-40 pointer-events-none z-0" />
+            <header className="sticky top-0 z-50 border-b" style={{ background: 'rgba(249,249,255,0.9)', backdropFilter: 'blur(12px)', borderColor: '#e7eeff' }}>
                 <div className="flex items-center p-4 justify-between pt-12 max-w-5xl mx-auto">
-                    <button onClick={() => navigate('/my-exams')} className="size-10 flex items-center justify-start text-slate-900 hover:text-slate-700 transition-colors">
+                    <button onClick={() => navigate('/my-exams')} className="size-10 flex items-center justify-start transition-colors" style={{ color: '#515f74' }}
+                        onMouseEnter={e => (e.currentTarget.style.color = '#4648d4')}
+                        onMouseLeave={e => (e.currentTarget.style.color = '#515f74')}>
                         <ChevronLeft size={24} />
                     </button>
                     <div className="flex flex-col items-center flex-1 mx-4">
@@ -136,14 +139,14 @@ export const PremiumStorefrontScreen = () => {
 
             <main className="p-4 space-y-8 max-w-5xl mx-auto pt-8 pb-24">
                 {childSimulados.length === 0 ? (
-                    <div className="bg-white p-12 rounded-xl border border-slate-200 text-center shadow-sm">
-                        <p className="text-slate-600 font-bold">Nenhum conteúdo exclusivo encontrado para esta vitrine.</p>
+                    <div className="p-10 rounded-2xl text-center animate-fade-in-up" style={{ background: '#ffffff', border: '1px solid #e7eeff', boxShadow: '0 8px 24px rgba(71,85,105,0.07)' }}>
+                        <p className="font-medium text-sm" style={{ color: '#767586' }}>Nenhum conteúdo exclusivo encontrado para esta vitrine.</p>
                     </div>
                 ) : (
                     <section>
                         <div className="flex items-center gap-2.5 mb-5 px-1">
-                            <Flame size={22} className="text-[#f15a24]" strokeWidth={2.5} />
-                            <h2 className="text-xl font-black italic tracking-tight text-slate-900">Conteúdo Exclusivo</h2>
+                            <Flame size={18} style={{ color: '#4648d4' }} strokeWidth={2.5} />
+                            <h2 className="text-[15px] font-bold uppercase tracking-wide" style={{ color: '#111c2d' }}>Conteúdo Exclusivo</h2>
                         </div>
                         <div className="flex flex-col gap-6">
                             {childSimulados.map((simulado) => {
@@ -152,7 +155,7 @@ export const PremiumStorefrontScreen = () => {
                                     <div
                                         key={simulado.id}
                                         onClick={() => handleBuy(simulado)}
-                                        className="group flex flex-col sm:flex-row bg-white border border-slate-200 rounded-xl overflow-hidden hover:bg-slate-50 transition-colors cursor-pointer shadow-sm active:scale-[0.99] sm:h-48"
+                                        className="glass-card rounded-2xl overflow-hidden cursor-pointer group flex flex-col sm:flex-row sm:h-44 animate-fade-in-up"
                                     >
                                         <div className="w-full sm:w-56 h-48 sm:h-full shrink-0 bg-slate-100 relative overflow-hidden">
                                             {simulado.image_url ? (
@@ -186,7 +189,8 @@ export const PremiumStorefrontScreen = () => {
                                                 <button
                                                     disabled={buyingId === simulado.id}
                                                     onClick={(e) => { e.stopPropagation(); handleBuy(simulado); }}
-                                                    className="px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] transition-all shadow-sm active:scale-95 flex items-center gap-2 bg-slate-900 text-white"
+                                                    className="px-7 py-3 rounded-xl font-bold uppercase tracking-widest text-[11px] transition-all active:scale-95 flex items-center gap-2"
+                                                    style={{ background: '#4648d4', color: '#ffffff', boxShadow: '0 4px 12px rgba(70,72,212,0.25)' }}
                                                 >
                                                     {buyingId === simulado.id ? (
                                                         <div className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin" />

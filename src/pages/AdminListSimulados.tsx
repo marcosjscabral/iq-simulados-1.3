@@ -104,11 +104,11 @@ const AdminListSimulados: React.FC<AdminListSimuladosProps> = ({ onPublishSucces
     );
 
     return (
-        <div className="bg-slate-50 min-h-screen flex justify-center text-slate-900">
-            <div className="relative flex min-h-screen w-full flex-col bg-slate-50 overflow-x-hidden">
+        <div className="min-h-screen flex justify-center" style={{ background: '#f9f9ff', color: '#111c2d' }}>
+            <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden" style={{ background: '#f9f9ff' }}>
 
                 {/* Header */}
-                <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+                <header className="sticky top-0 z-50 border-b" style={{ background: 'rgba(249,249,255,0.92)', backdropFilter: 'blur(12px)', borderColor: '#e7eeff' }}>
                     <div className="flex items-center p-4 justify-between pt-12 w-full mx-auto max-w-6xl">
                         <button
                             onClick={() => navigate('/admin')}
